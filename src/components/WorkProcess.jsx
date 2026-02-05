@@ -200,9 +200,9 @@ const ProcessModal = ({ step, onClose }) => {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 20 }}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-2xl max-h-[90vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative border transition-colors duration-700 flex flex-col ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/10' : 'bg-white border-neutral-100'}`}
+        className={`fixed inset-4 sm:relative sm:inset-auto w-auto sm:w-full sm:max-w-2xl sm:max-h-[85vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border transition-colors duration-700 flex flex-col ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/10' : 'bg-white border-neutral-100'}`}
       >
-        <div className="relative h-32 sm:h-48 bg-neutral-100 flex-shrink-0">
+        <div className="relative h-28 sm:h-48 bg-neutral-100 flex-shrink-0">
            <img
               src={step.img}
               alt={step.title}
@@ -226,22 +226,22 @@ const ProcessModal = ({ step, onClose }) => {
            </button>
         </div>
 
-        <div className="p-4 sm:p-8 md:p-10 overflow-y-auto flex-1">
-           <h4 className={`text-lg sm:text-xl font-bold mb-3 sm:mb-4 ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>{step.modalContent.headline}</h4>
-           <p className={`text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${blueprintMode ? 'text-blue-500/70' : 'text-neutral-500'}`}>
+        <div className="p-4 sm:p-8 md:p-10 overflow-y-auto flex-1 min-h-0">
+           <h4 className={`text-base sm:text-xl font-bold mb-2 sm:mb-4 ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>{step.modalContent.headline}</h4>
+           <p className={`text-sm leading-relaxed mb-4 sm:mb-8 ${blueprintMode ? 'text-blue-500/70' : 'text-neutral-500'}`}>
               {step.modalContent.details}
            </p>
 
-           <div className="space-y-2 sm:space-y-3">
+           <div className="space-y-1.5 sm:space-y-3">
               {step.modalContent.points.map((point, i) => (
                   <div key={i} className="flex items-center gap-2 sm:gap-3">
-                      <CheckCircle2 size={16} className={`flex-shrink-0 ${blueprintMode ? "text-blue-400" : "text-blue-600"}`} />
+                      <CheckCircle2 size={14} className={`flex-shrink-0 sm:w-4 sm:h-4 ${blueprintMode ? "text-blue-400" : "text-blue-600"}`} />
                       <span className={`text-xs sm:text-sm font-bold ${blueprintMode ? 'text-blue-500/80' : 'text-neutral-700'}`}>{point}</span>
                   </div>
               ))}
            </div>
 
-           <div className={`mt-6 sm:mt-10 pt-6 sm:pt-8 border-t flex justify-end transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
+           <div className={`mt-4 sm:mt-10 pt-4 sm:pt-8 border-t flex justify-end transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
               <button
                 onMouseEnter={() => playSound('hover')}
                 onClick={() => {
