@@ -35,10 +35,10 @@ const KeyboardShortcutsHelper = () => {
 
     return (
         <>
-            {/* Floating Help Button - Left Side */}
+            {/* Floating Help Button - Left Side (Hidden on mobile - keyboard shortcuts not useful on touch devices) */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-8 left-8 z-[110] w-14 h-14 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-full shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-black/10 dark:border-white/10 hover:scale-110 transition-all duration-300 flex items-center justify-center"
+                className="hidden md:flex fixed bottom-8 left-8 z-[110] w-14 h-14 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-full shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:shadow-[0_0_20px_rgba(255,255,255,0.1)] border border-black/10 dark:border-white/10 hover:scale-110 transition-all duration-300 items-center justify-center"
                 aria-label="Show keyboard shortcuts"
                 title="Keyboard Shortcuts (Shift + ?)"
             >

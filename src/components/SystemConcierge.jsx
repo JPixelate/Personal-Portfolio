@@ -268,7 +268,7 @@ const SystemConcierge = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="fixed inset-x-4 bottom-28 sm:absolute sm:inset-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] h-[70vh] sm:h-[600px] bg-white rounded-3xl shadow-2xl border border-neutral-100 overflow-hidden flex flex-col"
+                        className="fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] bg-white rounded-3xl shadow-2xl border border-neutral-100 overflow-hidden flex flex-col"
                     >
                         {/* Header */}
                         <div className="p-6 bg-neutral-900 text-white flex items-center justify-between shrink-0">

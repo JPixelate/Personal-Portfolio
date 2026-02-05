@@ -23,7 +23,7 @@ const ProjectGrid = () => {
   }, []);
 
   return (
-    <section id="section-projects" className={`py-32 px-8 transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-white border-neutral-100'}`}>
+    <section id="section-projects" className={`py-24 md:py-32 px-4 md:px-8 transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-white border-neutral-100'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Standardized Header - Consistent with Section3 */}
         <div className={`mb-24 flex items-end justify-between border-b pb-10 transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>

@@ -70,12 +70,12 @@ const WorkProcess = () => {
           </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 py-32 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-24 md:py-32 relative z-10">
         {/* Standardized Header - Fixed at Top */}
         <div className={`mb-24 flex items-end justify-between border-b transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
           <div>
             <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>The Methodology</span>
-            <h2 className={`text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Systematic Growth.</h2>
+            <h2 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Systematic Growth.</h2>
           </div>
           {blueprintMode && (
               <div className="flex items-center gap-3 text-blue-500 font-mono text-[10px]">
@@ -189,7 +189,7 @@ const ProcessModal = ({ step, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-neutral-900/60 backdrop-blur-md p-4"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-neutral-900/60 backdrop-blur-md p-2 sm:p-4"
       onClick={() => {
         playSound('click');
         onClose();
@@ -200,57 +200,57 @@ const ProcessModal = ({ step, onClose }) => {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 20 }}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative border transition-colors duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/10' : 'bg-white border-neutral-100'}`}
+        className={`w-full max-w-2xl max-h-[90vh] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative border transition-colors duration-700 flex flex-col ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/10' : 'bg-white border-neutral-100'}`}
       >
-        <div className="relative h-48 bg-neutral-100">
-           <img 
-              src={step.img} 
+        <div className="relative h-32 sm:h-48 bg-neutral-100 flex-shrink-0">
+           <img
+              src={step.img}
               alt={step.title}
               className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-30 grayscale' : ''}`}
            />
-           <div className={`absolute inset-0 flex items-end p-8 bg-gradient-to-t ${blueprintMode ? 'from-blue-950/80 to-transparent' : 'from-black/60 to-transparent'}`}>
+           <div className={`absolute inset-0 flex items-end p-4 sm:p-8 bg-gradient-to-t ${blueprintMode ? 'from-blue-950/80 to-transparent' : 'from-black/60 to-transparent'}`}>
               <div>
-                <span className={`text-xs font-bold uppercase tracking-widest mb-2 block ${blueprintMode ? 'text-blue-400' : 'text-white/80'}`}>{step.label}</span>
-                <h3 className={`text-3xl font-bold ${blueprintMode ? 'text-blue-500' : 'text-white'}`}>{step.title}</h3>
+                <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1 sm:mb-2 block ${blueprintMode ? 'text-blue-400' : 'text-white/80'}`}>{step.label}</span>
+                <h3 className={`text-xl sm:text-3xl font-bold ${blueprintMode ? 'text-blue-500' : 'text-white'}`}>{step.title}</h3>
               </div>
            </div>
-           <button 
+           <button
               onMouseEnter={() => playSound('hover')}
               onClick={() => {
                 playSound('click');
                 onClose();
               }}
-              className="absolute top-6 right-6 w-10 h-10 bg-black/20 backdrop-blur-md rounded-full text-white flex items-center justify-center hover:bg-black/40 transition-colors"
+              className="absolute top-3 right-3 sm:top-6 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 bg-black/20 backdrop-blur-md rounded-full text-white flex items-center justify-center hover:bg-black/40 transition-colors"
            >
-              <X size={20} />
+              <X size={18} />
            </button>
         </div>
-        
-        <div className="p-8 md:p-10">
-           <h4 className={`text-xl font-bold mb-4 ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>{step.modalContent.headline}</h4>
-           <p className={`leading-relaxed mb-8 ${blueprintMode ? 'text-blue-500/70' : 'text-neutral-500'}`}>
+
+        <div className="p-4 sm:p-8 md:p-10 overflow-y-auto flex-1">
+           <h4 className={`text-lg sm:text-xl font-bold mb-3 sm:mb-4 ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>{step.modalContent.headline}</h4>
+           <p className={`text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 ${blueprintMode ? 'text-blue-500/70' : 'text-neutral-500'}`}>
               {step.modalContent.details}
            </p>
-           
-           <div className="space-y-3">
+
+           <div className="space-y-2 sm:space-y-3">
               {step.modalContent.points.map((point, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                      <CheckCircle2 size={18} className={blueprintMode ? "text-blue-400" : "text-blue-600"} />
-                      <span className={`text-sm font-bold ${blueprintMode ? 'text-blue-500/80' : 'text-neutral-700'}`}>{point}</span>
+                  <div key={i} className="flex items-center gap-2 sm:gap-3">
+                      <CheckCircle2 size={16} className={`flex-shrink-0 ${blueprintMode ? "text-blue-400" : "text-blue-600"}`} />
+                      <span className={`text-xs sm:text-sm font-bold ${blueprintMode ? 'text-blue-500/80' : 'text-neutral-700'}`}>{point}</span>
                   </div>
               ))}
            </div>
 
-           <div className={`mt-10 pt-8 border-t flex justify-end transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
-              <button 
+           <div className={`mt-6 sm:mt-10 pt-6 sm:pt-8 border-t flex justify-end transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
+              <button
                 onMouseEnter={() => playSound('hover')}
                 onClick={() => {
                     playSound('click');
                     onClose();
                 }}
-                className={`px-6 py-3 text-xs font-bold uppercase tracking-widest rounded-full transition-all ${blueprintMode ? 'bg-blue-600 text-white hover:bg-blue-400' : 'bg-neutral-900 text-white hover:bg-blue-600'}`}
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all ${blueprintMode ? 'bg-blue-600 text-white hover:bg-blue-400' : 'bg-neutral-900 text-white hover:bg-blue-600'}`}
               >
-                Close Documentation
+                Close
               </button>
            </div>
         </div>

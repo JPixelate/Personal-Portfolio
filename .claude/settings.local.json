@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install react-markdown)"
+      "Bash(npm install react-markdown)",
+      "Bash(dir:*)",
+      "Read(//d/**)",
+      "Bash(tree:*)"
     ]
   }
 }

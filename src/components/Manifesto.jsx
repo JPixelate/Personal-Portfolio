@@ -7,9 +7,9 @@ const Manifesto = () => {
   const { blueprintMode, playSound } = useUI();
 
   return (
-    <section 
-      id="section-about" 
-      className={`relative w-full py-32 px-8 overflow-hidden transition-colors duration-700 ${blueprintMode ? 'bg-[#050505]' : 'bg-white'}`}
+    <section
+      id="section-about"
+      className={`relative w-full py-24 md:py-32 px-4 md:px-8 overflow-hidden transition-colors duration-700 ${blueprintMode ? 'bg-[#050505]' : 'bg-white'}`}
     >
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">

@@ -74,10 +74,10 @@ const Team = () => {
     const { containerRef: devRef, isItemAnimated } = useStaggeredScrollAnimation(developers.length, { staggerDelay: 100 });
 
     return (
-        <section 
+        <section
             ref={sectionRef}
-            id="section-team" 
-            className="relative w-full py-24 px-8 flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-neutral-950"
+            id="section-team"
+            className="relative w-full py-16 md:py-24 px-4 md:px-8 flex flex-col items-center justify-center overflow-hidden bg-white dark:bg-neutral-950"
         >
             {/* --- BACKGROUND EFFECTS --- */}
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:40px_40px] opacity-30 pointer-events-none"></div>

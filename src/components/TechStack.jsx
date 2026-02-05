@@ -13,13 +13,13 @@ const TechStack = () => {
   const { blueprintMode, playSound } = useUI();
 
   return (
-    <section id="section-tech" className={`py-32 px-8 border-t transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-white border-neutral-100'}`}>
+    <section id="section-tech" className={`py-24 md:py-32 px-4 md:px-8 border-t transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-white border-neutral-100'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Consistent Header Style */}
         <div className={`mb-24 flex items-end justify-between border-b pb-10 transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
           <div>
             <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>Tech Stack</span>
-            <h2 className={`text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Core Infrastructure.</h2>
+            <h2 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Core Infrastructure.</h2>
           </div>
           <p className={`hidden md:block font-medium text-sm transition-colors ${blueprintMode ? 'text-blue-900/30' : 'text-neutral-400'}`}>MODERN CAPABILITIES</p>
         </div>

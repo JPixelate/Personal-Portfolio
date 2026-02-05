@@ -33,13 +33,13 @@ const Experience = () => {
   const { blueprintMode, playSound } = useUI();
 
   return (
-    <section id="section-experience" className={`py-32 px-8 border-y transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/30' : 'bg-neutral-50 border-neutral-100/50'}`}>
+    <section id="section-experience" className={`py-24 md:py-32 px-4 md:px-8 border-y transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/30' : 'bg-neutral-50 border-neutral-100/50'}`}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
           
           <div className="lg:col-span-4">
              <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>The Journey</span>
-             <h2 className={`text-5xl font-bold tracking-tight mb-8 transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Professional History.</h2>
+             <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-8 transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Professional History.</h2>
              <p className={`max-w-xs leading-relaxed transition-colors duration-700 ${blueprintMode ? 'text-blue-400/60' : 'text-neutral-500'}`}>
                A timeline of my professional growth and the companies I've helped succeed.
              </p>

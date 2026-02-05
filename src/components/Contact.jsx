@@ -28,7 +28,7 @@ const Contact = () => {
   }, []);
 
   return (
-    <footer id="section-contact" className={`pt-32 pb-12 px-8 relative overflow-hidden border-t transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-neutral-50 border-neutral-100'}`}>
+    <footer id="section-contact" className={`pt-24 md:pt-32 pb-12 px-4 md:px-8 relative overflow-hidden border-t transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-neutral-50 border-neutral-100'}`}>
       
       <div className="max-w-7xl mx-auto relative z-10">
         

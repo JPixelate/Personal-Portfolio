@@ -75,7 +75,7 @@ const Hero = () => {
               <div className="mb-12">
                 <span className={`text-xs font-bold uppercase tracking-widest block mb-6 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>Introduction</span>
                 <h1 className={`text-5xl sm:text-7xl md:text-8xl lg:text-[110px] font-bold tracking-tight leading-[0.9] mb-12 transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>
-                  Engineering <br />
+                  Engineering <br className="hidden sm:block" />
                   Digital Highs<span className="text-blue-600">.</span>
                 </h1>
               </div>
@@ -112,8 +112,8 @@ const Hero = () => {
                    </div>
                 </div>
 
-                {/* 2. AI - Top Left Corner */}
-                <div className={`absolute top-12 -left-2 sm:-top-4 sm:-left-20 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}`}>
+                {/* 2. AI - Left Side */}
+                <div className={`absolute top-1/2 -left-2 sm:-top-4 sm:-left-20 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}`}>
                    <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-orange-500"></div>
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">AI Automation</span>

@@ -29,10 +29,10 @@ const Capabilities = () => {
   const [hoveredIndex, setHoveredIndex] = useState(0);
 
   return (
-    <section id="section-services" className={`py-32 px-8 relative overflow-hidden border-y transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/30' : 'bg-neutral-50 border-neutral-100/50'}`}>
+    <section id="section-services" className={`py-24 md:py-32 px-4 md:px-8 relative overflow-hidden border-y transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/30' : 'bg-neutral-50 border-neutral-100/50'}`}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
         
-        {/* Sticky Preview */}
+        {/* Sticky Preview - Desktop */}
         <div className={`hidden lg:block lg:col-span-5 sticky top-32 h-[500px] overflow-hidden rounded-2xl border shadow-sm transition-all duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-50 border-neutral-100'}`}>
           <AnimatePresence mode="wait">
             <motion.img
@@ -56,11 +56,20 @@ const Capabilities = () => {
           )}
         </div>
 
+        {/* Mobile Preview Image */}
+        <div className={`lg:hidden col-span-1 h-48 overflow-hidden rounded-2xl border shadow-sm transition-all duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-50 border-neutral-100'}`}>
+          <img
+            src={expertise[hoveredIndex].img}
+            className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : ''}`}
+            alt="Expertise preview"
+          />
+        </div>
+
         {/* Interactive List */}
         <div className="lg:col-span-7">
           <div className="mb-16">
             <h2 className={`text-xs font-bold uppercase tracking-[0.2em] mb-4 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>Core Expertise</h2>
-            <h3 className={`text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Technical Mastery.</h3>
+            <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Technical Mastery.</h3>
           </div>
 
           <div className="space-y-4">
