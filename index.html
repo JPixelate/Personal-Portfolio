@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Jonald Penpillo | Full Stack Web Developer. Engineering high-performance web platforms and digital architecture."
+    />
+    <meta
+      name="keywords"
+      content="full stack developer, web development, React, Node.js, digital architecture, system engineering"
+    />
+
+    <!-- PRELOAD CRITICAL ASSETS -->
+    <link
+      rel="preload"
+      as="image"
+      href="/src/assets/images/hero_dark.webp"
+      type="image/webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/src/assets/images/hero_light.webp"
+      type="image/webp"
+    />
+
+    <script>
+      (function () {
+        const theme = localStorage.getItem("theme") || "dark";
+        document.documentElement.classList.add(theme);
+      })();
+    </script>
+
+    <!-- PRECONNECT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+
+    <!-- SECURITY HEADERS (Meta Tag Equivalents) -->
+    <!-- Content Security Policy: Restricts where resources can be loaded from -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://raw.githack.com https://cdn.jsdelivr.net https://raw.githubusercontent.com; connect-src 'self' https://api.emailjs.com https://raw.githack.com https://cdn.jsdelivr.net https://raw.githubusercontent.com https://generativelanguage.googleapis.com https://api.deepseek.com; upgrade-insecure-requests;"
+    />
+
+    <!-- Referrer Policy: Controls how much referrer information is passed -->
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+    <!-- Permissions Policy: Restricts browser features -->
+    <meta
+      http-equiv="Permissions-Policy"
+      content="camera=(), microphone=(), geolocation=()"
+    />
+
+    <title>Jonald Penpillo | Full Stack Web Developer</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

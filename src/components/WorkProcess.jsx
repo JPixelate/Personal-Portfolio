@@ -1,0 +1,262 @@
+import React, { useState, useRef } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { X, ArrowRight, CheckCircle2, Activity } from "lucide-react";
+import { useUI } from "../context/UIContext";
+
+const steps = [
+  {
+    id: "step-1",
+    title: "Strategic Architecture",
+    label: "01 / Architecture",
+    desc: "I define high-performance roadmaps and digital frameworks tailored to enterprise goals, with a focus on security and scalability.",
+    img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop",
+    modalContent: {
+      headline: "Blueprinting Digital Success",
+      details: "My architectural phase focuses on translating business requirements into a robust technical roadmap. I prioritize modularity and security from day one, ensuring that every line of code serves a long-term purpose.",
+      points: ["High-Level System Design", "Database Normalization", "API Contract Definition", "Tech Stack Selection"]
+    }
+  },
+  {
+    id: "step-2",
+    title: "Precision Engineering",
+    label: "02 / Development",
+    desc: "Rigorous full-stack implementation using PHP (CodeIgniter) and React. I build robust management systems and secure industrial platforms.",
+    img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+    modalContent: {
+      headline: "Code That Scales",
+      details: "Execution matters. I utilize modern frameworks and strict coding standards to ensure the codebase is maintainable, testable, and performant under load.",
+      points: ["React & TypeScript Frontend", "Secure PHP/Node.js Backend", "CI/CD Pipeline Integration", "Automated Testing"]
+    }
+  },
+  {
+    id: "step-3",
+    title: "Intelligent Automation",
+    label: "03 / Evolution",
+    desc: "I scale operations through AI-powered n8n workflows and smart companion applications that drive measurable business innovation.",
+    img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
+    modalContent: {
+      headline: "The AI Advantage",
+      details: "Beyond code, I integrate intelligence. By embedding AI agents and automated workflows, I transform static applications into dynamic operational assets that learn and adapt.",
+      points: ["n8n Workflow Automation", "Custom LLM Integration", "Process Auto-Scaling", "Real-time Analytics"]
+    }
+  }
+];
+
+const WorkProcess = () => {
+  const { blueprintMode, playSound } = useUI();
+  const [selectedStep, setSelectedStep] = useState(null);
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const pathLength = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
+
+  return (
+    <section id="section-process" ref={containerRef} className={`relative transition-colors duration-700 ${blueprintMode ? 'bg-[#050505]' : 'bg-white'}`}>
+      
+      {/* Interactive Logic Lines (SVG Background) */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <motion.path
+                d="M 20 10 Q 50 20 80 10 T 20 30"
+                stroke={blueprintMode ? "#3b82f6" : "#2563eb"}
+                strokeWidth="0.05"
+                fill="none"
+                style={{ pathLength, opacity: 0.1 }}
+                className="connector-line"
+              />
+          </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-8 py-32 relative z-10">
+        {/* Standardized Header - Fixed at Top */}
+        <div className={`mb-24 flex items-end justify-between border-b transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
+          <div>
+            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>The Methodology</span>
+            <h2 className={`text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Systematic Growth.</h2>
+          </div>
+          {blueprintMode && (
+              <div className="flex items-center gap-3 text-blue-500 font-mono text-[10px]">
+                  <Activity size={14} />
+                  <span>PROCESS_FLOW: ACTIVE</span>
+              </div>
+          )}
+          <p className="hidden md:block text-neutral-400 font-medium text-sm">MY WORKFLOW</p>
+        </div>
+
+        {/* Vertical Stack - Refined Gaps */}
+        <div className="space-y-48 pb-16">
+          {steps.map((step, idx) => (
+            <ProcessStep 
+              key={idx} 
+              step={step} 
+              index={idx} 
+              onOpen={() => {
+                playSound('click');
+                setSelectedStep(step);
+              }} 
+            />
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {selectedStep && (
+          <ProcessModal step={selectedStep} onClose={() => setSelectedStep(null)} />
+        )}
+      </AnimatePresence>
+    </section>
+  );
+};
+
+const ProcessStep = ({ step, index, onOpen }) => {
+  const { blueprintMode, playSound } = useUI();
+  const stepRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: stepRef,
+    offset: ["start end", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.3]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
+  const yImage = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+  return (
+    <motion.div 
+      ref={stepRef}
+      style={{ opacity, scale }}
+      className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center"
+    >
+      {/* Visual Component */}
+      <div className={`lg:col-span-6 ${index % 2 === 0 ? 'order-2' : 'order-2 lg:order-1'}`}>
+         <div className={`aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-700 border relative group ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-50 shadow-blue-500/5 border-neutral-100'}`}>
+            <motion.img 
+              style={{ y: yImage }}
+              src={step.img} 
+              alt={step.title} 
+              className={`w-full h-full object-cover grayscale transition-all duration-700 ${blueprintMode ? 'opacity-20' : 'group-hover:grayscale-0'}`}
+            />
+            <div className={`absolute inset-0 mix-blend-overlay transition-colors ${blueprintMode ? 'bg-blue-600/20' : 'bg-blue-600/5'}`}></div>
+            
+            {blueprintMode && (
+                <div className="absolute top-4 left-4 p-4 font-mono text-[8px] text-blue-500/60 pointer-events-none bg-black/40 backdrop-blur-sm rounded-lg border border-blue-500/20">
+                    <div>MODULE_ID: {step.id}</div>
+                    <div>STATUS: OPTIMIZED</div>
+                </div>
+            )}
+         </div>
+      </div>
+
+      {/* Text Component */}
+      <div className={`lg:col-span-6 space-y-8 ${index % 2 === 0 ? 'order-1' : 'order-1 lg:order-2'} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label={`STEP_${index+1}`}>
+        <div className="flex items-center gap-4">
+           <span className={`w-12 h-px transition-colors ${blueprintMode ? 'bg-blue-500' : 'bg-blue-600'}`}></span>
+           <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>{step.label}</span>
+        </div>
+        
+        <h3 className={`text-5xl md:text-6xl font-bold tracking-tighter leading-[1.1] transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>
+          {step.title}
+        </h3>
+        
+        <p className={`text-xl font-medium leading-relaxed max-w-lg transition-colors duration-700 ${blueprintMode ? 'text-blue-400/70' : 'text-neutral-500'}`}>
+          {step.desc}
+        </p>
+
+        <div className="pt-8">
+            <button 
+              onMouseEnter={() => playSound('hover')}
+              onClick={onOpen}
+              className="flex items-center gap-4 group"
+            >
+               <span className={`text-xs font-bold uppercase tracking-widest border-b-2 pb-1 transition-colors pointer-events-auto ${blueprintMode ? 'text-blue-400 border-blue-400 group-hover:text-blue-200 group-hover:border-blue-200' : 'text-neutral-900 border-neutral-900 group-hover:text-blue-600 group-hover:border-blue-600'}`}>Documentation</span>
+               <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${blueprintMode ? 'border-blue-900 text-blue-400 group-hover:bg-blue-600 group-hover:text-white' : 'border-neutral-200 group-hover:bg-neutral-900 group-hover:text-white'}`}>
+                  <ArrowRight size={16} />
+               </div>
+            </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const ProcessModal = ({ step, onClose }) => {
+  const { blueprintMode, playSound } = useUI();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-neutral-900/60 backdrop-blur-md p-4"
+      onClick={() => {
+        playSound('click');
+        onClose();
+      }}
+    >
+      <motion.div
+        initial={{ scale: 0.95, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.95, y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className={`w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative border transition-colors duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/10' : 'bg-white border-neutral-100'}`}
+      >
+        <div className="relative h-48 bg-neutral-100">
+           <img 
+              src={step.img} 
+              alt={step.title}
+              className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-30 grayscale' : ''}`}
+           />
+           <div className={`absolute inset-0 flex items-end p-8 bg-gradient-to-t ${blueprintMode ? 'from-blue-950/80 to-transparent' : 'from-black/60 to-transparent'}`}>
+              <div>
+                <span className={`text-xs font-bold uppercase tracking-widest mb-2 block ${blueprintMode ? 'text-blue-400' : 'text-white/80'}`}>{step.label}</span>
+                <h3 className={`text-3xl font-bold ${blueprintMode ? 'text-blue-500' : 'text-white'}`}>{step.title}</h3>
+              </div>
+           </div>
+           <button 
+              onMouseEnter={() => playSound('hover')}
+              onClick={() => {
+                playSound('click');
+                onClose();
+              }}
+              className="absolute top-6 right-6 w-10 h-10 bg-black/20 backdrop-blur-md rounded-full text-white flex items-center justify-center hover:bg-black/40 transition-colors"
+           >
+              <X size={20} />
+           </button>
+        </div>
+        
+        <div className="p-8 md:p-10">
+           <h4 className={`text-xl font-bold mb-4 ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>{step.modalContent.headline}</h4>
+           <p className={`leading-relaxed mb-8 ${blueprintMode ? 'text-blue-500/70' : 'text-neutral-500'}`}>
+              {step.modalContent.details}
+           </p>
+           
+           <div className="space-y-3">
+              {step.modalContent.points.map((point, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                      <CheckCircle2 size={18} className={blueprintMode ? "text-blue-400" : "text-blue-600"} />
+                      <span className={`text-sm font-bold ${blueprintMode ? 'text-blue-500/80' : 'text-neutral-700'}`}>{point}</span>
+                  </div>
+              ))}
+           </div>
+
+           <div className={`mt-10 pt-8 border-t flex justify-end transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
+              <button 
+                onMouseEnter={() => playSound('hover')}
+                onClick={() => {
+                    playSound('click');
+                    onClose();
+                }}
+                className={`px-6 py-3 text-xs font-bold uppercase tracking-widest rounded-full transition-all ${blueprintMode ? 'bg-blue-600 text-white hover:bg-blue-400' : 'bg-neutral-900 text-white hover:bg-blue-600'}`}
+              >
+                Close Documentation
+              </button>
+           </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+export default WorkProcess;

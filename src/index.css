@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aguafina+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #ffffff;
+    --text-primary: #171717;
+    --accent: #2563eb;
+  }
+
+  body {
+    @apply bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .text-reveal {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  
+  .blend-multiply {
+    mix-blend-mode: multiply;
+  }
+
+  .text-stroke {
+    -webkit-text-stroke: 1px currentColor;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-mesh {
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.03) 0, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.03) 0, transparent 50%);
+  }
+
+  .font-logo {
+    font-family: 'Aguafina Script', cursive;
+  }
+
+  .font-fancy {
+    font-family: 'Pinyon Script', cursive;
+  }
+
+  .upright-script {
+    display: inline-block;
+    transform: skewX(-2deg);
+    transform-origin: bottom center;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a3a3a3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Blueprint Mode Styles */
+.blueprint-mode {
+  --bg-primary: #0a0a0a;
+  --text-primary: #3b82f6;
+  --accent: #60a5fa;
+}
+
+.blueprint-mode body {
+  background-color: #050505 !important;
+  color: #3b82f6 !important;
+}
+
+.blueprint-mode * {
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.blueprint-active-outline {
+  outline: 1px dashed rgba(59, 130, 246, 0.5);
+  position: relative;
+}
+
+.blueprint-active-outline::after {
+  content: " " attr(data-blueprint-label) " ";
+  position: absolute;
+  top: -10px;
+  left: 5px;
+  background: #3b82f6;
+  color: white;
+  font-size: 8px;
+  padding: 0 4px;
+  font-family: monospace;
+  z-index: 50;
+  white-space: nowrap;
+}
+
+@keyframes flow {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+
+.connector-line {
+  stroke-dasharray: 5;
+  animation: flow 2s linear infinite;
+}

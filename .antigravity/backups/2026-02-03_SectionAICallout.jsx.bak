@@ -1,0 +1,161 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useUI } from '../context/UIContext';
+import { ArrowUpRight, MessageSquare, Sparkles, Bot } from 'lucide-react';
+
+const SectionAICallout = () => {
+  const { blueprintMode, openChat, playSound } = useUI();
+
+  const handleOpenChat = () => {
+    playSound('click');
+    openChat();
+  };
+
+  return (
+    <section 
+      id="section-ai-cta" 
+      className={`relative w-full py-32 px-8 overflow-hidden transition-colors duration-700 ${blueprintMode ? 'bg-[#050505]' : 'bg-white'}`}
+    >
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+          
+          {/* Content Side: Matching the layout of About/Project sections */}
+          <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className={`text-xs font-bold uppercase tracking-[0.2em] mb-10 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}
+            >
+              Intelligence Layer
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className={`text-5xl md:text-7xl font-bold tracking-tight mb-8 transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}
+            >
+              Consult the <br />
+              <span className={`font-light italic transition-colors ${blueprintMode ? 'text-blue-400' : 'text-neutral-400'}`}>Architect’s AI.</span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className={`text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-xl transition-colors duration-700 ${blueprintMode ? 'text-blue-400/60' : 'text-neutral-500'}`}
+            >
+              Every project in this portfolio was built with distinct technical decisions. My AI assistant is trained to explain the 
+              <span className={`font-bold italic mx-2 ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>logic</span> 
+              behind my work, from backend architecture to UX flows.
+            </motion.p>
+            
+            <motion.div 
+               initial={{ opacity: 0 }}
+               whileInView={{ opacity: 1 }}
+               viewport={{ once: true }}
+               transition={{ delay: 0.3 }}
+               className={`grid grid-cols-1 sm:grid-cols-2 gap-12 border-t pt-16 transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}
+            >
+               <div className={blueprintMode ? 'blueprint-active-outline' : ''} data-blueprint-label="AI_CORE_01">
+                  <h4 className={`text-sm font-bold mb-2 uppercase tracking-widest transition-colors ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>Contextual RAG</h4>
+                  <p className={`leading-relaxed font-normal text-sm transition-colors ${blueprintMode ? 'text-blue-500/60' : 'text-neutral-500'}`}>
+                     Retrieving architectural data directly from my project case studies and technical documentation.
+                  </p>
+               </div>
+               <div className={blueprintMode ? 'blueprint-active-outline' : ''} data-blueprint-label="AI_CORE_02">
+                  <h4 className={`text-sm font-bold mb-2 uppercase tracking-widest transition-colors ${blueprintMode ? 'text-blue-400' : 'text-neutral-900'}`}>Interaction Flow</h4>
+                  <p className={`leading-relaxed font-normal text-sm transition-colors ${blueprintMode ? 'text-blue-500/60' : 'text-neutral-500'}`}>
+                     The assistant can navigate the site, locate technical sections, and reveal hidden architecture details.
+                  </p>
+               </div>
+            </motion.div>
+
+            <motion.button
+              onClick={handleOpenChat}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onMouseEnter={() => playSound('hover')}
+              className={`mt-16 group flex items-center gap-4 px-10 py-5 rounded-full font-bold uppercase tracking-widest text-[10px] transition-all duration-500 ${
+                blueprintMode 
+                  ? 'bg-blue-600 text-white shadow-[0_0_30px_rgba(59,130,246,0.2)]' 
+                  : 'bg-neutral-900 text-white shadow-xl hover:bg-indigo-600'
+              }`}
+            >
+              Launch Interaction
+              <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </motion.button>
+          </div>
+
+          {/* Visual Side: Matching the Card Style from the About Section */}
+          <div className="lg:col-span-5 relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className={`aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl relative border transition-all duration-700 ${
+                blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/5' : 'bg-neutral-900 border-neutral-100 shadow-blue-500/5'
+              }`}
+            >
+               {/* Minimalist Visual Representation of the AI */}
+               <div className={`absolute inset-0 flex flex-col items-center justify-center p-12 transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : 'opacity-100'}`}>
+                  <motion.div 
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    className={`w-32 h-32 rounded-3xl flex items-center justify-center mb-10 ${blueprintMode ? 'bg-blue-600/10 border border-blue-500/30' : 'bg-blue-600/20'}`}
+                  >
+                    <Bot size={64} className={blueprintMode ? 'text-blue-400' : 'text-white'} />
+                  </motion.div>
+                  
+                  <div className="w-full space-y-4 max-w-[12rem]">
+                    <div className={`h-1.5 rounded-full w-2/3 ${blueprintMode ? 'bg-blue-500/20' : 'bg-white/10'}`}></div>
+                    <div className={`h-1.5 rounded-full w-full ${blueprintMode ? 'bg-blue-500/20' : 'bg-white/10'}`}></div>
+                    <div className={`h-1.5 rounded-full w-4/5 ${blueprintMode ? 'bg-blue-500/20' : 'bg-white/10'}`}></div>
+                    <div className={`h-1.5 rounded-full w-1/2 ${blueprintMode ? 'bg-blue-800' : 'bg-blue-500'}`}></div>
+                  </div>
+               </div>
+               
+               {/* Blueprint Labeling Layer */}
+               {blueprintMode && (
+                  <>
+                    <div className="absolute top-6 left-6 font-mono text-[8px] text-blue-500/40 pointer-events-none">
+                        <div>ID: INTELLIGENCE_CORE_01</div>
+                        <div>Z_ORDER: 10</div>
+                        <div>STATUS: ACTIVE</div>
+                    </div>
+                    <div className="absolute inset-0 bg-[radial-gradient(rgba(59,130,246,0.1)_1px,transparent_0)] [background-size:20px_20px] pointer-events-none"></div>
+                  </>
+               )}
+               
+               {/* Floating Glass UI Badge */}
+               <div className="absolute bottom-8 left-8 right-8 p-6 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl flex items-center gap-4 group">
+                  <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shrink-0 shadow-lg">
+                    <Sparkles size={18} className="text-white" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white/40 block">System Module</span>
+                    <span className="text-xs font-bold text-white uppercase tracking-widest group-hover:text-blue-400 transition-colors">Personal Interaction Layer</span>
+                  </div>
+               </div>
+
+               {/* Interaction Indicator Overlay */}
+               <div className={`absolute inset-0 mix-blend-overlay transition-colors ${blueprintMode ? 'bg-blue-600/20' : 'bg-blue-600/10'}`}></div>
+            </motion.div>
+            
+            {/* Soft Ambient Glow */}
+            <div className={`absolute -top-10 -right-10 w-32 h-32 blur-3xl rounded-full transition-colors duration-1000 ${blueprintMode ? 'bg-blue-900/20' : 'bg-blue-100/50'}`}></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hero-style Background Watermark */}
+      <div className="absolute top-1/2 left-0 w-full flex justify-center opacity-[0.02] pointer-events-none select-none">
+          <h2 className={`text-[30vw] font-black uppercase tracking-tighter transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Logic</h2>
+      </div>
+    </section>
+  );
+};
+
+export default SectionAICallout;
