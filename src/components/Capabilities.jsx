@@ -56,23 +56,14 @@ const Capabilities = () => {
           )}
         </div>
 
-        {/* Mobile Preview Image */}
-        <div className={`lg:hidden col-span-1 h-48 overflow-hidden rounded-2xl border shadow-sm transition-all duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-50 border-neutral-100'}`}>
-          <img
-            src={expertise[hoveredIndex].img}
-            className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : ''}`}
-            alt="Expertise preview"
-          />
-        </div>
-
         {/* Interactive List */}
         <div className="lg:col-span-7">
-          <div className="mb-16">
+          <div className="mb-12 lg:mb-16">
             <h2 className={`text-xs font-bold uppercase tracking-[0.2em] mb-4 transition-colors ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}>Core Expertise</h2>
             <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Technical Mastery.</h3>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-8 lg:space-y-4">
             {expertise.map((skill, idx) => (
               <motion.div
                 key={idx}
@@ -84,30 +75,50 @@ const Capabilities = () => {
                     setHoveredIndex(idx);
                     playSound('click');
                 }}
-                className={`group border-b py-10 cursor-pointer transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'} ${blueprintMode ? 'blueprint-active-outline' : ''}`}
+                className={`group border-b py-6 lg:py-10 lg:cursor-pointer transition-colors duration-700 ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'} ${blueprintMode ? 'blueprint-active-outline' : ''}`}
                 data-blueprint-label={`TECH_NODE: ${skill.id}`}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
               >
+                {/* Mobile: Image for each item */}
+                <div className={`lg:hidden h-40 mb-4 overflow-hidden rounded-xl border transition-all duration-700 ${blueprintMode ? 'border-blue-500/30' : 'border-neutral-100'}`}>
+                  <img
+                    src={skill.img}
+                    className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : ''}`}
+                    alt={skill.title}
+                  />
+                </div>
+
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-8">
-                    <span className={`text-sm font-bold transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-300'}`}>{skill.id}</span>
-                    <h4 className={`text-3xl md:text-4xl font-bold transition-colors duration-500 ${hoveredIndex === idx ? (blueprintMode ? "text-blue-400" : "text-blue-600") : (blueprintMode ? "text-blue-900" : "text-neutral-900 group-hover:text-blue-600")}`}>
+                  <div className="flex items-center gap-4 lg:gap-8">
+                    {/* Numbering hidden on mobile */}
+                    <span className={`hidden lg:block text-sm font-bold transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-300'}`}>{skill.id}</span>
+                    <h4 className={`text-2xl lg:text-4xl font-bold transition-colors duration-500 ${hoveredIndex === idx ? (blueprintMode ? "text-blue-400" : "text-blue-600") : (blueprintMode ? "text-blue-900" : "text-neutral-900 lg:group-hover:text-blue-600")}`}>
                       {skill.title}
                     </h4>
                   </div>
-                  <ArrowRight className={`transition-all ${hoveredIndex === idx ? (blueprintMode ? "text-blue-400 translate-x-2" : "text-blue-600 translate-x-2") : (blueprintMode ? "text-blue-900" : "text-neutral-200 group-hover:text-blue-600 group-hover:translate-x-2")}`} />
+                  <ArrowRight className={`hidden lg:block transition-all ${hoveredIndex === idx ? (blueprintMode ? "text-blue-400 translate-x-2" : "text-blue-600 translate-x-2") : (blueprintMode ? "text-blue-900" : "text-neutral-200 group-hover:text-blue-600 group-hover:translate-x-2")}`} />
                 </div>
-                <div className={`overflow-hidden transition-all duration-500 ${hoveredIndex === idx ? "max-h-32 opacity-100 mt-6" : "max-h-0 opacity-0"}`}>
-                  <p className={`leading-relaxed font-normal transition-colors duration-700 ${blueprintMode ? 'text-blue-400/60' : 'text-neutral-500'}`}>
+
+                {/* Mobile: Always visible | Desktop: Expandable on hover */}
+                <div className="mt-4 lg:mt-0">
+                  {/* Mobile description - always visible */}
+                  <p className={`lg:hidden text-sm leading-relaxed font-normal transition-colors duration-700 ${blueprintMode ? 'text-blue-400/60' : 'text-neutral-500'}`}>
                     {skill.desc}
                   </p>
-                  {blueprintMode && (
-                      <div className="mt-4 font-mono text-[8px] text-blue-500/40">
-                          LOG: HANDLER_INVOKED_AT_${Date.now()}
-                      </div>
-                  )}
+
+                  {/* Desktop description - expandable on hover */}
+                  <div className={`hidden lg:block overflow-hidden transition-all duration-500 ${hoveredIndex === idx ? "max-h-32 opacity-100 mt-6" : "max-h-0 opacity-0"}`}>
+                    <p className={`leading-relaxed font-normal transition-colors duration-700 ${blueprintMode ? 'text-blue-400/60' : 'text-neutral-500'}`}>
+                      {skill.desc}
+                    </p>
+                    {blueprintMode && (
+                        <div className="mt-4 font-mono text-[8px] text-blue-500/40">
+                            LOG: HANDLER_INVOKED_AT_${Date.now()}
+                        </div>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
