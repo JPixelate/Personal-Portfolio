@@ -73,11 +73,11 @@ const MCPChatbotsPage = () => {
                     {/* Back Button */}
                     <motion.button
                         variants={itemVariants}
-                        onClick={() => navigate('/#section-services')}
+                        onClick={() => navigate('/')}
                         className="mb-8 flex items-center gap-2 text-neutral-500 dark:text-gray-400 hover:text-neutral-900 dark:hover:text-white transition-colors group"
                     >
                         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                        Back to Services
+                        Back to Home
                     </motion.button>
 
                     {/* Overview */}

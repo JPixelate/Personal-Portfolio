@@ -73,7 +73,7 @@ const Contact = () => {
              <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-200'}`}>Sitemap</h4>
              <ul className="space-y-4">
                 <FooterLink to="/#section-hero" label="Overview" blueprintMode={blueprintMode} playSound={playSound} />
-                <FooterLink to="/#section-services" label="Expertise" blueprintMode={blueprintMode} playSound={playSound} />
+                <FooterLink to="/#section-process" label="Process" blueprintMode={blueprintMode} playSound={playSound} />
                 <FooterLink to="/#section-projects" label="Portfolio" blueprintMode={blueprintMode} playSound={playSound} />
                 <FooterLink to="/#section-about" label="Manifesto" blueprintMode={blueprintMode} playSound={playSound} />
                 <FooterLink to="/#section-experience" label="Journey" blueprintMode={blueprintMode} playSound={playSound} />

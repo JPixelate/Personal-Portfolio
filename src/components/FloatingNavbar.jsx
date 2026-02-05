@@ -8,7 +8,7 @@ import { useUI } from "../context/UIContext";
 
 const navLinks = [
   { id: "section-hero", name: "Overview" },
-  { id: "section-services", name: "Expertise" },
+  { id: "section-process", name: "Process" },
   { id: "section-projects", name: "Portfolio" },
   { id: "section-about", name: "Manifesto" },
   { id: "section-experience", name: "Journey" },
