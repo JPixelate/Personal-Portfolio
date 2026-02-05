@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Hero from "./Hero.jsx";
 import Manifesto from "./Manifesto.jsx";
 import Contact from "./Contact.jsx";
-import Capabilities from "./Capabilities.jsx";
 import WorkProcess from "./WorkProcess.jsx";
 import ProjectGrid from "./ProjectGrid.jsx";
 import TechStack from "./TechStack.jsx";
@@ -22,7 +21,6 @@ const AlternatingScrollPortfolio = () => {
       />
       
       <Hero />
-      <Capabilities />
       <WorkProcess />
       <ProjectGrid />
       <Manifesto />

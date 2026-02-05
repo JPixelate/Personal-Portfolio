@@ -4,7 +4,7 @@ import blsImg from "../assets/images/BLS_website.jpg";
 import golfImg from "../assets/images/Golf_website.jpg";
 import bpdImg from "../assets/images/BPDPortal_website.jpg";
 import aiImg from "../assets/images/AI_website.png";
-import aiThumbnail from "../assets/images/ai_thumbnail.jpg";
+import aiThumbnail from "../assets/images/delai_website.jpg";
 import analyticsImg from "../assets/images/analytics(4).jpg";
 import analyticsThumbnail from "../assets/images/analytics (1).jpg";
 import analyticsScreenshot2 from "../assets/images/analytics (2).jpg";
