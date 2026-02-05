@@ -18,7 +18,7 @@ const Hero = () => {
     <section
       ref={containerRef}
       id="section-hero"
-      className={`relative min-h-screen w-full pb-20 px-8 flex items-center overflow-hidden transition-colors duration-700 ${
+      className={`relative min-h-screen w-full pt-24 md:pt-0 pb-20 px-4 md:px-8 flex items-center overflow-hidden transition-colors duration-700 ${
         blueprintMode ? 'bg-[#050505]' : 'bg-white'
       }`}
     >
@@ -64,7 +64,7 @@ const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-end">
           
           {/* Main Copy */}
-          <div className="lg:col-span-8 order-2 lg:order-1">
+          <div className="lg:col-span-8 order-2 lg:order-1 relative z-10">
              <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -96,15 +96,15 @@ const Hero = () => {
           </div>
 
           {/* High-End Visual Card */}
-          <div className="lg:col-span-4 order-1 lg:order-2">
-             <motion.div 
+          <div className="lg:col-span-4 order-1 lg:order-2 mb-20 lg:mb-0 pt-2 lg:pt-0">
+             <motion.div
                style={{ y: yImage }}
                initial={false}
                animate={{ opacity: 1, scale: 1 }}
-               className="relative group z-20"
+               className="relative group"
              >
                 {/* 1. Full Stack - Top Right Offset */}
-                <div className={`absolute top-4 -right-2 sm:-top-12 sm:right-12 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}` }>
+                <div className={`absolute -top-8 right-0 sm:-top-12 sm:right-12 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}` }>
                    <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-blue-600"></div>
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">Full-Stack Dev</span>
@@ -113,7 +113,7 @@ const Hero = () => {
                 </div>
 
                 {/* 2. AI - Top Left Corner */}
-                <div className={`absolute top-24 -left-2 sm:-top-4 sm:-left-20 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}`}>
+                <div className={`absolute top-12 -left-2 sm:-top-4 sm:-left-20 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}`}>
                    <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-orange-500"></div>
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">AI Automation</span>
@@ -122,7 +122,7 @@ const Hero = () => {
                 </div>
 
                 {/* 3. Backend - Right Side Offset */}
-                <div className={`absolute top-1/2 -right-2 sm:top-20 sm:-right-8 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}`}>
+                <div className={`absolute top-1/3 -right-2 sm:top-20 sm:-right-8 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-500/50 text-blue-400' : 'bg-white border-neutral-100 text-neutral-900'}`}>
                    <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-indigo-500"></div>
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">Backend Arch.</span>

@@ -58,12 +58,12 @@ const FloatingNavbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-          scrolled 
-          ? (blueprintMode ? "bg-[#050505]/90 backdrop-blur-md border-b border-blue-900/50 py-4 shadow-lg shadow-blue-500/5" : "bg-white border-b border-neutral-100 py-4 shadow-sm") 
-          : "bg-transparent py-8"
+          scrolled
+          ? (blueprintMode ? "bg-[#050505]/90 backdrop-blur-md border-b border-blue-900/50 py-3 md:py-4 shadow-lg shadow-blue-500/5" : "bg-white border-b border-neutral-100 py-3 md:py-4 shadow-sm")
+          : "bg-transparent py-4 md:py-8"
         }`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
           
           <Link 
             onMouseEnter={() => playSound('hover')}
@@ -143,9 +143,9 @@ const FloatingNavbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={`fixed inset-0 z-[120] flex flex-col p-12 lg:p-24 transition-colors duration-700 ${blueprintMode ? 'bg-[#050505]' : 'bg-white'}`}
+            className={`fixed inset-0 z-[120] flex flex-col p-6 sm:p-12 lg:p-24 transition-colors duration-700 ${blueprintMode ? 'bg-[#050505]' : 'bg-white'}`}
           >
-             <div className="flex justify-between items-start mb-24">
+             <div className="flex justify-between items-start mb-12 sm:mb-24">
                  <div className="flex-1"></div>
                  <button 
                     onMouseEnter={() => playSound('hover')}
@@ -159,21 +159,21 @@ const FloatingNavbar = () => {
                  </button>
              </div>
 
-             <div className="flex flex-col gap-6">
+             <div className="flex flex-col gap-4 sm:gap-6 overflow-y-auto flex-1">
                 {navLinks.map((link, idx) => (
                   <button
                     key={link.id}
                     onMouseEnter={() => playSound('hover')}
                     onClick={() => handleNavClick(link.id)}
-                    className={`text-6xl sm:text-8xl font-black tracking-tighter uppercase text-left transition-all flex items-end gap-6 group ${blueprintMode ? 'text-blue-500 hover:text-blue-100' : 'text-neutral-900 hover:text-blue-600'}`}
+                    className={`text-4xl sm:text-6xl lg:text-8xl font-black tracking-tighter uppercase text-left transition-all flex items-end gap-3 sm:gap-6 group ${blueprintMode ? 'text-blue-500 hover:text-blue-100' : 'text-neutral-900 hover:text-blue-600'}`}
                   >
-                    <span className={`text-xs font-bold mb-4 transition-colors ${blueprintMode ? 'text-blue-900 group-hover:text-blue-400' : 'text-neutral-200 group-hover:text-blue-600'}`}>0{idx + 1}</span>
+                    <span className={`text-[10px] sm:text-xs font-bold mb-2 sm:mb-4 transition-colors ${blueprintMode ? 'text-blue-900 group-hover:text-blue-400' : 'text-neutral-200 group-hover:text-blue-600'}`}>0{idx + 1}</span>
                     {link.name}
                   </button>
                 ))}
              </div>
              
-             <div className={`mt-auto flex flex-col md:flex-row justify-between items-center md:items-end border-t pt-12 gap-8 transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
+             <div className={`mt-auto flex flex-col md:flex-row justify-between items-center md:items-end border-t pt-6 sm:pt-12 gap-4 sm:gap-8 transition-colors ${blueprintMode ? 'border-blue-900/50' : 'border-neutral-100'}`}>
                 <div className="flex gap-8 text-xs font-bold uppercase tracking-widest">
                     <a onMouseEnter={() => playSound('hover')} href="https://www.linkedin.com/in/jonald-penpillo" target="_blank" rel="noopener noreferrer" className={`cursor-pointer transition-colors ${blueprintMode ? 'text-blue-500/60 hover:text-blue-400' : 'text-neutral-400 hover:text-neutral-900'}`}>LinkedIn</a>
                     <a onMouseEnter={() => playSound('hover')} href="https://www.instagram.com/h4kuna_11/" target="_blank" rel="noopener noreferrer" className={`cursor-pointer transition-colors ${blueprintMode ? 'text-blue-500/60 hover:text-blue-400' : 'text-neutral-400 hover:text-neutral-900'}`}>Instagram</a>
