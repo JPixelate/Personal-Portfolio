@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Bot, Send, User, X, Mail, Phone, Linkedin, MessageCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { generateAIResponse } from '../utils/aiKnowledge';
+import { generateAIResponse, isValidInput } from '../utils/aiKnowledge';
 import { useUI } from '../context/UIContext';
 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -216,6 +216,8 @@ const SystemConcierge = () => {
         }
     };
 
+    const [inputWarning, setInputWarning] = useState("");
+
     const handleSendMessage = async (text) => {
         if (isTyping || isLimitReached) return;
         
@@ -225,6 +227,16 @@ const SystemConcierge = () => {
 
         const messageText = text || inputValue;
         if (!messageText.trim()) return;
+
+        // --- CLIENT-SIDE VALIDATION ---
+        // Prevents API calls/token usage for low-quality or malicious input
+        if (!isValidInput(messageText)) {
+            setInputWarning("Please provide a clearer message or question.");
+            // Optional: Shake effect or visual feedback
+            return;
+        }
+        setInputWarning(""); // Clear warning if valid
+        // ------------------------------
 
         const userMessage = {
             id: Date.now(),
@@ -444,8 +456,23 @@ const SystemConcierge = () => {
                                e.preventDefault();
                                handleSendMessage();
                            }} 
-                           className="p-6 bg-white border-t border-neutral-100 shrink-0"
+                           className="p-6 bg-white border-t border-neutral-100 shrink-0 relative"
                         >
+                            {/* Validation Warning */}
+                            <AnimatePresence>
+                                {inputWarning && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        className="absolute -top-12 left-6 right-6 bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wide px-4 py-2 rounded-xl border border-red-100 shadow-sm flex items-center gap-2"
+                                    >
+                                        <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                                        {inputWarning}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             <div className="relative">
                                 <input 
                                     type="text" 
