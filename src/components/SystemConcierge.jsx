@@ -313,12 +313,12 @@ const SystemConcierge = () => {
                                     <Bot size={20} />
                                 </div>
                                 <div>
-                                    <h3 className={`font-bold tracking-tight ${blueprintMode ? 'font-mono uppercase tracking-widest' : ''}`}>
+                                    <h3 className={`font-bold tracking-tight ${blueprintMode ? 'uppercase tracking-widest' : ''}`}>
                                         {blueprintMode ? 'TERMINAL_AI' : 'AI Assistant'}
                                     </h3>
                                     <div className="flex items-center gap-2">
                                         <span className={`w-2 h-2 rounded-full ${blueprintMode ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`}></span>
-                                        <span className={`text-[10px] font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-400/60 font-mono' : 'opacity-60'}`}>
+                                        <span className={`text-[10px] font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-400/60' : 'opacity-60'}`}>
                                             {blueprintMode ? 'NET_ONLINE' : 'System Online'}
                                         </span>
                                     </div>
@@ -361,7 +361,7 @@ const SystemConcierge = () => {
                                         {msg.sender === 'bot' ? (
                                             <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
                                                 blueprintMode 
-                                                    ? 'font-mono text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200' 
+                                                    ? 'text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200' 
                                                     : 'text-neutral-800 prose-neutral prose-headings:text-neutral-900 prose-strong:text-neutral-900'
                                             }`}>
                                                 <ReactMarkdown 
@@ -396,7 +396,7 @@ const SystemConcierge = () => {
 
                                         ) : (
                                             <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap ${
-                                                blueprintMode ? 'font-mono text-blue-300' : 'text-white'
+                                                blueprintMode ? 'text-blue-300' : 'text-white'
                                             }`}>
                                                 {msg.text}
                                             </p>
@@ -438,7 +438,7 @@ const SystemConcierge = () => {
                                         blueprintMode ? 'bg-red-900/10 border-red-500/30' : 'bg-red-50 border-red-100'
                                     }`}
                                 >
-                                    <p className="text-xs font-bold text-red-600 leading-relaxed font-mono">
+                                    <p className="text-xs font-bold text-red-600 leading-relaxed">
                                         Chat limit reached (10/10). Access will refresh in a few hours.
                                     </p>
                                     <div className={`pt-3 border-t flex flex-col gap-2 ${
@@ -500,7 +500,7 @@ const SystemConcierge = () => {
                                             onClick={() => handleSendMessage(reply)}
                                             className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-nowrap ${
                                                 blueprintMode 
-                                                    ? 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30 font-mono' 
+                                                    ? 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30' 
                                                     : 'bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 border-neutral-100 hover:border-blue-100'
                                             }`}
                                         >
@@ -551,7 +551,7 @@ const SystemConcierge = () => {
                                     }
                                     className={`w-full pl-6 pr-14 py-4 rounded-2xl text-sm focus:outline-none transition-all font-medium disabled:opacity-70 ${
                                         blueprintMode 
-                                            ? 'bg-[#0a0a0a] border border-blue-900/30 text-blue-400 focus:border-blue-500 placeholder-blue-700/30 font-mono' 
+                                            ? 'bg-[#0a0a0a] border border-blue-900/30 text-blue-400 focus:border-blue-500 placeholder-blue-700/30' 
                                             : 'bg-neutral-50 border border-neutral-100 focus:border-blue-600'
                                     }`}
                                 />
@@ -568,7 +568,7 @@ const SystemConcierge = () => {
                                 </button>
                             </div>
                             <p className={`text-[10px] text-center mt-4 font-bold uppercase tracking-widest transition-colors ${
-                                blueprintMode ? 'text-blue-500/40 font-mono' : 'text-neutral-400'
+                                blueprintMode ? 'text-blue-500/40' : 'text-neutral-400'
                             }`}>
                                 {blueprintMode ? 'SYSTEM_ARCHITECTURE_V1.0' : "Powered by Jonald's AI Architecture"}
                             </p>
