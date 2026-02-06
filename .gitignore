@@ -33,3 +33,6 @@ dist-ssr
 # Large asset files
 *.tif
 *.tiff
+
+.vercel
+.env*.local
