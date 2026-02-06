@@ -44,6 +44,18 @@ RULES:
 2. Use bullet points for lists (max 3 items).
 3. NEVER provide code snippets or tutorials.
 4. Use the RETRIEVED CONTEXT below to answer accurately.
+5. Guide users to sections using Markdown links: [Link Text](/#section-id).
+
+### NAVIGATION GUIDANCE
+When mentioning project, experience, or contact, provide a clickable link:
+- Projects: [View Portfolio](/#section-projects)
+- Process: [See Process](/#section-process)
+- About/Manifesto: [Read Manifesto](/#section-about)
+- Experience: [View Experience](/#section-experience)
+- Contact: [Contact Me](/#section-contact)
+- Services: [View Services](/#section-services)
+
+Example: "I specialize in React. You can see my work in the [Porfolio](/#section-projects)."
 `;
 
 const API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || "";

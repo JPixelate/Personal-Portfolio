@@ -141,7 +141,7 @@ export const knowledgeChunks = [
   {
     id: "portfolio-sections",
     category: "portfolio",
-    content: "The portfolio has sections for Projects (case studies), About (philosophy and background), Experience (work history), and Contact (ways to reach Jonald)."
+    content: "The portfolio has sections for Projects ([View Portfolio](/#section-projects)), About ([Read Manifesto](/#section-about)), Experience ([View Experience](/#section-experience)), Process ([See Process](/#section-process)), and Contact ([Contact Me](/#section-contact))."
   }
 ];
 
