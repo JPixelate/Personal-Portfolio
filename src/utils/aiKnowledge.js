@@ -97,6 +97,46 @@ function formatRetrievedContext(chunks) {
 }
 
 /**
+ * Validate user input to filter out random/low-quality messages
+ */
+function isValidInput(text) {
+  if (!text) return false;
+  
+  let flags = 0;
+  const lowerText = text.toLowerCase();
+  
+  // Rule 1: Long runs of consonants (8+)
+  if (/[bcdfghjklmnpqrstvwxyz]{8,}/.test(lowerText)) flags++;
+  
+  // Rule 2: Long runs of vowels (7+)
+  if (/[aeiou]{7,}/.test(lowerText)) flags++;
+  
+  // Rule 3: Excessive repetition (4+ times)
+  if (/(.)\1{3,}/.test(lowerText)) flags++;
+  
+  // Rule 4: Low vowel-to-letter ratio (< 25%)
+  // Adjusted: 20% -> 25% to catch "asdf" mashes (usually ~23%)
+  const letters = lowerText.match(/[a-z]/g) || [];
+  if (letters.length > 8) {
+     const vowels = lowerText.match(/[aeiou]/g) || [];
+     if (vowels.length / letters.length < 0.25) flags++;
+  }
+
+  // Rule 5: Long string with no spaces (likely mash)
+  if (text.length > 20 && !text.includes(' ')) flags++;
+
+  // Rule 6: Low character diversity (e.g. "asdfsadfsadfs")
+  // If text is long (>8) but uses very few unique characters (<= 4)
+  if (letters.length > 8) {
+      const uniqueChars = new Set(letters).size;
+      if (uniqueChars <= 4) flags++;
+  }
+
+  // Reject if 2 or more flags are raised
+  return flags < 2;
+}
+
+/**
  * Main RAG-powered response generator
  */
 export const generateAIResponse = async (query) => {
@@ -104,6 +144,11 @@ export const generateAIResponse = async (query) => {
   if (!API_KEY) {
     console.warn("DeepSeek API Key missing.");
     return "The AI system is still being configured. Please ensure VITE_DEEPSEEK_API_KEY is set in the environment.";
+  }
+
+  // 2. Validate Input Quality (Anti-Gibberish Filter)
+  if (!isValidInput(query)) {
+    return "I'm not sure I understand. Could you please rephrase your question?";
   }
 
   try {

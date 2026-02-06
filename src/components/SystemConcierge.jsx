@@ -36,23 +36,29 @@ const SystemConcierge = () => {
     const [showPromo, setShowPromo] = useState(false);
     
     // --- DAILY LIMIT LOGIC ---
-    const CHATS_PER_DAY = 10;
+    const CHATS_PER_LIMIT_WINDOW = 10;
+    const LIMIT_WINDOW_MS = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
     const [messageCount, setMessageCount] = useState(0);
     const [isLimitReached, setIsLimitReached] = useState(false);
 
     useEffect(() => {
         const checkLimit = () => {
-            const today = new Date().toISOString().split('T')[0];
+            const now = Date.now();
             const usage = JSON.parse(localStorage.getItem('ai_chat_usage') || '{}');
             
-            if (usage.date !== today) {
-                // New day, reset counter
-                localStorage.setItem('ai_chat_usage', JSON.stringify({ date: today, count: 0 }));
+            // Check if existing session is expired (older than 4 hours)
+            const lastReset = usage.lastReset || 0;
+            const isExpired = (now - lastReset) > LIMIT_WINDOW_MS;
+
+            if (isExpired) {
+                // Time window passed, reset counter
+                const newUsage = { lastReset: now, count: 0 };
+                localStorage.setItem('ai_chat_usage', JSON.stringify(newUsage));
                 setMessageCount(0);
                 setIsLimitReached(false);
             } else {
-                setMessageCount(usage.count);
-                if (usage.count >= CHATS_PER_DAY) {
+                setMessageCount(usage.count || 0);
+                if ((usage.count || 0) >= CHATS_PER_LIMIT_WINDOW) {
                     setIsLimitReached(true);
                 }
             }
@@ -62,13 +68,23 @@ const SystemConcierge = () => {
     }, [isOpen]);
 
     const incrementUsage = () => {
-        const today = new Date().toISOString().split('T')[0];
+        const now = Date.now();
         const usage = JSON.parse(localStorage.getItem('ai_chat_usage') || '{}');
-        const newCount = (usage.date === today ? usage.count : 0) + 1;
         
-        localStorage.setItem('ai_chat_usage', JSON.stringify({ date: today, count: newCount }));
+        let currentCount = usage.count || 0;
+        let lastReset = usage.lastReset || now;
+        
+        // Safety check: if somehow writing to stale session
+        if ((now - lastReset) > LIMIT_WINDOW_MS) {
+            currentCount = 0;
+            lastReset = now;
+        }
+
+        const newCount = currentCount + 1;
+        
+        localStorage.setItem('ai_chat_usage', JSON.stringify({ lastReset, count: newCount }));
         setMessageCount(newCount);
-        if (newCount >= CHATS_PER_DAY) {
+        if (newCount >= CHATS_PER_LIMIT_WINDOW) {
             setIsLimitReached(true);
         }
     };
@@ -374,7 +390,7 @@ const SystemConcierge = () => {
                                     className="p-4 bg-red-50 border border-red-100 rounded-2xl space-y-3"
                                 >
                                     <p className="text-xs font-bold text-red-600 leading-relaxed">
-                                        You've reached your daily chat limit (10/10). Chat will resume tomorrow.
+                                        Chat limit reached (10/10). Access will refresh in a few hours.
                                     </p>
                                     <div className="pt-3 border-t border-red-100 flex flex-col gap-2">
                                         <p className="text-[10px] uppercase tracking-widest font-black text-red-400">Direct Contact Information:</p>
@@ -394,7 +410,7 @@ const SystemConcierge = () => {
                                         </div>
                                     </div>
                                     <p className="text-[9px] text-red-300 font-bold uppercase italic tracking-tighter">
-                                        * Note: Interaction limit is reset every 24 hours. Usage is monitored by system architecture.
+                                        * Note: Interaction limit is reset every 4 hours. Usage is monitored by system architecture.
                                     </p>
                                 </motion.div>
                             )}
@@ -438,7 +454,7 @@ const SystemConcierge = () => {
                                     disabled={isTyping || isLimitReached}
                                     placeholder={
                                         isLimitReached 
-                                            ? "Daily limit reached..." 
+                                            ? "Limit reached..." 
                                             : isTyping 
                                                 ? "AI is thinking..." 
                                                 : "Ask about Jonald's experience..."
