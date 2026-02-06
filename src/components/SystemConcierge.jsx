@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Bot, Send, User, X, Mail, Phone, Linkedin, MessageCircle } from 'lucide-react';
+import { MessageSquare, Bot, Send, User, X, Mail, Phone, Linkedin, MessageCircle, Mic, MicOff, Volume2, Globe, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { generateAIResponse, isValidInput } from '../utils/aiKnowledge';
 import { useUI } from '../context/UIContext';
@@ -36,10 +36,206 @@ const SystemConcierge = () => {
     const [showPromo, setShowPromo] = useState(false);
     
     // --- DAILY LIMIT LOGIC ---
-    const CHATS_PER_LIMIT_WINDOW = 10;
+    const CHATS_PER_LIMIT_WINDOW = 100;
     const LIMIT_WINDOW_MS = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
     const [messageCount, setMessageCount] = useState(0);
     const [isLimitReached, setIsLimitReached] = useState(false);
+
+    // --- VOICE MODE STATE ---
+    const [isVoiceMode, setIsVoiceMode] = useState(false);
+    const [isSpeaking, setIsSpeaking] = useState(false);
+    const [isListening, setIsListening] = useState(false);
+    const [voiceTranscript, setVoiceTranscript] = useState("");
+    // Default to English (en-US) implicit
+
+    
+    // Refs for speech and logic
+    const recognitionRef = useRef(null);
+    const synthesisRef = useRef(window.speechSynthesis);
+    const transcriptRef = useRef(""); // To access latest transcript in closures
+    const handleSendMessageRef = useRef(null); // To access latest function in closures
+    const isVoiceModeRef = useRef(false); // Ref for robust state access
+    const isRestartingRef = useRef(false); // To prevent double-start race conditions
+    
+    // Update ref on render
+    useEffect(() => {
+        handleSendMessageRef.current = handleSendMessage;
+    });
+
+    useEffect(() => {
+        isVoiceModeRef.current = isVoiceMode;
+    }, [isVoiceMode]);
+    
+    // Initialize Speech Recognition
+    useEffect(() => {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognitionRef.current = new SpeechRecognition();
+            recognitionRef.current.continuous = true; // Use continuous for better flow
+            recognitionRef.current.interimResults = true;
+            recognitionRef.current.lang = 'en-US';
+
+            recognitionRef.current.onstart = () => {
+                setIsListening(true);
+                transcriptRef.current = "";
+            };
+
+            recognitionRef.current.onresult = (event) => {
+                // Interruption Logic: If AI is speaking and user says something, shut up.
+                if (synthesisRef.current.speaking) {
+                    synthesisRef.current.cancel();
+                    setIsSpeaking(false);
+                }
+
+                const transcript = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join('');
+
+                setVoiceTranscript(transcript);
+                transcriptRef.current = transcript;
+            };
+
+            recognitionRef.current.onerror = (event) => {
+                console.error("Speech error", event.error);
+            };
+
+            recognitionRef.current.onend = () => {
+                setIsListening(false);
+                const text = transcriptRef.current.trim();
+                
+                if (text) {
+                     // On release (end), send the message
+                    handleSendMessageRef.current?.(text);
+                    setVoiceTranscript("");
+                    transcriptRef.current = "";
+                } 
+                // NO auto-restart. PTT only.
+            };
+        }
+    }, []); // Only init once
+
+
+
+    const toggleVoiceMode = () => {
+        const newMode = !isVoiceMode;
+        setIsVoiceMode(newMode);
+        isVoiceModeRef.current = newMode;
+        
+        if (!newMode) {
+            synthesisRef.current.cancel();
+            setIsSpeaking(false);
+            try { recognitionRef.current.stop(); } catch(e) {}
+        } else {
+             // Speak welcome but DO NOT start listening automatically
+             speakText("Hold the button to speak.");
+        }
+    };
+    
+    // Helper to find a better voice
+    const getBestVoice = () => {
+        const voices = synthesisRef.current.getVoices();
+        
+        // Filter for English voices (preferring US for consistency)
+        const enVoices = voices.filter(v => v.lang.startsWith('en'));
+        
+        if (enVoices.length === 0) return voices[0];
+
+        // Deep preference for premium/natural sounding voices
+        const preferred = [
+            enVoices.find(v => v.name.includes("Premium") || v.name.includes("Enhanced")),
+            enVoices.find(v => v.name.includes("Google") && v.name.includes("US")),
+            enVoices.find(v => v.name.includes("Natural")),
+            enVoices.find(v => v.name.includes("Samantha")), // classic macOS
+            enVoices.find(v => v.name.includes("Siri")),
+            enVoices.find(v => !v.name.includes("David") && !v.name.includes("Zira")) // Avoid old-school MS voices
+        ];
+
+        return preferred.find(v => v) || enVoices[0];
+    };
+    
+    // Manual "Push to Talk" Handlers
+    const handlePTTStart = (e) => {
+        // e.preventDefault(); // Optional: might block scrolling on mobile
+        if (!recognitionRef.current) return;
+        
+        // If system is speaking, stop it
+        if (synthesisRef.current.speaking) {
+            synthesisRef.current.cancel();
+            setIsSpeaking(false);
+        }
+
+        if (!isListening) {
+             try { 
+                 setVoiceTranscript(""); // Clear old transcript
+                 transcriptRef.current = "";
+                 recognitionRef.current.start(); 
+                 setIsListening(true);
+             } catch(e) {
+                 console.log("Start error:", e);
+             }
+        }
+    };
+
+    const handlePTTEnd = (e) => {
+        // e.preventDefault();
+        if (recognitionRef.current && isListening) {
+            recognitionRef.current.stop(); // This triggers onend, which sends the msg
+        }
+    };
+
+    const speakText = (text) => {
+        if (!synthesisRef.current) return;
+        
+        // Note: We DO NOT stop listening here anymore for true full-duplex feel.
+        // The echo cancellation in modern browsers/OS should handle the feedback.
+        
+        // Clean text: remove [cmd:...] blocks, markdown characters, and excessive whitespace
+        const cleanText = text
+            .replace(/\[cmd:.*?\]/g, '') // Remove navigation/commands
+            .replace(/[*#_`~]/g, '')     // Remove markdown symbols
+            .replace(/\s+/g, ' ')        // Normalize whitespace
+            .trim();
+        
+        synthesisRef.current.cancel(); // Stop any current speech
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'en-US'; 
+        
+        // Attempt to make it sound slightly more natural        
+        const bestVoice = getBestVoice();
+        if (bestVoice) utterance.voice = bestVoice;
+        
+        // Dynamic rate/pitch for less robotic feel
+        // Add tiny randomization for "human" variance
+        const variance = (Math.random() - 0.5) * 0.05; 
+        utterance.rate = 0.98 + (Math.random() * 0.04); 
+        utterance.pitch = 1.0 + variance; 
+        
+        utterance.onstart = () => setIsSpeaking(true);
+        utterance.onend = () => setIsSpeaking(false);
+        
+        // Tiny delay before speaking helps user transition from "thinking" state
+        setTimeout(() => {
+            synthesisRef.current.speak(utterance);
+        }, 300);
+    };
+
+    const startListening = () => {
+        if (recognitionRef.current && !isListening && !isSpeaking) {
+            setVoiceTranscript("");
+            transcriptRef.current = "";
+            try {
+                recognitionRef.current.start();
+            } catch(e) {}
+        }
+    };
+
+    const stopListening = () => {
+        if (recognitionRef.current && isListening) {
+             recognitionRef.current.stop();
+        }
+    };
+    // -------------------------
 
     useEffect(() => {
         const checkLimit = () => {
@@ -272,8 +468,14 @@ const SystemConcierge = () => {
 
             setMessages(prev => [...prev, botMessage]);
             
+
+            
             // Increment daily usage
             incrementUsage();
+
+            if (isVoiceMode) {
+                speakText(finalResponseText.trim());
+            }
 
             // Execute commands after a tiny delay
             setTimeout(() => {
@@ -296,15 +498,15 @@ const SystemConcierge = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className={`fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-colors duration-500 ${
+                        className={`fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] rounded-[2rem] shadow-[0_30px_100px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col transition-all duration-500 backdrop-blur-2xl ${
                             blueprintMode 
-                            ? 'bg-[#050505] border border-blue-500/30 shadow-blue-900/20' 
-                            : 'bg-white border border-neutral-100'
+                            ? 'bg-[#050505]/95 shadow-blue-900/10' 
+                            : 'bg-white/95'
                         }`}
                     >
                         {/* Header */}
                         <div className={`p-6 flex items-center justify-between shrink-0 transition-colors duration-500 ${
-                            blueprintMode ? 'bg-[#0a0a0a] text-blue-400 border-b border-blue-900/30' : 'bg-neutral-900 text-white'
+                            blueprintMode ? 'bg-[#0a0a0a]/50 text-blue-400' : 'bg-neutral-900 text-white'
                         }`}>
                             <div className="flex items-center gap-3">
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-500 ${
@@ -324,6 +526,18 @@ const SystemConcierge = () => {
                                     </div>
                                 </div>
                             </div>
+                            {/* Language removed */}
+                            <button 
+                                onClick={toggleVoiceMode}
+                                className={`p-2 rounded-full transition-colors ${
+                                    isVoiceMode 
+                                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
+                                        : blueprintMode ? 'text-blue-500 hover:bg-blue-900/20' : 'hover:bg-white/10'
+                                }`}
+                                title={isVoiceMode ? "Exit Voice Mode" : "Voice Conversation"}
+                            >
+                                {isVoiceMode ? <Mic size={20} className="animate-pulse" /> : <MicOff size={20} />}
+                            </button>
                             <button 
                                 onClick={() => setIsOpen(false)}
                                 className={`p-2 rounded-full transition-colors ${
@@ -337,6 +551,7 @@ const SystemConcierge = () => {
                         </div>
 
                         {/* Chat Body */}
+                        {!isVoiceMode && (
                         <div className={`flex-1 p-6 overflow-y-auto space-y-6 transition-colors duration-500 ${
                             blueprintMode ? 'bg-[#050505]' : 'bg-neutral-50/50'
                         }`}>
@@ -349,14 +564,14 @@ const SystemConcierge = () => {
                                     }`}>
                                         {msg.sender === 'bot' ? <Bot size={16} /> : <User size={16} />}
                                     </div>
-                                    <div className={`p-4 rounded-2xl shadow-sm max-w-[80%] transition-colors duration-500 ${
+                                    <div className={`p-4 rounded-3xl shadow-sm max-w-[80%] transition-colors duration-500 ${
                                         msg.sender === 'bot'
                                             ? blueprintMode 
-                                                ? 'bg-[#0a0a0a] rounded-tl-none border border-blue-900/30 text-blue-300' 
-                                                : 'bg-white rounded-tl-none border border-neutral-100'
+                                                ? 'bg-blue-950/20 rounded-tl-none text-blue-300 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)]' 
+                                                : 'bg-white rounded-tl-none shadow-neutral-200/50'
                                             : blueprintMode
-                                                ? 'bg-blue-900/20 text-blue-300 rounded-tr-none border border-blue-500/30'
-                                                : 'bg-blue-600 text-white rounded-tr-none'
+                                                ? 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-950/20'
+                                                : 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50'
                                     }`}>
                                         {msg.sender === 'bot' ? (
                                             <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
@@ -373,22 +588,22 @@ const SystemConcierge = () => {
                                                 </ReactMarkdown>
 
                                                 {msg.showTech && (
-                                                    <div className={`mt-4 pt-4 border-t grid grid-cols-4 gap-3 ${
-                                                        blueprintMode ? 'border-blue-900/30' : 'border-neutral-100'
-                                                    }`}>
-                                                        {['React', 'Next.js', 'Node.js', 'PHP', 'Tailwind', 'OpenAI', 'n8n', 'Python'].map(tech => (
-                                                            <div key={tech} className="flex flex-col items-center gap-1 group/tech">
-                                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                                                    <div className="mt-6 flex flex-wrap gap-2">
+                                                        {['React', 'Next.js', 'Node.js', 'Tailwind', 'OpenAI', 'Python', 'PostgreSQL', 'Framer Motion'].map((tech, i) => (
+                                                            <motion.div 
+                                                                key={tech}
+                                                                initial={{ opacity: 0, scale: 0.8 }}
+                                                                animate={{ opacity: 1, scale: 1 }}
+                                                                transition={{ delay: i * 0.05 }}
+                                                                className={`px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-2 group/tech transition-all hover:scale-110 ${
                                                                     blueprintMode 
-                                                                        ? 'bg-blue-900/20 text-blue-400 border border-blue-500/30 group-hover/tech:bg-blue-900/40' 
-                                                                        : 'bg-neutral-50 group-hover/tech:bg-blue-50'
-                                                                }`}>
-                                                                    <span className="text-[10px] font-black">{tech[0]}</span>
-                                                                </div>
-                                                                <span className={`text-[8px] font-bold uppercase tracking-tighter ${
-                                                                    blueprintMode ? 'text-blue-500 opacity-70' : 'opacity-40'
-                                                                }`}>{tech}</span>
-                                                            </div>
+                                                                        ? 'bg-blue-600/10 text-blue-400 shadow-[inset_0_0_15px_rgba(59,130,246,0.1)] hover:bg-blue-600/20' 
+                                                                        : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                                                                }`}
+                                                            >
+                                                                <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${blueprintMode ? 'bg-blue-400 animate-pulse' : 'bg-blue-500'}`} />
+                                                                {tech}
+                                                            </motion.div>
                                                         ))}
                                                     </div>
                                                 )}
@@ -484,9 +699,171 @@ const SystemConcierge = () => {
 
                             <div ref={messagesEndRef} />
                         </div>
+                        )}
+
+                        {isVoiceMode && (
+                             <div className={`flex-1 relative overflow-hidden flex flex-col items-center justify-center p-6 ${
+                                blueprintMode ? 'bg-[#050505]' : 'bg-neutral-50/50'
+                             }`}>
+                                {/* Holographic Aura Background */}
+                                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] rounded-full opacity-20 blur-[100px] transition-colors duration-1000 ${
+                                        isListening ? 'bg-blue-600' : isSpeaking ? 'bg-blue-400' : 'bg-blue-900/40'
+                                    }`} />
+                                    {blueprintMode && (
+                                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)]" />
+                                    )}
+                                </div>
+                                
+                                {/* Main Visualizer */}
+                                <div className="relative z-10 flex flex-col items-center gap-12 w-full max-w-xs">
+                                    <div className="relative">
+                                        <button 
+                                           onMouseDown={handlePTTStart}
+                                           onMouseUp={handlePTTEnd}
+                                           onMouseLeave={handlePTTEnd}
+                                           onTouchStart={handlePTTStart}
+                                           onTouchEnd={handlePTTEnd}
+                                           className={`w-40 h-40 rounded-full flex items-center justify-center shadow-2xl relative outline-none transition-all active:scale-95 ${
+                                               blueprintMode 
+                                                   ? 'bg-blue-500/10 hover:bg-blue-500/20 shadow-[inset_0_0_40px_rgba(59,130,246,0.1)]' 
+                                                   : 'bg-blue-600 hover:bg-blue-700'
+                                           } cursor-pointer select-none touch-none`}
+                                           style={{
+                                               boxShadow: isSpeaking 
+                                                   ? "0 0 50px 20px rgba(59, 130, 246, 0.4)" 
+                                                   : isListening 
+                                                       ? "0 0 30px 10px rgba(59, 130, 246, 0.4)"
+                                                       : "none"
+                                           }}
+                                        >
+                                           <motion.div
+                                                animate={{ 
+                                                    scale: isSpeaking ? [1, 1.1, 1] : isListening ? [1.1] : 1
+                                                }}
+                                                transition={{ duration: isSpeaking ? 0.6 : 0.2, repeat: isSpeaking ? Infinity : 0 }}
+                                                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                                           >
+                                                <Bot size={64} className={`${blueprintMode ? 'text-blue-400' : 'text-white'}`} />
+                                           </motion.div>
+                                           
+                                           {/* Speaking Ripples */}
+                                           {isSpeaking && (
+                                               <>
+                                                   <motion.div className="absolute inset-0 rounded-full bg-blue-400/20" 
+                                                       animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
+                                                       transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+                                                   />
+                                                    <motion.div className="absolute inset-0 rounded-full bg-blue-400/20" 
+                                                       animate={{ scale: [1, 1.8], opacity: [0.6, 0] }}
+                                                       transition={{ duration: 2, repeat: Infinity, delay: 1, ease: "easeOut" }}
+                                                   />
+                                               </>
+                                           )}
+                                        </button>
+                                    </div>
+
+                                     {/* Audio Frequency Bars (Simulated) */}
+                                    <div className="h-12 flex items-end justify-center gap-1.5">
+                                        {isSpeaking ? (
+                                            [...Array(5)].map((_, i) => (
+                                                <motion.div
+                                                    key={i}
+                                                    animate={{ 
+                                                        height: [10, 40 + Math.random() * 20, 10],
+                                                        opacity: 1
+                                                    }}
+                                                    transition={{ 
+                                                        duration: 0.3, 
+                                                        repeat: Infinity, 
+                                                        repeatType: "reverse",
+                                                        delay: i * 0.05 
+                                                    }}
+                                                    className={`w-2 rounded-full ${
+                                                         blueprintMode ? 'bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.5)]' : 'bg-blue-600'
+                                                    }`}
+                                                />
+                                            ))
+                                        ) : isListening ? (
+                                            // Listening pulse
+                                             <motion.div 
+                                                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                                transition={{ duration: 1.5, repeat: Infinity }}
+                                                className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}
+                                             >
+                                                Listening...
+                                             </motion.div>
+                                        ) : (
+                                            // Idle / Err state
+                                            <p className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-neutral-600' : 'text-neutral-400'}`}>
+                                                Hold to Speak
+                                            </p>
+                                        )}
+                                    </div>
+                                    
+                                     {/* Status Text Moved Below Bars */}
+                                     <div className="text-center space-y-3 w-full h-20">
+                                         <p className={`font-bold text-lg tracking-tight ${
+                                             blueprintMode ? 'text-blue-200' : 'text-neutral-800'
+                                         }`}>
+                                            {isSpeaking 
+                                                ? "AI is speaking..." 
+                                                : isTyping
+                                                    ? (blueprintMode ? "Analyzing sequence..." : "Thinking...")
+                                                    : isListening 
+                                                        ? "Listening..."
+                                                        : "Hold button to speak"}
+                                         </p>
+                                          <div className="min-h-[20px] flex flex-col items-center gap-4">
+                                              {isTyping && !isSpeaking && !isListening && (
+                                                   <motion.div 
+                                                        initial={{ width: 0, opacity: 0 }}
+                                                        animate={{ width: "100%", opacity: 1 }}
+                                                        className="w-24 h-1 bg-blue-500/10 rounded-full overflow-hidden"
+                                                   >
+                                                        <motion.div 
+                                                            animate={{ x: ["-100%", "100%"] }}
+                                                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                                            className="w-1/2 h-full bg-blue-500"
+                                                        />
+                                                   </motion.div>
+                                              )}
+                                              <AnimatePresence mode="wait">
+                                                {voiceTranscript && (
+                                                    <motion.p 
+                                                        key="transcript"
+                                                        initial={{ opacity: 0, y: 5 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        exit={{ opacity: 0, y: -5 }}
+                                                        className={`text-sm font-medium leading-normal ${
+                                                            blueprintMode ? 'text-blue-400' : 'text-neutral-500'
+                                                        }`}
+                                                    >
+                                                        "{voiceTranscript}"
+                                                    </motion.p>
+                                                )}
+                                              </AnimatePresence>
+                                          </div>
+                                    </div>
+                                    
+                                     {/* Manual Controls */}
+                                     {/* <button 
+                                         onClick={isListening ? stopListening : startListening}
+                                         className={`p-4 rounded-full transition-all hover:scale-110 active:scale-95 duration-300 shadow-xl ${
+                                             isListening 
+                                                 ? 'bg-red-500 text-white shadow-red-500/30' 
+                                                 : blueprintMode ? 'bg-blue-600 text-white shadow-blue-500/30' : 'bg-neutral-900 text-white'
+                                         }`}
+                                     >
+                                         {isListening ? <MicOff size={28} /> : <Mic size={28} />}
+                                     </button> */}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Quick Replies */}
-                        <AnimatePresence>
+                        {/* Quick Replies - Hide in Voice Mode logic handled by conditional voice view */}
+                        {!isVoiceMode && <AnimatePresence>
                             {quickReplies.length > 0 && (
                                 <div className={`px-6 py-3 border-t flex gap-2 overflow-x-auto no-scrollbar shrink-0 transition-colors duration-500 ${
                                     blueprintMode ? 'bg-[#0a0a0a] border-blue-900/30' : 'bg-white border-neutral-50'
@@ -509,16 +886,17 @@ const SystemConcierge = () => {
                                     ))}
                                 </div>
                             )}
-                        </AnimatePresence>
+                        </AnimatePresence>}
 
-                        {/* Input */}
+                        {/* Input Area - Hidden in Voice Mode if desired, or kept for fallback */}
+                        {!isVoiceMode && (
                         <form 
                            onSubmit={(e) => {
                                e.preventDefault();
                                handleSendMessage();
                            }} 
-                           className={`p-6 border-t shrink-0 relative transition-colors duration-500 ${
-                               blueprintMode ? 'bg-[#050505] border-blue-900/30' : 'bg-white border-neutral-100'
+                           className={`p-6 shrink-0 relative transition-colors duration-500 ${
+                               blueprintMode ? 'bg-[#050505]/50' : 'bg-white'
                            }`}
                         >
                             {/* Validation Warning */}
@@ -573,6 +951,7 @@ const SystemConcierge = () => {
                                 {blueprintMode ? 'SYSTEM_ARCHITECTURE_V1.0' : "Powered by Jonald's AI Architecture"}
                             </p>
                         </form>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>
