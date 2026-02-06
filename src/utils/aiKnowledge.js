@@ -65,7 +65,9 @@ When mentioning project, experience, or contact, provide a clickable link:
 Example: "Jonald specializes in React. You can check out his work in the [Portfolio](/#section-projects)."
 `;
 
-const API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || "";
+
+// Note: API_KEY is now handled securely on the Node.js backend to prevent exposure and abuse.
+
 
 /**
  * Initialize embeddings (lazy loading)
@@ -228,23 +230,19 @@ function checkGuardrails(text) {
           return false;
       }
       // For shorter patterns like OR 1=1, ensure it's not part of normal text?
-      // For now, strict block on specific phrases is safe for a portfolio bot.
+      // For now, strict block on specific phrases is safe f
   }
 
   return true;
 }
 
+const API_URL = import.meta.env.VITE_API_URL || ''; // Relative in production, or localhost in dev
+
 /**
- * Main RAG-powered response generator
+ * Main RAG-powered response generator (now using secure backend)
  */
 export const generateAIResponse = async (query) => {
-  // 1. Check if AI is configured
-  if (!API_KEY) {
-    console.warn("DeepSeek API Key missing.");
-    return "The AI system is still being configured. Please ensure VITE_DEEPSEEK_API_KEY is set in the environment.";
-  }
-
-  // 2. Validate Input Quality (Anti-Gibberish Filter)
+  // 1. Validate Input Quality (Anti-Gibberish Filter)
   if (!isValidInput(query)) {
     return "I'm not sure I understand. Could you please rephrase your question?";
   }
@@ -264,38 +262,37 @@ export const generateAIResponse = async (query) => {
       similarity: (c.similarity * 100).toFixed(1) + '%'
     })));
 
-    // 5. Build augmented prompt with retrieved context
-    const augmentedSystemPrompt = `${SYSTEM_INSTRUCTION}
-
-### RETRIEVED CONTEXT (Use this to answer the user's question):
-${retrievedContext}
-`;
-
-    // 6. Call LLM with augmented context
-    const response = await fetch("https://api.deepseek.com/chat/completions", {
+    // 5. Call secure backend API instead of directly calling DeepSeek
+    const response = await fetch(`${API_URL}/api/chat`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: augmentedSystemPrompt },
-          { role: "user", content: query }
-        ],
-        max_tokens: 200,
-        temperature: 0.7
+        query: query,
+        relevantChunks: retrievedContext
       })
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error?.message || "API request failed");
+      
+      // Handle rate limit specifically
+      if (response.status === 429) {
+        return error.message || "You've reached the chat limit. Please try again later.";
+      }
+      
+      throw new Error(error.message || "API request failed");
     }
 
     const data = await response.json();
-    return data.choices[0].message.content;
+    
+    // Log rate limit info
+    if (data.rateLimit) {
+      console.log("Rate Limit:", data.rateLimit);
+    }
+    
+    return data.response;
 
   } catch (error) {
     console.error("AI RAG Error:", error);

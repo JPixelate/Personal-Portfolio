@@ -1,6 +1,29 @@
-const API_KEY = import.meta.env.VITE_ASSEMBLYAI_API_KEY || "";
+const API_URL = import.meta.env.VITE_API_URL || '';
 const WS_URL = "wss://streaming.assemblyai.com/v3/ws";
 const TARGET_SAMPLE_RATE = 16000;
+
+// Token cache to avoid repeated requests
+let cachedToken = null;
+let tokenExpiry = 0;
+
+async function getVoiceToken() {
+    const now = Date.now();
+    if (cachedToken && now < tokenExpiry) return cachedToken;
+
+    try {
+        const response = await fetch(`${API_URL}/api/voice/token`);
+        if (!response.ok) throw new Error('Failed to fetch voice token');
+        const data = await response.json();
+        
+        cachedToken = data.token;
+        tokenExpiry = now + (50 * 60 * 1000); // Cache for 50 minutes (expires in 60)
+        return cachedToken;
+    } catch (err) {
+        console.error("Voice Token Error:", err);
+        return null;
+    }
+}
+
 
 export class AssemblyAIStreamer {
     constructor({ onTranscript, onStateChange, onError }) {
@@ -82,13 +105,16 @@ export class AssemblyAIStreamer {
         this.callbacks = {};
     }
 
-    _connectWebSocket() {
+    async _connectWebSocket() {
+        const token = await getVoiceToken();
+        if (!token) throw new Error("Could not acquire voice authentication token.");
+
         return new Promise((resolve, reject) => {
             const url = new URL(WS_URL);
             url.searchParams.set("sample_rate", String(TARGET_SAMPLE_RATE));
             url.searchParams.set("encoding", "pcm_s16le");
             url.searchParams.set("format_turns", "true");
-            url.searchParams.set("token", API_KEY);
+            url.searchParams.set("token", token);
 
             this.ws = new WebSocket(url.toString());
             this.ws.binaryType = "arraybuffer";

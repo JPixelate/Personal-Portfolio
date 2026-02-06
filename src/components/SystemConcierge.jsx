@@ -37,8 +37,7 @@ const SystemConcierge = () => {
     const [showPromo, setShowPromo] = useState(false);
     
     // --- DAILY LIMIT LOGIC ---
-    const CHATS_PER_LIMIT_WINDOW = 100;
-    const LIMIT_WINDOW_MS = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
+    const CHATS_PER_LIMIT_WINDOW = 12;
     const [messageCount, setMessageCount] = useState(0);
     const [isLimitReached, setIsLimitReached] = useState(false);
 
@@ -218,48 +217,29 @@ const SystemConcierge = () => {
     };
     // -------------------------
 
+    // Sync limit from backend on mount
     useEffect(() => {
-        const checkLimit = () => {
-            const now = Date.now();
-            const usage = JSON.parse(localStorage.getItem('ai_chat_usage') || '{}');
-            
-            // Check if existing session is expired (older than 4 hours)
-            const lastReset = usage.lastReset || 0;
-            const isExpired = (now - lastReset) > LIMIT_WINDOW_MS;
-
-            if (isExpired) {
-                // Time window passed, reset counter
-                const newUsage = { lastReset: now, count: 0 };
-                localStorage.setItem('ai_chat_usage', JSON.stringify(newUsage));
-                setMessageCount(0);
-                setIsLimitReached(false);
-            } else {
-                setMessageCount(usage.count || 0);
-                if ((usage.count || 0) >= CHATS_PER_LIMIT_WINDOW) {
-                    setIsLimitReached(true);
+        const fetchLimitStatus = async () => {
+            try {
+                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+                const response = await fetch(`${API_URL}/api/chat/limit`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setMessageCount(data.count);
+                    setIsLimitReached(data.isLimitReached);
                 }
+            } catch (err) {
+                console.warn("Could not sync limit from server, falling back to local tracking.");
             }
         };
 
-        checkLimit();
+        if (isOpen) {
+            fetchLimitStatus();
+        }
     }, [isOpen]);
 
     const incrementUsage = () => {
-        const now = Date.now();
-        const usage = JSON.parse(localStorage.getItem('ai_chat_usage') || '{}');
-        
-        let currentCount = usage.count || 0;
-        let lastReset = usage.lastReset || now;
-        
-        // Safety check: if somehow writing to stale session
-        if ((now - lastReset) > LIMIT_WINDOW_MS) {
-            currentCount = 0;
-            lastReset = now;
-        }
-
-        const newCount = currentCount + 1;
-        
-        localStorage.setItem('ai_chat_usage', JSON.stringify({ lastReset, count: newCount }));
+        const newCount = messageCount + 1;
         setMessageCount(newCount);
         if (newCount >= CHATS_PER_LIMIT_WINDOW) {
             setIsLimitReached(true);
@@ -640,7 +620,7 @@ const SystemConcierge = () => {
                                     }`}
                                 >
                                     <p className="text-xs font-bold text-red-600 leading-relaxed">
-                                        Chat limit reached (10/10). Access will refresh in a few hours.
+                                        Chat limit reached (12/12). Access will refresh in a few hours.
                                     </p>
                                     <div className={`pt-3 border-t flex flex-col gap-2 ${
                                         blueprintMode ? 'border-red-500/20' : 'border-red-100'
