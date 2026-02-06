@@ -128,7 +128,8 @@ const SystemConcierge = () => {
             try { recognitionRef.current.stop(); } catch(e) {}
         } else {
              // Speak welcome but DO NOT start listening automatically
-             speakText("Hold the button to speak.");
+             const isMobile = window.innerWidth < 768;
+             speakText(isMobile ? "Tap the button to speak." : "Hold the button to speak.");
         }
     };
     
@@ -154,35 +155,60 @@ const SystemConcierge = () => {
         return preferred.find(v => v) || enVoices[0];
     };
     
-    // Manual "Push to Talk" Handlers
-    const handlePTTStart = (e) => {
-        if (e.cancelable) e.preventDefault(); 
-        if (!recognitionRef.current) return;
+    // Unified interaction handler
+    const handleVoiceInteraction = (e, type) => {
+        const isMobile = window.innerWidth < 768;
         
-        // If system is speaking, stop it
-        if (synthesisRef.current.speaking) {
-            synthesisRef.current.cancel();
-            setIsSpeaking(false);
+        if (isMobile) {
+            // Mobile: Tap to toggle
+            if (type === 'start' || type === 'click') {
+                if (e.cancelable) e.preventDefault();
+                
+                if (isListening) {
+                    // Tap again to confirm
+                    if (recognitionRef.current) recognitionRef.current.stop();
+                } else {
+                    // Tap to start
+                    if (synthesisRef.current.speaking) {
+                        synthesisRef.current.cancel();
+                        setIsSpeaking(false);
+                    }
+                    try {
+                        setVoiceTranscript(""); 
+                        transcriptRef.current = "";
+                        recognitionRef.current.start();
+                        setIsListening(true);
+                    } catch(err) { console.log("Start error:", err); }
+                }
+            }
+            return;
         }
 
-        if (!isListening) {
-             try { 
-                 setVoiceTranscript(""); // Clear old transcript
-                 transcriptRef.current = "";
-                 recognitionRef.current.start(); 
-                 setIsListening(true);
-             } catch(err) {
-                 console.log("Start error:", err);
-             }
+        // Desktop: Push to Talk (Hold)
+        if (type === 'start') {
+            if (!recognitionRef.current) return;
+            if (synthesisRef.current.speaking) {
+                synthesisRef.current.cancel();
+                setIsSpeaking(false);
+            }
+            if (!isListening) {
+                try {
+                    setVoiceTranscript("");
+                    transcriptRef.current = "";
+                    recognitionRef.current.start();
+                    setIsListening(true);
+                } catch(err) { console.log("Start error:", err); }
+            }
+        } else if (type === 'end') {
+            if (recognitionRef.current && isListening) {
+                recognitionRef.current.stop();
+            }
         }
     };
 
-    const handlePTTEnd = (e) => {
-        if (e.cancelable) e.preventDefault();
-        if (recognitionRef.current && isListening) {
-            recognitionRef.current.stop(); // This triggers onend, which sends the msg
-        }
-    };
+    const handlePTTStart = (e) => handleVoiceInteraction(e, 'start');
+    const handlePTTEnd = (e) => handleVoiceInteraction(e, 'end');
+    const handleVoiceClick = (e) => handleVoiceInteraction(e, 'click');
 
     const speakText = (text) => {
         if (!synthesisRef.current) return;
@@ -722,9 +748,7 @@ const SystemConcierge = () => {
                                            onMouseDown={handlePTTStart}
                                            onMouseUp={handlePTTEnd}
                                            onMouseLeave={handlePTTEnd}
-                                           onTouchStart={handlePTTStart}
-                                           onTouchEnd={handlePTTEnd}
-                                           onTouchCancel={handlePTTEnd}
+                                           onClick={handleVoiceClick}
                                            className={`w-40 h-40 rounded-full flex items-center justify-center shadow-2xl relative outline-none transition-all active:scale-95 ${
                                                blueprintMode 
                                                    ? 'bg-blue-500/10 hover:bg-blue-500/20 shadow-[inset_0_0_40px_rgba(59,130,246,0.1)]' 
@@ -798,7 +822,7 @@ const SystemConcierge = () => {
                                         ) : (
                                             // Idle / Err state
                                             <p className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-neutral-600' : 'text-neutral-400'}`}>
-                                                Hold to Speak
+                                                {window.innerWidth < 768 ? 'Tap to Speak' : 'Hold to Speak'}
                                             </p>
                                         )}
                                     </div>
