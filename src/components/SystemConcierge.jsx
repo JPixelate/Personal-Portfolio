@@ -27,7 +27,7 @@ const SystemConcierge = () => {
     const [messages, setMessages] = useState([
         {
             id: 1,
-            text: "Hey! 👋 I'm Jonald's AI companion. Feel free to ask me about his work, skills, or projects! \n\nYou can also explore the site directly: [View Portfolio](/#section-projects) or [See My Process](/#section-process)",
+            text: "Hey! 👋 I'm Jonald's AI companion. Feel free to ask me about his work, skills, or projects! \n\nYou can also explore the site directly: [View Portfolio](/#section-projects) or [See Process](/#section-process)",
             sender: 'bot'
         }
     ]);
@@ -176,6 +176,7 @@ const SystemConcierge = () => {
             .replace(/mailto:[^\s)]+/g, '')             // Remove mailto links
             .replace(/[*#_`~]/g, '')                    // Remove markdown symbols
             .replace(/[^\x00-\x7F\s]/g, '')             // Remove emoji/non-ASCII
+            .replace(/Penpillo/gi, 'Penpilyo')          // Phonetic pronunciation fix
             .replace(/\s+/g, ' ')                       // Normalize whitespace
             .trim();
         
@@ -687,127 +688,100 @@ const SystemConcierge = () => {
                         )}
 
                         {isVoiceMode && (
-                             <div className={`flex-1 relative overflow-hidden flex flex-col items-center justify-between py-6 px-4 ${
-                                blueprintMode ? 'bg-[#050505]' : 'bg-neutral-50'
+                             <div className={`flex-1 relative overflow-hidden flex flex-col items-center justify-between py-8 px-6 ${
+                                blueprintMode ? 'bg-[#050505]' : 'bg-white'
                              }`}>
 
-                                {/* Background — Radial aura + concentric rings */}
-                                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                                    <motion.div
-                                        animate={{ opacity: isListening ? 0.3 : isSpeaking ? 0.25 : 0.1 }}
-                                        transition={{ duration: 1 }}
-                                        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full blur-[80px] ${
-                                            isListening
-                                                ? (blueprintMode ? 'bg-blue-600' : 'bg-blue-300')
-                                                : isSpeaking
-                                                    ? (blueprintMode ? 'bg-cyan-500' : 'bg-cyan-300')
-                                                    : (blueprintMode ? 'bg-blue-900/60' : 'bg-blue-100')
-                                        }`}
-                                    />
-                                </div>
+                                {/* Background — Subtle grid matching homepage */}
+                                <div className="absolute inset-0 pointer-events-none" style={{
+                                    backgroundImage: blueprintMode
+                                        ? 'linear-gradient(to right, rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.06) 1px, transparent 1px)'
+                                        : 'linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px)',
+                                    backgroundSize: '20px 20px'
+                                }} />
+                                <div className={`absolute inset-0 pointer-events-none ${
+                                    blueprintMode
+                                        ? 'bg-gradient-to-b from-[#050505] via-transparent to-[#050505]'
+                                        : 'bg-gradient-to-b from-white via-transparent to-white'
+                                }`} />
 
-                                {/* Status Pill */}
+                                {/* Status Badge — pill style matching homepage */}
                                 <div className="relative z-10">
-                                    <motion.div
-                                        layout
-                                        className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-[0.2em] ${
+                                    <div className={`inline-flex items-center gap-2.5 px-5 py-2 rounded-full border-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+                                        isSpeaking
+                                            ? (blueprintMode ? 'border-blue-500/40 text-blue-400 bg-blue-950/20' : 'border-blue-600 text-blue-600 bg-blue-50')
+                                            : isListening
+                                                ? (blueprintMode ? 'border-blue-500/40 text-blue-400 bg-blue-950/20' : 'border-blue-600 text-blue-600 bg-blue-50')
+                                                : isTyping
+                                                    ? (blueprintMode ? 'border-amber-500/40 text-amber-400 bg-amber-950/20' : 'border-neutral-300 text-neutral-500 bg-white')
+                                                    : (blueprintMode ? 'border-white/10 text-neutral-500 bg-white/5' : 'border-neutral-200 text-neutral-400 bg-white')
+                                    }`}>
+                                        <span className={`w-2 h-2 rounded-full transition-colors ${
                                             isSpeaking
-                                                ? (blueprintMode ? 'bg-cyan-950/40 text-cyan-400 border-cyan-500/20' : 'bg-cyan-50 text-cyan-600 border-cyan-200')
+                                                ? 'bg-blue-600 animate-pulse'
                                                 : isListening
-                                                    ? (blueprintMode ? 'bg-blue-950/40 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-600 border-blue-200')
+                                                    ? 'bg-green-500 animate-pulse'
                                                     : isTyping
-                                                        ? (blueprintMode ? 'bg-amber-950/40 text-amber-400 border-amber-500/20' : 'bg-amber-50 text-amber-600 border-amber-200')
-                                                        : (blueprintMode ? 'bg-neutral-900/60 text-neutral-500 border-white/5' : 'bg-white text-neutral-400 border-neutral-200')
-                                        }`}
-                                    >
-                                        <motion.span
-                                            animate={{ opacity: [1, 0.3, 1] }}
-                                            transition={{ duration: 1.5, repeat: Infinity }}
-                                            className={`w-1.5 h-1.5 rounded-full ${
-                                                isSpeaking ? 'bg-cyan-400' : isListening ? 'bg-blue-400' : isTyping ? 'bg-amber-400' : 'bg-neutral-400'
-                                            }`}
-                                        />
-                                        {isSpeaking ? 'SPEAKING' : isListening ? 'LISTENING' : isTyping ? 'PROCESSING' : 'STANDBY'}
-                                    </motion.div>
+                                                        ? 'bg-amber-500 animate-pulse'
+                                                        : (blueprintMode ? 'bg-neutral-600' : 'bg-neutral-300')
+                                        }`} />
+                                        {isSpeaking ? 'Speaking' : isListening ? 'Listening' : isTyping ? 'Processing' : 'Ready'}
+                                    </div>
                                 </div>
 
-                                {/* Central Orb — Layered with rotating outer ring */}
-                                <div className="relative z-10 flex flex-col items-center gap-8">
+                                {/* Central Button + Waveform */}
+                                <div className="relative z-10 flex flex-col items-center gap-6">
                                     <div className="relative flex items-center justify-center">
-
-                                        {/* Concentric circle rings — centered on orb */}
-                                        {[160, 200, 240].map((size, i) => (
-                                            <div key={`ring-${i}`} className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border pointer-events-none ${
-                                                isSpeaking
-                                                    ? (blueprintMode ? 'border-cyan-400/15' : 'border-cyan-400/20')
-                                                    : isListening
-                                                        ? (blueprintMode ? 'border-blue-400/15' : 'border-blue-400/20')
-                                                        : (blueprintMode ? 'border-white/[0.04]' : 'border-neutral-300/30')
-                                            }`} style={{ width: size, height: size }} />
-                                        ))}
-
-                                        {/* Pulse Rings */}
-                                        {isSpeaking && [0, 0.7, 1.4].map((delay, i) => (
-                                            <motion.div key={`sp-${i}`}
-                                                className={`absolute w-36 h-36 rounded-full border ${blueprintMode ? 'border-cyan-400/30' : 'border-cyan-400/50'}`}
-                                                animate={{ scale: [1, 2.2], opacity: [0.4, 0] }}
-                                                transition={{ duration: 2.5, repeat: Infinity, delay, ease: "easeOut" }}
+                                        {/* Subtle ring pulse — only when active */}
+                                        {(isListening || isSpeaking) && (
+                                            <motion.div
+                                                className={`absolute w-32 h-32 rounded-full ${
+                                                    blueprintMode ? 'border-2 border-blue-500/20' : 'border-2 border-blue-600/15'
+                                                }`}
+                                                animate={{ scale: [1, 1.4], opacity: [0.5, 0] }}
+                                                transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
                                             />
-                                        ))}
-                                        {isListening && [0, 1].map((delay, i) => (
-                                            <motion.div key={`ls-${i}`}
-                                                className={`absolute w-36 h-36 rounded-full border ${blueprintMode ? 'border-blue-500/30' : 'border-blue-500/50'}`}
-                                                animate={{ scale: [1, 1.8], opacity: [0.3, 0] }}
-                                                transition={{ duration: 2, repeat: Infinity, delay, ease: "easeOut" }}
-                                            />
-                                        ))}
+                                        )}
 
-                                        {/* Inner Orb Button */}
+                                        {/* Main Button */}
                                         <button
                                             onClick={handleVoiceToggle}
-                                            className={`w-36 h-36 rounded-full flex items-center justify-center relative outline-none transition-all active:scale-95 cursor-pointer select-none touch-none ${
-                                                blueprintMode
-                                                    ? 'bg-gradient-to-b from-blue-500/80 to-blue-950'
-                                                    : 'bg-gradient-to-b from-blue-500 to-blue-700'
-                                            }`}
-                                            style={{
-                                                WebkitTouchCallout: 'none',
-                                                boxShadow: isSpeaking
+                                            className={`w-32 h-32 rounded-full flex items-center justify-center relative outline-none transition-all duration-300 active:scale-95 cursor-pointer select-none touch-none ${
+                                                isListening || isSpeaking
                                                     ? (blueprintMode
-                                                        ? "0 0 60px 20px rgba(6, 182, 212, 0.3), inset 0 -8px 20px rgba(0,0,0,0.4)"
-                                                        : "0 0 40px 15px rgba(6, 182, 212, 0.25), inset 0 -8px 20px rgba(0,0,0,0.3)")
-                                                    : isListening
-                                                        ? (blueprintMode
-                                                            ? "0 0 40px 12px rgba(59, 130, 246, 0.3), inset 0 -8px 20px rgba(0,0,0,0.4)"
-                                                            : "0 0 30px 10px rgba(59, 130, 246, 0.25), inset 0 -8px 20px rgba(0,0,0,0.3)")
-                                                        : (blueprintMode
-                                                            ? "0 0 20px 4px rgba(59, 130, 246, 0.1), inset 0 -8px 20px rgba(0,0,0,0.4)"
-                                                            : "0 0 20px 8px rgba(59, 130, 246, 0.15), inset 0 -8px 20px rgba(0,0,0,0.25)")
-                                            }}
+                                                        ? 'bg-blue-600 border-2 border-blue-400 shadow-2xl shadow-blue-500/20'
+                                                        : 'bg-blue-600 border-2 border-blue-600 shadow-2xl shadow-blue-500/25')
+                                                    : (blueprintMode
+                                                        ? 'bg-[#0a0a0a] border-2 border-blue-500/30 shadow-xl'
+                                                        : 'bg-white border-2 border-neutral-200 shadow-xl hover:border-blue-600 hover:shadow-blue-100')
+                                            }`}
+                                            style={{ WebkitTouchCallout: 'none' }}
                                         >
                                             <motion.div
-                                                animate={{
-                                                    scale: isSpeaking ? [1, 1.08, 1] : isListening ? 1.05 : 1
-                                                }}
-                                                transition={{ duration: isSpeaking ? 0.8 : 0.3, repeat: isSpeaking ? Infinity : 0 }}
+                                                animate={{ scale: isSpeaking ? [1, 1.08, 1] : 1 }}
+                                                transition={{ duration: 1, repeat: isSpeaking ? Infinity : 0 }}
                                                 className="pointer-events-none"
                                             >
-                                                <Bot size={56} className={isSpeaking ? 'text-cyan-200' : isListening ? 'text-blue-200' : 'text-white/90'} />
+                                                <Bot size={48} className={
+                                                    isListening || isSpeaking
+                                                        ? 'text-white'
+                                                        : (blueprintMode ? 'text-blue-400' : 'text-blue-600')
+                                                } />
                                             </motion.div>
                                         </button>
                                     </div>
 
-                                    {/* Waveform Visualizer — 16 bars */}
-                                    <div className="h-10 flex items-end justify-center gap-[3px]">
+                                    {/* Waveform Visualizer */}
+                                    <div className="h-8 flex items-end justify-center gap-[3px]">
                                         {[...Array(16)].map((_, i) => (
                                             <motion.div
                                                 key={i}
                                                 animate={{
                                                     height: isSpeaking
-                                                        ? [4, 8 + Math.random() * 24, 4]
+                                                        ? [3, 6 + Math.random() * 20, 3]
                                                         : isListening
-                                                            ? [4, 6 + Math.sin(i * 0.8) * 8, 4]
-                                                            : 4
+                                                            ? [3, 4 + Math.sin(i * 0.8) * 8, 3]
+                                                            : 3
                                                 }}
                                                 transition={{
                                                     duration: isSpeaking ? 0.25 + Math.random() * 0.15 : isListening ? 1.2 + i * 0.05 : 0.5,
@@ -816,11 +790,9 @@ const SystemConcierge = () => {
                                                     delay: i * 0.03
                                                 }}
                                                 className={`w-1 rounded-full ${
-                                                    isSpeaking
-                                                        ? (blueprintMode ? 'bg-cyan-400 shadow-[0_0_6px_rgba(6,182,212,0.6)]' : 'bg-cyan-500')
-                                                        : isListening
-                                                            ? (blueprintMode ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]' : 'bg-blue-500')
-                                                            : (blueprintMode ? 'bg-white/10' : 'bg-neutral-300')
+                                                    isSpeaking || isListening
+                                                        ? (blueprintMode ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]' : 'bg-blue-600')
+                                                        : (blueprintMode ? 'bg-white/10' : 'bg-neutral-200')
                                                 }`}
                                             />
                                         ))}
@@ -828,11 +800,11 @@ const SystemConcierge = () => {
                                 </div>
 
                                 {/* Transcript + Action Hint */}
-                                <div className="relative z-10 text-center w-full max-w-xs min-h-[60px] flex flex-col items-center justify-end gap-2">
+                                <div className="relative z-10 text-center w-full max-w-xs min-h-[56px] flex flex-col items-center justify-end gap-2">
                                     {/* Processing bar */}
                                     {isTyping && !isSpeaking && !isListening && (
-                                        <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: "100%", opacity: 1 }} className={`w-20 h-0.5 rounded-full overflow-hidden ${blueprintMode ? 'bg-white/5' : 'bg-neutral-200'}`}>
-                                            <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="w-1/2 h-full bg-amber-500" />
+                                        <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: "60%", opacity: 1 }} className={`h-0.5 rounded-full overflow-hidden ${blueprintMode ? 'bg-white/5' : 'bg-neutral-100'}`}>
+                                            <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className={`w-1/2 h-full ${blueprintMode ? 'bg-blue-500' : 'bg-blue-600'}`} />
                                         </motion.div>
                                     )}
 
@@ -844,19 +816,24 @@ const SystemConcierge = () => {
                                                 initial={{ opacity: 0, y: 5 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: -5 }}
-                                                className={`text-base font-medium leading-relaxed ${blueprintMode ? 'text-white/70' : 'text-neutral-700'}`}
+                                                className={`text-lg font-medium leading-relaxed ${blueprintMode ? 'text-blue-300' : 'text-neutral-800'}`}
                                             >
-                                                "{voiceTranscript}"
+                                                {voiceTranscript}
                                             </motion.p>
                                         )}
                                     </AnimatePresence>
 
-                                    {/* Action hint — only when listening */}
+                                    {/* Action hints */}
+                                    {!isListening && !isSpeaking && !isTyping && (
+                                        <p className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-500/50' : 'text-neutral-400'}`}>
+                                            Tap to Speak
+                                        </p>
+                                    )}
                                     {isListening && !voiceTranscript && (
                                         <motion.p
                                             animate={{ opacity: [0.4, 0.8, 0.4] }}
                                             transition={{ duration: 2, repeat: Infinity }}
-                                            className={`text-[10px] font-bold uppercase tracking-[0.2em] ${blueprintMode ? 'text-blue-400/60' : 'text-blue-500/60'}`}
+                                            className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-500/50' : 'text-neutral-400'}`}
                                         >
                                             Speak now...
                                         </motion.p>
@@ -865,9 +842,9 @@ const SystemConcierge = () => {
                                         <motion.p
                                             animate={{ opacity: [0.5, 1, 0.5] }}
                                             transition={{ duration: 1.5, repeat: Infinity }}
-                                            className={`text-[10px] font-bold uppercase tracking-[0.2em] ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}
+                                            className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}
                                         >
-                                            TAP to SEND
+                                            Tap to send
                                         </motion.p>
                                     )}
                                 </div>

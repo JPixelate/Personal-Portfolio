@@ -18,7 +18,7 @@ const knowledgeChunks = [
   {
     id: "profile-basic",
     category: "profile",
-    content: "Jonald D. Penpillo is a Full-Stack Software Developer based in General Santos City, Philippines. He specializes in web development, AI automation, and creative design."
+    content: "Jonald Penpillo is a Full-Stack Software Developer based in General Santos City, Philippines. He specializes in web development, AI automation, and creative design."
   },
   {
     id: "contact-email",
@@ -135,11 +135,48 @@ const knowledgeChunks = [
     category: "hiring",
     content: "Jonald offers services in Full-Stack Web Development, AI Chatbot Integration, Workflow Automation with n8n, and Custom Software Solutions. He can build web apps, automate business processes, and integrate AI into existing systems."
   },
+  // AI Assistant & Voice Interface (Portfolio Feature)
+  {
+    id: "project-ai-assistant-overview",
+    category: "project",
+    content: "Jonald built an AI-powered chat assistant (System Concierge) embedded directly into this portfolio website. It uses a custom RAG (Retrieval-Augmented Generation) pipeline to answer questions about Jonald's skills, projects, and experience. The assistant also features a real-time Voice Interface with speech-to-text and text-to-speech capabilities."
+  },
+  {
+    id: "project-ai-assistant-rag",
+    category: "project",
+    content: "The AI assistant's RAG system uses client-side vector embeddings (256-dimensional) with cosine similarity search. Knowledge is organized into 23+ semantic chunks covering Jonald's profile, projects, skills, and experience. Embeddings are pre-computed and stored as static JSON, enabling instant semantic search without external API calls. The LLM backend is DeepSeek API (deepseek-chat model) which receives the retrieved context to generate accurate, grounded responses."
+  },
+  {
+    id: "project-ai-assistant-voice",
+    category: "project",
+    content: "The Voice Interface uses AssemblyAI's real-time streaming API over WebSocket for speech-to-text transcription. Audio is captured from the browser microphone, encoded as PCM16 at 16kHz sample rate, and streamed to AssemblyAI for live transcription. For text-to-speech, the Web Speech Synthesis API reads AI responses aloud. The interaction is tap-to-talk: tap the orb to start listening, tap again to send the transcript as a message."
+  },
+  {
+    id: "project-ai-assistant-stack",
+    category: "project",
+    content: "The AI Assistant & Voice Interface tech stack includes: React for the UI component, DeepSeek API for LLM completions, AssemblyAI Streaming API for real-time speech-to-text, Web Speech Synthesis API for text-to-speech, Framer Motion for animations (pulse rings, waveform visualizer, transcript transitions), Tailwind CSS for styling with dual-theme support (light mode and blueprint mode), Lucide React for icons, and React Markdown for rendering formatted AI responses."
+  },
+  {
+    id: "project-ai-assistant-security",
+    category: "project",
+    content: "The AI assistant includes multiple security layers: prompt injection detection (blocks attempts to extract system instructions), jailbreak prevention (blocks persona/roleplay attacks like DAN), SQL/code injection filtering, input validation with a gibberish detector (checks consonant runs, vowel ratios, character diversity), and rate limiting (100 messages per 4-hour window). The system prompt enforces strict scope rules so the AI only answers questions about Jonald."
+  },
+  {
+    id: "project-ai-assistant-process",
+    category: "project",
+    content: "The development process for the AI assistant involved: (1) Designing the knowledge base with semantic chunking of Jonald's professional data, (2) Building a client-side embedding engine using word-level and character trigram features, (3) Pre-computing 256-dimensional vector embeddings and storing them as static JSON, (4) Integrating DeepSeek API with a RAG-augmented system prompt, (5) Adding security guardrails and input validation, (6) Building the voice pipeline with AssemblyAI WebSocket streaming and browser TTS, (7) Designing the UI with a minimalist orb interface, waveform visualizer, and live transcript display."
+  },
+  {
+    id: "project-ai-assistant-features",
+    category: "project",
+    content: "Key features of the AI assistant include: chat mode with markdown-rendered responses, voice mode with real-time waveform visualization, UI command system that can open projects and navigate to sections (e.g. [cmd:open-project:PROJECT_TITLE] and [cmd:scroll-to:SECTION_ID]), quick reply suggestions, dual-theme support (light mode and blueprint/dark mode), mobile-responsive design, and a promotional bubble to invite users to try the assistant."
+  },
+
   // Portfolio Website
   {
     id: "portfolio-tech",
     category: "portfolio",
-    content: "This portfolio website was built by Jonald using React, Vite, and modern web technologies. It features an AI assistant powered by DeepSeek, smooth animations, and a responsive design."
+    content: "This portfolio website was built by Jonald using React, Vite, Tailwind CSS, and Framer Motion. It features a custom AI assistant (System Concierge) powered by DeepSeek with a RAG pipeline, real-time voice interaction via AssemblyAI, smooth animations, blueprint mode toggle, responsive design, and is deployed on Vercel."
   },
   {
     id: "portfolio-sections",
