@@ -330,13 +330,11 @@ app.get('/api/voice/token', async (req, res) => {
   }
 
   try {
-    const response = await fetch('https://api.assemblyai.com/v2/realtime/token', {
-      method: 'POST',
+    const response = await fetch('https://streaming.assemblyai.com/v3/token?expires_in_seconds=600', {
+      method: 'GET',
       headers: {
-        'Authorization': ASSEMBLY_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ expires_in: 3600 })
+        'Authorization': ASSEMBLY_KEY
+      }
     });
 
     if (!response.ok) {

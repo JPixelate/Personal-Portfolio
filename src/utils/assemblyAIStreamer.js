@@ -20,7 +20,7 @@ async function getVoiceToken() {
         const data = await response.json();
 
         cachedToken = data.token;
-        tokenExpiry = now + (50 * 60 * 1000); // Cache for 50 minutes (expires in 60)
+        tokenExpiry = now + (8 * 60 * 1000); // Cache for 8 minutes (token expires in 10)
         return cachedToken;
     } catch (err) {
         console.error("Voice Token Error:", err);
