@@ -9,7 +9,10 @@
       "Bash(magick:*)",
       "Bash(convert:*)",
       "Bash(ffmpeg:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "WebFetch(domain:www.assemblyai.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(npm run build:*)"
     ]
   }
 }

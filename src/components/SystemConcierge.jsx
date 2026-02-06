@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Bot, Send, User, X, Mail, Phone, Linkedin, MessageCircle, Mic, MicOff, Volume2, Globe, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { generateAIResponse, isValidInput } from '../utils/aiKnowledge';
+import { AssemblyAIStreamer } from '../utils/assemblyAIStreamer';
 import { useUI } from '../context/UIContext';
 
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -50,13 +51,11 @@ const SystemConcierge = () => {
 
     
     // Refs for speech and logic
-    const recognitionRef = useRef(null);
+    const streamerRef = useRef(null);
     const synthesisRef = useRef(window.speechSynthesis);
     const transcriptRef = useRef(""); // To access latest transcript in closures
     const handleSendMessageRef = useRef(null); // To access latest function in closures
     const isVoiceModeRef = useRef(false); // Ref for robust state access
-    const isRestartingRef = useRef(false); // To prevent double-start race conditions
-    const userStoppedRef = useRef(false); // Track if user intentionally stopped recognition
     
     // Update ref on render
     useEffect(() => {
@@ -67,80 +66,31 @@ const SystemConcierge = () => {
         isVoiceModeRef.current = isVoiceMode;
     }, [isVoiceMode]);
     
-    // Initialize Speech Recognition
+    // Initialize AssemblyAI Streamer
     useEffect(() => {
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognitionRef.current = new SpeechRecognition();
-            recognitionRef.current.continuous = true; // Use continuous for better flow
-            recognitionRef.current.interimResults = true;
-            recognitionRef.current.lang = 'en-US';
-
-            recognitionRef.current.onstart = () => {
-                setIsListening(true);
-                transcriptRef.current = "";
-            };
-
-            recognitionRef.current.onresult = (event) => {
-                // Interruption Logic: If AI is speaking and user says something, shut up.
-                if (synthesisRef.current.speaking) {
+        streamerRef.current = new AssemblyAIStreamer({
+            onTranscript: (text, isFinal) => {
+                // Interrupt AI speech if user starts talking
+                if (text && synthesisRef.current.speaking) {
                     synthesisRef.current.cancel();
                     setIsSpeaking(false);
                 }
-
-                const transcript = Array.from(event.results)
-                    .map(result => result[0])
-                    .map(result => result.transcript)
-                    .join('');
-
-                setVoiceTranscript(transcript);
-                transcriptRef.current = transcript;
-            };
-
-            recognitionRef.current.onerror = (event) => {
-                console.error("Speech error", event.error);
-            };
-
-            recognitionRef.current.onend = () => {
+                setVoiceTranscript(text);
+                transcriptRef.current = text;
+            },
+            onStateChange: (state) => {
+                setIsListening(state === "listening");
+            },
+            onError: (error) => {
+                console.error("AssemblyAI streaming error:", error);
                 setIsListening(false);
-                const isMobile = window.innerWidth < 640;
+            },
+        });
 
-                if (userStoppedRef.current) {
-                    // User intentionally tapped to stop — send transcript
-                    userStoppedRef.current = false;
-                    const text = transcriptRef.current.trim();
-                    if (text) {
-                        handleSendMessageRef.current?.(text);
-                        setVoiceTranscript("");
-                        transcriptRef.current = "";
-                    }
-                } else if (isMobile && isVoiceModeRef.current) {
-                    // Browser auto-killed recognition on mobile — restart to keep listening
-                    try {
-                        setTimeout(() => {
-                            if (isVoiceModeRef.current && !userStoppedRef.current) {
-                                try {
-                                    recognitionRef.current.start();
-                                } catch (e) {
-                                    console.log("Auto-restart error:", e);
-                                }
-                            }
-                        }, 100);
-                    } catch (e) {
-                        console.log("Restart scheduling error:", e);
-                    }
-                } else {
-                    // Desktop PTT — send on release
-                    const text = transcriptRef.current.trim();
-                    if (text) {
-                        handleSendMessageRef.current?.(text);
-                        setVoiceTranscript("");
-                        transcriptRef.current = "";
-                    }
-                }
-            };
-        }
-    }, []); // Only init once
+        return () => {
+            streamerRef.current?.destroy();
+        };
+    }, []);
 
 
 
@@ -150,10 +100,9 @@ const SystemConcierge = () => {
         isVoiceModeRef.current = newMode;
         
         if (!newMode) {
-            userStoppedRef.current = true;
             synthesisRef.current.cancel();
             setIsSpeaking(false);
-            try { recognitionRef.current.stop(); } catch(e) {}
+            streamerRef.current?.stop();
         } else {
              // Speak welcome but DO NOT start listening automatically
              const isMobile = window.innerWidth < 640;
@@ -184,21 +133,19 @@ const SystemConcierge = () => {
     };
     
     // Unified interaction handler
-    const handleVoiceToggle = (e) => {
+    const handleVoiceToggle = async (e) => {
         if (e && e.preventDefault && e.cancelable) e.preventDefault();
-        
-        const isMobile = window.innerWidth < 640;
-        
+
         if (isListening) {
-            // STOP AND SEND — user intentionally tapped to stop
-            userStoppedRef.current = true;
-            if (recognitionRef.current) {
-                try {
-                    recognitionRef.current.stop();
-                } catch(err) {
-                    console.log("Stop error:", err);
-                    setIsListening(false);
-                }
+            // STOP AND SEND
+            streamerRef.current?.stop();
+            setIsListening(false);
+
+            const text = transcriptRef.current.trim();
+            if (text) {
+                handleSendMessageRef.current?.(text);
+                setVoiceTranscript("");
+                transcriptRef.current = "";
             }
         } else {
             // START LISTENING
@@ -206,43 +153,45 @@ const SystemConcierge = () => {
                 synthesisRef.current.cancel();
                 setIsSpeaking(false);
             }
+            setVoiceTranscript("");
+            transcriptRef.current = "";
+
             try {
-                setVoiceTranscript(""); 
-                transcriptRef.current = "";
-                recognitionRef.current.start();
-                // isListening will be set true in onstart
-            } catch(err) { 
-                console.log("Start error:", err); 
-                // Fallback for double-clicks or browser state delays
-                if (err.name === 'InvalidStateError') {
-                    recognitionRef.current.stop();
-                    setTimeout(() => recognitionRef.current.start(), 100);
-                }
+                await streamerRef.current?.start();
+            } catch (err) {
+                console.error("Failed to start streaming:", err);
             }
         }
     };
 
-    const handlePTTStart = (e) => {
+    const handlePTTStart = async (e) => {
         if (window.innerWidth < 640) return; // Ignore on mobile
-        if (!recognitionRef.current) return;
+        if (!streamerRef.current) return;
         if (synthesisRef.current.speaking) {
             synthesisRef.current.cancel();
             setIsSpeaking(false);
         }
         if (!isListening) {
+            setVoiceTranscript("");
+            transcriptRef.current = "";
             try {
-                setVoiceTranscript("");
-                transcriptRef.current = "";
-                recognitionRef.current.start();
-            } catch(err) { console.log("Start error:", err); }
+                await streamerRef.current.start();
+            } catch (err) { console.error("PTT start error:", err); }
         }
     };
 
     const handlePTTEnd = (e) => {
         if (window.innerWidth < 640) return; // Ignore on mobile
-        if (recognitionRef.current && isListening) {
-            userStoppedRef.current = true;
-            recognitionRef.current.stop();
+        if (streamerRef.current && isListening) {
+            streamerRef.current.stop();
+            setIsListening(false);
+
+            const text = transcriptRef.current.trim();
+            if (text) {
+                handleSendMessageRef.current?.(text);
+                setVoiceTranscript("");
+                transcriptRef.current = "";
+            }
         }
     };
 
@@ -282,19 +231,17 @@ const SystemConcierge = () => {
         }, 300);
     };
 
-    const startListening = () => {
-        if (recognitionRef.current && !isListening && !isSpeaking) {
+    const startListening = async () => {
+        if (streamerRef.current && !isListening && !isSpeaking) {
             setVoiceTranscript("");
             transcriptRef.current = "";
-            try {
-                recognitionRef.current.start();
-            } catch(e) {}
+            try { await streamerRef.current.start(); } catch(e) {}
         }
     };
 
     const stopListening = () => {
-        if (recognitionRef.current && isListening) {
-             recognitionRef.current.stop();
+        if (streamerRef.current && isListening) {
+            streamerRef.current.stop();
         }
     };
     // -------------------------
