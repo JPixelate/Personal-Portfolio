@@ -17,7 +17,8 @@
       "Bash(sort:*)",
       "Bash(du:*)",
       "Bash(find:*)",
-      "Read(//d/React/Personal Portfolio/**)"
+      "Read(//d/React/Personal Portfolio/**)",
+      "WebFetch(domain:penpillo-portfolio.vercel.app)"
     ]
   }
 }
