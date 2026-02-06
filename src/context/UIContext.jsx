@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 
 const UIContext = createContext();
 
@@ -6,16 +6,28 @@ export const UIProvider = ({ children }) => {
   const [blueprintMode, setBlueprintMode] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false); // Default to off for UX
+  const audioCtxRef = useRef(null);
+
+  // Shared AudioContext — reuse instead of creating a new one every time
+  const getAudioCtx = () => {
+    if (!audioCtxRef.current) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      audioCtxRef.current = new AC();
+    }
+    if (audioCtxRef.current.state === 'suspended') {
+      audioCtxRef.current.resume();
+    }
+    return audioCtxRef.current;
+  };
 
   // Sound effects helper
   const playSound = (type) => {
     if (!soundEnabled) return;
 
-    // Use Web Audio API for clean, high-end sounds without external assets
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    
-    const ctx = new AudioContext();
+    const ctx = getAudioCtx();
+    if (!ctx) return;
+
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 

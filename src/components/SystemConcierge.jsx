@@ -105,8 +105,7 @@ const SystemConcierge = () => {
             streamerRef.current?.stop();
         } else {
              // Speak welcome but DO NOT start listening automatically
-             const isMobile = window.innerWidth < 640;
-             speakText(isMobile ? "Tap the button to speak." : "Hold the button to speak.");
+             speakText("Tap the button to speak.");
         }
     };
     
@@ -164,48 +163,21 @@ const SystemConcierge = () => {
         }
     };
 
-    const handlePTTStart = async (e) => {
-        if (window.innerWidth < 640) return; // Ignore on mobile
-        if (!streamerRef.current) return;
-        if (synthesisRef.current.speaking) {
-            synthesisRef.current.cancel();
-            setIsSpeaking(false);
-        }
-        if (!isListening) {
-            setVoiceTranscript("");
-            transcriptRef.current = "";
-            try {
-                await streamerRef.current.start();
-            } catch (err) { console.error("PTT start error:", err); }
-        }
-    };
-
-    const handlePTTEnd = (e) => {
-        if (window.innerWidth < 640) return; // Ignore on mobile
-        if (streamerRef.current && isListening) {
-            streamerRef.current.stop();
-            setIsListening(false);
-
-            const text = transcriptRef.current.trim();
-            if (text) {
-                handleSendMessageRef.current?.(text);
-                setVoiceTranscript("");
-                transcriptRef.current = "";
-            }
-        }
-    };
-
     const speakText = (text) => {
         if (!synthesisRef.current) return;
         
         // Note: We DO NOT stop listening here anymore for true full-duplex feel.
         // The echo cancellation in modern browsers/OS should handle the feedback.
         
-        // Clean text: remove [cmd:...] blocks, markdown characters, and excessive whitespace
+        // Clean text for natural speech output
         const cleanText = text
-            .replace(/\[cmd:.*?\]/g, '') // Remove navigation/commands
-            .replace(/[*#_`~]/g, '')     // Remove markdown symbols
-            .replace(/\s+/g, ' ')        // Normalize whitespace
+            .replace(/\[cmd:.*?\]/g, '')                // Remove [cmd:...] navigation/commands
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')   // Convert [text](url) → just text
+            .replace(/https?:\/\/[^\s)]+/g, '')         // Remove URLs
+            .replace(/mailto:[^\s)]+/g, '')             // Remove mailto links
+            .replace(/[*#_`~]/g, '')                    // Remove markdown symbols
+            .replace(/[^\x00-\x7F\s]/g, '')             // Remove emoji/non-ASCII
+            .replace(/\s+/g, ' ')                       // Normalize whitespace
             .trim();
         
         synthesisRef.current.cancel(); // Stop any current speech
@@ -732,10 +704,7 @@ const SystemConcierge = () => {
                                 {/* Main Visualizer */}
                                 <div className="relative z-10 flex flex-col items-center gap-12 w-full max-w-xs">
                                     <div className="relative">
-                                        <button 
-                                           onMouseDown={handlePTTStart}
-                                           onMouseUp={handlePTTEnd}
-                                           onMouseLeave={handlePTTEnd}
+                                        <button
                                            onClick={handleVoiceToggle}
                                            className={`w-40 h-40 rounded-full flex items-center justify-center shadow-2xl relative outline-none transition-all active:scale-95 ${
                                                blueprintMode 
@@ -805,12 +774,12 @@ const SystemConcierge = () => {
                                                 transition={{ duration: 1.5, repeat: Infinity }}
                                                 className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-400' : 'text-blue-600'}`}
                                              >
-                                                {window.innerWidth < 640 ? 'TAP to SEND' : 'Listening...'}
+                                                TAP to SEND
                                              </motion.div>
                                         ) : (
                                             // Idle / Err state
                                             <p className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-neutral-600' : 'text-neutral-400'}`}>
-                                                {window.innerWidth < 640 ? 'Tap to Speak' : 'Hold to Speak'}
+                                                Tap to Speak
                                             </p>
                                         )}
                                     </div>

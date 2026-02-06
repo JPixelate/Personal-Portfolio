@@ -23,7 +23,8 @@ export class AssemblyAIStreamer {
             });
 
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)({
-                sampleRate: TARGET_SAMPLE_RATE
+                sampleRate: TARGET_SAMPLE_RATE,
+                latencyHint: "interactive"
             });
 
             // If browser ignored our sample rate hint, we'll resample manually
@@ -31,8 +32,7 @@ export class AssemblyAIStreamer {
             this.needsResample = this.nativeSampleRate !== TARGET_SAMPLE_RATE;
 
             this.sourceNode = this.audioContext.createMediaStreamSource(this.mediaStream);
-            // Buffer size 1024 at 16kHz = ~64ms chunks (close to recommended 50ms)
-            const bufferSize = this.needsResample ? 4096 : 1024;
+            const bufferSize = this.needsResample ? 2048 : 1024;
             this.processorNode = this.audioContext.createScriptProcessor(bufferSize, 1, 1);
 
             this.processorNode.onaudioprocess = (e) => {
