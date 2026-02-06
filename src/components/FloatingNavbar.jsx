@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight, Cpu } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import quillLogo from "../assets/images/quill_logo.png";
 import resumePdf from "../assets/documents/Resume-of-Jonald_Penpillo.pdf";
@@ -18,15 +18,8 @@ const navLinks = [
 const FloatingNavbar = () => {
   const { blueprintMode, playSound } = useUI();
   const [isOpen, setIsOpen] = useState(false);
-  const { scrollY } = useScroll();
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Handle Scroll state for padding reduction
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 20);
-  });
 
   const handleNavClick = (id) => {
     playSound('click');
@@ -58,9 +51,7 @@ const FloatingNavbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-          scrolled
-          ? (blueprintMode ? "bg-[#050505]/90 backdrop-blur-md border-b border-blue-900/50 py-3 md:py-4 shadow-lg shadow-blue-500/5" : "bg-white border-b border-neutral-100 py-3 md:py-4 shadow-sm")
-          : "bg-transparent py-4 md:py-8"
+          blueprintMode ? "bg-[#050505]/90 backdrop-blur-md border-b border-blue-900/50 py-3 md:py-4 shadow-lg shadow-blue-500/5" : "bg-white border-b border-neutral-100 py-3 md:py-4 shadow-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
