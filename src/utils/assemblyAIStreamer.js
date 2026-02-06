@@ -12,14 +12,21 @@ async function getVoiceToken() {
 
     try {
         const response = await fetch(`${API_URL}/api/voice/token`);
-        if (!response.ok) throw new Error('Failed to fetch voice token');
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error("Voice Token API Error:", response.status, errorData);
+            throw new Error(errorData.details || errorData.error || `Server returned ${response.status}`);
+        }
         const data = await response.json();
-        
+
         cachedToken = data.token;
         tokenExpiry = now + (50 * 60 * 1000); // Cache for 50 minutes (expires in 60)
         return cachedToken;
     } catch (err) {
         console.error("Voice Token Error:", err);
+        // Clear any stale cached token
+        cachedToken = null;
+        tokenExpiry = 0;
         return null;
     }
 }

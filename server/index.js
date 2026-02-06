@@ -325,6 +325,7 @@ ${relevantChunks || 'No specific context retrieved.'}
 app.get('/api/voice/token', async (req, res) => {
   const ASSEMBLY_KEY = process.env.ASSEMBLYAI_API_KEY;
   if (!ASSEMBLY_KEY) {
+    console.error('ASSEMBLYAI_API_KEY environment variable is not set');
     return res.status(500).json({ error: 'Voice service key not configured' });
   }
 
@@ -335,16 +336,24 @@ app.get('/api/voice/token', async (req, res) => {
         'Authorization': ASSEMBLY_KEY,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ expires_in: 3600 }) // Token valid for 1 hour
+      body: JSON.stringify({ expires_in: 3600 })
     });
 
-    if (!response.ok) throw new Error('Failed to generate voice token');
-    
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.error(`AssemblyAI token API error: ${response.status} - ${errorBody}`);
+      return res.status(502).json({
+        error: 'AssemblyAI rejected the token request',
+        status: response.status,
+        details: errorBody
+      });
+    }
+
     const data = await response.json();
     res.json({ token: data.token });
   } catch (error) {
     console.error('Voice Token Error:', error);
-    res.status(500).json({ error: 'Failed to generate voice token' });
+    res.status(500).json({ error: 'Failed to generate voice token', details: error.message });
   }
 });
 
