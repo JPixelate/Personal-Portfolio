@@ -156,7 +156,7 @@ const SystemConcierge = () => {
     
     // Manual "Push to Talk" Handlers
     const handlePTTStart = (e) => {
-        // e.preventDefault(); // Optional: might block scrolling on mobile
+        if (e.cancelable) e.preventDefault(); 
         if (!recognitionRef.current) return;
         
         // If system is speaking, stop it
@@ -171,14 +171,14 @@ const SystemConcierge = () => {
                  transcriptRef.current = "";
                  recognitionRef.current.start(); 
                  setIsListening(true);
-             } catch(e) {
-                 console.log("Start error:", e);
+             } catch(err) {
+                 console.log("Start error:", err);
              }
         }
     };
 
     const handlePTTEnd = (e) => {
-        // e.preventDefault();
+        if (e.cancelable) e.preventDefault();
         if (recognitionRef.current && isListening) {
             recognitionRef.current.stop(); // This triggers onend, which sends the msg
         }
@@ -724,12 +724,14 @@ const SystemConcierge = () => {
                                            onMouseLeave={handlePTTEnd}
                                            onTouchStart={handlePTTStart}
                                            onTouchEnd={handlePTTEnd}
+                                           onTouchCancel={handlePTTEnd}
                                            className={`w-40 h-40 rounded-full flex items-center justify-center shadow-2xl relative outline-none transition-all active:scale-95 ${
                                                blueprintMode 
                                                    ? 'bg-blue-500/10 hover:bg-blue-500/20 shadow-[inset_0_0_40px_rgba(59,130,246,0.1)]' 
                                                    : 'bg-blue-600 hover:bg-blue-700'
                                            } cursor-pointer select-none touch-none`}
                                            style={{
+                                               WebkitTouchCallout: 'none',
                                                boxShadow: isSpeaking 
                                                    ? "0 0 50px 20px rgba(59, 130, 246, 0.4)" 
                                                    : isListening 
