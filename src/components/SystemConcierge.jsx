@@ -56,6 +56,7 @@ const SystemConcierge = () => {
     const handleSendMessageRef = useRef(null); // To access latest function in closures
     const isVoiceModeRef = useRef(false); // Ref for robust state access
     const isRestartingRef = useRef(false); // To prevent double-start race conditions
+    const userStoppedRef = useRef(false); // Track if user intentionally stopped recognition
     
     // Update ref on render
     useEffect(() => {
@@ -102,15 +103,41 @@ const SystemConcierge = () => {
 
             recognitionRef.current.onend = () => {
                 setIsListening(false);
-                const text = transcriptRef.current.trim();
-                
-                if (text) {
-                     // On release (end), send the message
-                    handleSendMessageRef.current?.(text);
-                    setVoiceTranscript("");
-                    transcriptRef.current = "";
-                } 
-                // NO auto-restart. PTT only.
+                const isMobile = window.innerWidth < 640;
+
+                if (userStoppedRef.current) {
+                    // User intentionally tapped to stop — send transcript
+                    userStoppedRef.current = false;
+                    const text = transcriptRef.current.trim();
+                    if (text) {
+                        handleSendMessageRef.current?.(text);
+                        setVoiceTranscript("");
+                        transcriptRef.current = "";
+                    }
+                } else if (isMobile && isVoiceModeRef.current) {
+                    // Browser auto-killed recognition on mobile — restart to keep listening
+                    try {
+                        setTimeout(() => {
+                            if (isVoiceModeRef.current && !userStoppedRef.current) {
+                                try {
+                                    recognitionRef.current.start();
+                                } catch (e) {
+                                    console.log("Auto-restart error:", e);
+                                }
+                            }
+                        }, 100);
+                    } catch (e) {
+                        console.log("Restart scheduling error:", e);
+                    }
+                } else {
+                    // Desktop PTT — send on release
+                    const text = transcriptRef.current.trim();
+                    if (text) {
+                        handleSendMessageRef.current?.(text);
+                        setVoiceTranscript("");
+                        transcriptRef.current = "";
+                    }
+                }
             };
         }
     }, []); // Only init once
@@ -123,6 +150,7 @@ const SystemConcierge = () => {
         isVoiceModeRef.current = newMode;
         
         if (!newMode) {
+            userStoppedRef.current = true;
             synthesisRef.current.cancel();
             setIsSpeaking(false);
             try { recognitionRef.current.stop(); } catch(e) {}
@@ -162,7 +190,8 @@ const SystemConcierge = () => {
         const isMobile = window.innerWidth < 640;
         
         if (isListening) {
-            // STOP AND SEND
+            // STOP AND SEND — user intentionally tapped to stop
+            userStoppedRef.current = true;
             if (recognitionRef.current) {
                 try {
                     recognitionRef.current.stop();
@@ -212,6 +241,7 @@ const SystemConcierge = () => {
     const handlePTTEnd = (e) => {
         if (window.innerWidth < 640) return; // Ignore on mobile
         if (recognitionRef.current && isListening) {
+            userStoppedRef.current = true;
             recognitionRef.current.stop();
         }
     };
