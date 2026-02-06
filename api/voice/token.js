@@ -20,6 +20,7 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.status(200).json({ token: data.token });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to generate voice token' });
+    console.error('Voice Token Error:', error);
+    res.status(500).json({ error: 'Failed to generate voice token', details: error.message });
   }
 }

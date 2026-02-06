@@ -46,6 +46,7 @@ ${relevantChunks || 'No specific context retrieved.'}
     res.status(200).json({ response: data.choices[0].message.content });
 
   } catch (error) {
-    res.status(500).json({ error: 'Failed to process request' });
+    console.error('Chat API Error:', error);
+    res.status(500).json({ error: 'Failed to process request', details: error.message });
   }
 }
