@@ -296,25 +296,39 @@ const SystemConcierge = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] bg-white rounded-3xl shadow-2xl border border-neutral-100 overflow-hidden flex flex-col"
+                        className={`fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-colors duration-500 ${
+                            blueprintMode 
+                            ? 'bg-[#050505] border border-blue-500/30 shadow-blue-900/20' 
+                            : 'bg-white border border-neutral-100'
+                        }`}
                     >
                         {/* Header */}
-                        <div className="p-6 bg-neutral-900 text-white flex items-center justify-between shrink-0">
+                        <div className={`p-6 flex items-center justify-between shrink-0 transition-colors duration-500 ${
+                            blueprintMode ? 'bg-[#0a0a0a] text-blue-400 border-b border-blue-900/30' : 'bg-neutral-900 text-white'
+                        }`}>
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-500 ${
+                                    blueprintMode ? 'bg-blue-900/20 text-blue-400 border border-blue-500/30' : 'bg-blue-600'
+                                }`}>
                                     <Bot size={20} />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold tracking-tight">AI Assistant</h3>
+                                    <h3 className={`font-bold tracking-tight ${blueprintMode ? 'font-mono uppercase tracking-widest' : ''}`}>
+                                        {blueprintMode ? 'TERMINAL_AI' : 'AI Assistant'}
+                                    </h3>
                                     <div className="flex items-center gap-2">
-                                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">System Online</span>
+                                        <span className={`w-2 h-2 rounded-full ${blueprintMode ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`}></span>
+                                        <span className={`text-[10px] font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-400/60 font-mono' : 'opacity-60'}`}>
+                                            {blueprintMode ? 'NET_ONLINE' : 'System Online'}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <button 
                                 onClick={() => setIsOpen(false)}
-                                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                                className={`p-2 rounded-full transition-colors ${
+                                    blueprintMode ? 'text-blue-500 hover:bg-blue-900/20' : 'hover:bg-white/10'
+                                }`}
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                     <path d="M18 6L6 18M6 6l12 12" />
@@ -323,21 +337,33 @@ const SystemConcierge = () => {
                         </div>
 
                         {/* Chat Body */}
-                        <div className="flex-1 p-6 overflow-y-auto bg-neutral-50/50 space-y-6">
+                        <div className={`flex-1 p-6 overflow-y-auto space-y-6 transition-colors duration-500 ${
+                            blueprintMode ? 'bg-[#050505]' : 'bg-neutral-50/50'
+                        }`}>
                             {messages.map((msg) => (
                                 <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                                        msg.sender === 'bot' ? 'bg-neutral-900 text-white' : 'bg-blue-600 text-white'
+                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-500 ${
+                                        msg.sender === 'bot' 
+                                            ? blueprintMode ? 'bg-blue-900/20 text-blue-400 border border-blue-500/20' : 'bg-neutral-900 text-white'
+                                            : blueprintMode ? 'bg-blue-600/20 text-blue-400 border border-blue-500/40' : 'bg-blue-600 text-white'
                                     }`}>
                                         {msg.sender === 'bot' ? <Bot size={16} /> : <User size={16} />}
                                     </div>
-                                    <div className={`p-4 rounded-2xl shadow-sm max-w-[80%] ${
+                                    <div className={`p-4 rounded-2xl shadow-sm max-w-[80%] transition-colors duration-500 ${
                                         msg.sender === 'bot'
-                                            ? 'bg-white rounded-tl-none border border-neutral-100'
-                                            : 'bg-blue-600 text-white rounded-tr-none'
+                                            ? blueprintMode 
+                                                ? 'bg-[#0a0a0a] rounded-tl-none border border-blue-900/30 text-blue-300' 
+                                                : 'bg-white rounded-tl-none border border-neutral-100'
+                                            : blueprintMode
+                                                ? 'bg-blue-900/20 text-blue-300 rounded-tr-none border border-blue-500/30'
+                                                : 'bg-blue-600 text-white rounded-tr-none'
                                     }`}>
                                         {msg.sender === 'bot' ? (
-                                            <div className="text-sm leading-relaxed font-medium text-neutral-800 prose prose-sm prose-neutral max-w-none prose-headings:text-neutral-900 prose-headings:font-bold prose-headings:mt-3 prose-headings:mb-2 prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-strong:text-neutral-900">
+                                            <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
+                                                blueprintMode 
+                                                    ? 'font-mono text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200' 
+                                                    : 'text-neutral-800 prose-neutral prose-headings:text-neutral-900 prose-strong:text-neutral-900'
+                                            }`}>
                                                 <ReactMarkdown 
                                                     components={{
                                                         a: MarkdownLink
@@ -347,13 +373,21 @@ const SystemConcierge = () => {
                                                 </ReactMarkdown>
 
                                                 {msg.showTech && (
-                                                    <div className="mt-4 pt-4 border-t border-neutral-100 grid grid-cols-4 gap-3">
+                                                    <div className={`mt-4 pt-4 border-t grid grid-cols-4 gap-3 ${
+                                                        blueprintMode ? 'border-blue-900/30' : 'border-neutral-100'
+                                                    }`}>
                                                         {['React', 'Next.js', 'Node.js', 'PHP', 'Tailwind', 'OpenAI', 'n8n', 'Python'].map(tech => (
                                                             <div key={tech} className="flex flex-col items-center gap-1 group/tech">
-                                                                <div className="w-8 h-8 rounded-lg bg-neutral-50 flex items-center justify-center group-hover/tech:bg-blue-50 transition-colors">
+                                                                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                                                                    blueprintMode 
+                                                                        ? 'bg-blue-900/20 text-blue-400 border border-blue-500/30 group-hover/tech:bg-blue-900/40' 
+                                                                        : 'bg-neutral-50 group-hover/tech:bg-blue-50'
+                                                                }`}>
                                                                     <span className="text-[10px] font-black">{tech[0]}</span>
                                                                 </div>
-                                                                <span className="text-[8px] font-bold uppercase tracking-tighter opacity-40">{tech}</span>
+                                                                <span className={`text-[8px] font-bold uppercase tracking-tighter ${
+                                                                    blueprintMode ? 'text-blue-500 opacity-70' : 'opacity-40'
+                                                                }`}>{tech}</span>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -361,7 +395,9 @@ const SystemConcierge = () => {
                                             </div>
 
                                         ) : (
-                                            <p className="text-sm leading-relaxed font-medium whitespace-pre-wrap text-white">
+                                            <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap ${
+                                                blueprintMode ? 'font-mono text-blue-300' : 'text-white'
+                                            }`}>
                                                 {msg.text}
                                             </p>
                                         )}
@@ -370,26 +406,25 @@ const SystemConcierge = () => {
                             ))}
                             {isTyping && (
                                 <div className="flex gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-neutral-900 text-white flex items-center justify-center shrink-0">
+                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                                        blueprintMode ? 'bg-blue-900/20 text-blue-400 border border-blue-500/20' : 'bg-neutral-900 text-white'
+                                    }`}>
                                         <Bot size={16} />
                                     </div>
-                                    <div className="bg-white p-4 rounded-2xl rounded-tl-none border border-neutral-100 shadow-sm">
+                                    <div className={`p-4 rounded-2xl rounded-tl-none border shadow-sm ${
+                                        blueprintMode ? 'bg-[#0a0a0a] border-blue-900/30' : 'bg-white border-neutral-100'
+                                    }`}>
                                         <div className="flex gap-1">
-                                            <motion.div 
-                                                animate={{ scale: [1, 1.2, 1] }}
-                                                transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
-                                                className="w-2 h-2 bg-neutral-400 rounded-full"
-                                            />
-                                            <motion.div 
-                                                animate={{ scale: [1, 1.2, 1] }}
-                                                transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
-                                                className="w-2 h-2 bg-neutral-400 rounded-full"
-                                            />
-                                            <motion.div 
-                                                animate={{ scale: [1, 1.2, 1] }}
-                                                transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
-                                                className="w-2 h-2 bg-neutral-400 rounded-full"
-                                            />
+                                            {[0, 0.2, 0.4].map((delay, i) => (
+                                                <motion.div 
+                                                    key={i}
+                                                    animate={{ scale: [1, 1.2, 1] }}
+                                                    transition={{ duration: 0.6, repeat: Infinity, delay }}
+                                                    className={`w-2 h-2 rounded-full ${
+                                                        blueprintMode ? 'bg-blue-500' : 'bg-neutral-400'
+                                                    }`}
+                                                />
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -399,24 +434,44 @@ const SystemConcierge = () => {
                                 <motion.div 
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="p-4 bg-red-50 border border-red-100 rounded-2xl space-y-3"
+                                    className={`p-4 border rounded-2xl space-y-3 ${
+                                        blueprintMode ? 'bg-red-900/10 border-red-500/30' : 'bg-red-50 border-red-100'
+                                    }`}
                                 >
-                                    <p className="text-xs font-bold text-red-600 leading-relaxed">
+                                    <p className="text-xs font-bold text-red-600 leading-relaxed font-mono">
                                         Chat limit reached (10/10). Access will refresh in a few hours.
                                     </p>
-                                    <div className="pt-3 border-t border-red-100 flex flex-col gap-2">
+                                    <div className={`pt-3 border-t flex flex-col gap-2 ${
+                                        blueprintMode ? 'border-red-500/20' : 'border-red-100'
+                                    }`}>
                                         <p className="text-[10px] uppercase tracking-widest font-black text-red-400">Direct Contact Information:</p>
                                         <div className="grid grid-cols-2 gap-2">
-                                            <a href="mailto:jonaldpenpillo@gmail.com" className="flex items-center gap-2 text-[10px] font-bold text-neutral-600 hover:text-blue-600 transition-colors bg-white p-2 rounded-lg border border-neutral-100">
+                                            <a href="mailto:jonaldpenpillo@gmail.com" className={`flex items-center gap-2 text-[10px] font-bold transition-colors p-2 rounded-lg border ${
+                                                blueprintMode 
+                                                    ? 'bg-red-900/10 text-red-400 border-red-500/20 hover:bg-red-900/20' 
+                                                    : 'bg-white text-neutral-600 hover:text-blue-600 border-neutral-100'
+                                            }`}>
                                                 <Mail size={12} /> Email
                                             </a>
-                                            <a href="https://wa.me/639107876246" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-bold text-neutral-600 hover:text-blue-600 transition-colors bg-white p-2 rounded-lg border border-neutral-100">
+                                            <a href="https://wa.me/639107876246" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-[10px] font-bold transition-colors p-2 rounded-lg border ${
+                                                blueprintMode 
+                                                    ? 'bg-red-900/10 text-red-400 border-red-500/20 hover:bg-red-900/20' 
+                                                    : 'bg-white text-neutral-600 hover:text-blue-600 border-neutral-100'
+                                            }`}>
                                                 <Phone size={12} /> WhatsApp
                                             </a>
-                                            <a href="https://www.linkedin.com/in/jonald-penpillo" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] font-bold text-neutral-600 hover:text-blue-600 transition-colors bg-white p-2 rounded-lg border border-neutral-100">
+                                            <a href="https://www.linkedin.com/in/jonald-penpillo" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-[10px] font-bold transition-colors p-2 rounded-lg border ${
+                                                blueprintMode 
+                                                    ? 'bg-red-900/10 text-red-400 border-red-500/20 hover:bg-red-900/20' 
+                                                    : 'bg-white text-neutral-600 hover:text-blue-600 border-neutral-100'
+                                            }`}>
                                                 <Linkedin size={12} /> LinkedIn
                                             </a>
-                                            <a href="viber://contact?number=%2B639927133582" className="flex items-center gap-2 text-[10px] font-bold text-neutral-600 hover:text-blue-600 transition-colors bg-white p-2 rounded-lg border border-neutral-100">
+                                            <a href="viber://contact?number=%2B639927133582" className={`flex items-center gap-2 text-[10px] font-bold transition-colors p-2 rounded-lg border ${
+                                                blueprintMode 
+                                                    ? 'bg-red-900/10 text-red-400 border-red-500/20 hover:bg-red-900/20' 
+                                                    : 'bg-white text-neutral-600 hover:text-blue-600 border-neutral-100'
+                                            }`}>
                                                 <MessageCircle size={12} /> Viber
                                             </a>
                                         </div>
@@ -433,7 +488,9 @@ const SystemConcierge = () => {
                         {/* Quick Replies */}
                         <AnimatePresence>
                             {quickReplies.length > 0 && (
-                                <div className="px-6 py-3 bg-white border-t border-neutral-50 flex gap-2 overflow-x-auto no-scrollbar shrink-0">
+                                <div className={`px-6 py-3 border-t flex gap-2 overflow-x-auto no-scrollbar shrink-0 transition-colors duration-500 ${
+                                    blueprintMode ? 'bg-[#0a0a0a] border-blue-900/30' : 'bg-white border-neutral-50'
+                                }`}>
                                     {quickReplies.map((reply) => (
                                         <motion.button
                                             key={reply}
@@ -441,7 +498,11 @@ const SystemConcierge = () => {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, scale: 0.9 }}
                                             onClick={() => handleSendMessage(reply)}
-                                            className="px-4 py-2 bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 rounded-full text-[10px] font-bold uppercase tracking-widest border border-neutral-100 hover:border-blue-100 transition-all whitespace-nowrap"
+                                            className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-nowrap ${
+                                                blueprintMode 
+                                                    ? 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30 font-mono' 
+                                                    : 'bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 border-neutral-100 hover:border-blue-100'
+                                            }`}
                                         >
                                             {reply}
                                         </motion.button>
@@ -456,7 +517,9 @@ const SystemConcierge = () => {
                                e.preventDefault();
                                handleSendMessage();
                            }} 
-                           className="p-6 bg-white border-t border-neutral-100 shrink-0 relative"
+                           className={`p-6 border-t shrink-0 relative transition-colors duration-500 ${
+                               blueprintMode ? 'bg-[#050505] border-blue-900/30' : 'bg-white border-neutral-100'
+                           }`}
                         >
                             {/* Validation Warning */}
                             <AnimatePresence>
@@ -483,21 +546,31 @@ const SystemConcierge = () => {
                                         isLimitReached 
                                             ? "Limit reached..." 
                                             : isTyping 
-                                                ? "AI is thinking..." 
-                                                : "Ask about Jonald's experience..."
+                                                ? (blueprintMode ? "PROCESSING..." : "AI is thinking...") 
+                                                : (blueprintMode ? "ENTER_COMMAND..." : "Ask about Jonald's experience...")
                                     }
-                                    className="w-full pl-6 pr-14 py-4 bg-neutral-50 border border-neutral-100 rounded-2xl text-sm focus:outline-none focus:border-blue-600 transition-all font-medium disabled:opacity-70"
+                                    className={`w-full pl-6 pr-14 py-4 rounded-2xl text-sm focus:outline-none transition-all font-medium disabled:opacity-70 ${
+                                        blueprintMode 
+                                            ? 'bg-[#0a0a0a] border border-blue-900/30 text-blue-400 focus:border-blue-500 placeholder-blue-700/30 font-mono' 
+                                            : 'bg-neutral-50 border border-neutral-100 focus:border-blue-600'
+                                    }`}
                                 />
                                 <button 
                                     type="submit"
                                     disabled={!inputValue.trim() || isTyping || isLimitReached}
-                                    className="absolute right-2 top-2 bottom-2 px-4 bg-neutral-900 text-white rounded-xl hover:bg-blue-600 transition-all disabled:opacity-50 disabled:hover:bg-neutral-900"
+                                    className={`absolute right-2 top-2 bottom-2 px-4 rounded-xl transition-all disabled:opacity-50 ${
+                                        blueprintMode 
+                                            ? 'bg-blue-900/20 text-blue-400 hover:bg-blue-900/40 border border-blue-500/30' 
+                                            : 'bg-neutral-900 text-white hover:bg-blue-600 disabled:hover:bg-neutral-900'
+                                    }`}
                                 >
                                     <Send size={18} />
                                 </button>
                             </div>
-                            <p className="text-[10px] text-neutral-400 text-center mt-4 font-bold uppercase tracking-widest">
-                                Powered by Jonald's AI Architecture
+                            <p className={`text-[10px] text-center mt-4 font-bold uppercase tracking-widest transition-colors ${
+                                blueprintMode ? 'text-blue-500/40 font-mono' : 'text-neutral-400'
+                            }`}>
+                                {blueprintMode ? 'SYSTEM_ARCHITECTURE_V1.0' : "Powered by Jonald's AI Architecture"}
                             </p>
                         </form>
                     </motion.div>
@@ -551,7 +624,9 @@ const SystemConcierge = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 ${
-                    isOpen ? 'bg-neutral-900 text-white rotate-90' : 'bg-blue-600 text-white'
+                    isOpen 
+                        ? blueprintMode ? 'bg-[#050505] text-blue-400 border border-blue-500/50 rotate-90' : 'bg-neutral-900 text-white rotate-90' 
+                        : blueprintMode ? 'bg-blue-600 text-white shadow-blue-500/40' : 'bg-blue-600 text-white'
                 }`}
             >
                 {isOpen ? (

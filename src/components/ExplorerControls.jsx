@@ -31,25 +31,52 @@ const ExplorerControls = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="absolute left-16 top-0 bg-[#050505] border border-blue-500/30 p-4 rounded-xl shadow-2xl w-64 pointer-events-none"
+            className="absolute bottom-16 left-0 bg-[#050505] border border-blue-500/30 p-4 rounded-xl shadow-2xl w-64 pointer-events-none"
           >
             <div className="flex items-center gap-2 mb-3 text-blue-500">
                 <Terminal size={14} />
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest">Architecture Viewer</span>
             </div>
-            <div className="space-y-2 font-mono text-[9px] text-blue-400/60">
-                <div className="flex justify-between">
-                    <span>ENGINE_STATE:</span>
-                    <span className="text-blue-400">OPERATIONAL</span>
+            <div className="space-y-3 font-mono text-[9px] text-blue-400/60">
+                
+                {/* Tech Stack */}
+                <div className="space-y-1">
+                    <div className="text-[8px] uppercase tracking-widest opacity-50 mb-1">Tech Stack</div>
+                    <div className="flex justify-between">
+                        <span>CORE:</span>
+                        <span className="text-blue-400">React + Vite</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>STYLING:</span>
+                        <span className="text-blue-400">Tailwind CSS</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>ANIMATION:</span>
+                        <span className="text-blue-400">Framer Motion</span>
+                    </div>
                 </div>
-                <div className="flex justify-between">
-                    <span>UI_OVERLAY:</span>
-                    <span className="text-blue-400">VECTOR_READY</span>
+
+                {/* AI Functions */}
+                <div className="space-y-1 pt-2 border-t border-blue-900/30">
+                    <div className="text-[8px] uppercase tracking-widest opacity-50 mb-1">AI Functions (DeepSeek)</div>
+                    <div className="flex justify-between">
+                        <span>MODEL:</span>
+                        <span className="text-blue-400">DeepSeek-Chat</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>MEMORY:</span>
+                        <span className="text-blue-400">Vector Embeddings</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>RETRIEVAL:</span>
+                        <span className="text-blue-400">Local RAG System</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>SECURITY:</span>
+                        <span className="text-blue-400">Guardrails API</span>
+                    </div>
                 </div>
-                <div className="flex justify-between">
-                    <span>AUDIO_SYNTH:</span>
-                    <span className="text-blue-400">WEBAUDIO_API</span>
-                </div>
+
                 <div className="w-full h-1 bg-blue-900/30 mt-4 rounded-full overflow-hidden">
                     <motion.div 
                         initial={{ width: "0%" }}
