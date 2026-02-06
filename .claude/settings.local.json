@@ -4,7 +4,8 @@
       "Bash(npm install react-markdown)",
       "Bash(dir:*)",
       "Read(//d/**)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(node scripts/generateEmbeddings.js:*)"
     ]
   }
 }

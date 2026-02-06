@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDownRight } from "lucide-react";
 import meHero from "../assets/images/uss52.webp";
@@ -7,12 +7,23 @@ import { useUI } from "../context/UIContext";
 const Hero = () => {
   const { blueprintMode, playSound } = useUI();
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile to disable scroll animations
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  const yImage = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  // Disable parallax on mobile for better performance
+  const yImage = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 100]);
 
   return (
     <section
@@ -34,24 +45,34 @@ const Hero = () => {
 
         {!blueprintMode && (
           <>
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.15, 0.3, 0.15],
-                x: [0, 50, 0],
-              }}
-              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-blue-100/30 rounded-full blur-[140px]"
-            />
-            <motion.div
-              animate={{
-                scale: [1.2, 1, 1.2],
-                opacity: [0.15, 0.25, 0.15],
-                x: [0, -30, 0],
-              }}
-              transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-indigo-100/20 rounded-full blur-[140px]"
-            />
+            {/* Static blobs on mobile, animated on desktop */}
+            {isMobile ? (
+              <>
+                <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-blue-100/20 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-indigo-100/15 rounded-full blur-[140px]" />
+              </>
+            ) : (
+              <>
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.15, 0.3, 0.15],
+                    x: [0, 50, 0],
+                  }}
+                  transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-blue-100/30 rounded-full blur-[140px]"
+                />
+                <motion.div
+                  animate={{
+                    scale: [1.2, 1, 1.2],
+                    opacity: [0.15, 0.25, 0.15],
+                    x: [0, -30, 0],
+                  }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                  className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-indigo-100/20 rounded-full blur-[140px]"
+                />
+              </>
+            )}
           </>
         )}
 
@@ -130,11 +151,11 @@ const Hero = () => {
                    </div>
                 </div>
 
-                <div className={`aspect-[3/5] rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-700 border relative ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-100 border-neutral-100 shadow-blue-500/10'}`}>
+                <div className={`aspect-[3/5] rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-700 border relative ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-100 border-neutral-100 shadow-blue-500/10'}`}>
                    <img 
                     src={meHero} 
                     alt="Creative Direction"
-                    className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-40 grayscale brightness-50' : 'opacity-100 grayscale brightness-110 group-hover:grayscale-0'}`}
+                    className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-40 grayscale brightness-50' : 'opacity-100'}`}
                    />
                    <div className={`absolute inset-0 bg-gradient-to-t transition-colors duration-700 ${blueprintMode ? 'from-blue-600/20 to-transparent' : 'from-neutral-900/40 to-transparent'}`}></div>
                    
@@ -155,9 +176,9 @@ const Hero = () => {
                 </div>
 
                 {/* Bottom Trigger */}
-                <motion.div 
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
+                <motion.div
+                  animate={isMobile ? {} : { y: [0, 10, 0] }}
+                  transition={isMobile ? {} : { duration: 3, repeat: Infinity }}
                   onMouseEnter={() => playSound('hover')}
                   onClick={() => {
                     playSound('click');

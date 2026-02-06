@@ -64,14 +64,14 @@ const Manifesto = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className={`aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl relative border transition-all duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/5' : 'bg-neutral-50 border-neutral-100 shadow-blue-500/5'}`}
+              className={`aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl relative border transition-all duration-700 ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/5' : 'bg-neutral-50 border-neutral-100 shadow-blue-500/5'}`}
             >
                <img 
                 src={meAbout} 
                 alt="Architect"
                 className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : ''}`}
                />
-               <div className={`absolute inset-0 mix-blend-overlay transition-colors ${blueprintMode ? 'bg-blue-600/20' : 'bg-blue-600/10'}`}></div>
+               <div className={`absolute inset-0 mix-blend-overlay transition-colors ${blueprintMode ? 'bg-blue-600/20' : ''}`}></div>
                {blueprintMode && (
                    <div className="absolute top-6 left-6 font-mono text-[8px] text-blue-500/40 pointer-events-none">
                        <div>ID: MANIFESTO_CARD_01</div>

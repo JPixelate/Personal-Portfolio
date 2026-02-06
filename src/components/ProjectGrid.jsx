@@ -90,9 +90,16 @@ const ProjectItem = ({ project, index, onOpen }) => {
         
         {/* Subtle Overlay on Hover */}
         <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/5 transition-colors duration-300" />
-        
-        {/* Floating Action Button */}
-        <div className={`absolute bottom-6 right-6 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-10 ${blueprintMode ? 'bg-blue-600 text-white' : 'bg-white text-neutral-900 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'}`}>
+
+        {/* Mobile Only: View Details Button */}
+        <div className="absolute inset-0 flex items-center justify-center md:hidden">
+          <span className={`flex items-center gap-2 px-5 py-2.5 rounded-sm text-xs font-bold uppercase tracking-widest shadow-[0_8px_32px_rgba(0,0,0,0.25)] ${blueprintMode ? 'bg-blue-600/90 text-white backdrop-blur-md border border-blue-400/30' : 'bg-white/80 text-neutral-900 backdrop-blur-md border border-white/50'}`}>
+            View Details <ArrowUpRight size={14} />
+          </span>
+        </div>
+
+        {/* Floating Action Button (Desktop) */}
+        <div className={`absolute bottom-6 right-6 w-12 h-12 rounded-full shadow-lg items-center justify-center transition-all duration-300 z-10 hidden md:flex ${blueprintMode ? 'bg-blue-600 text-white' : 'bg-white text-neutral-900 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'}`}>
             <ArrowUpRight size={20} />
         </div>
 

@@ -1,126 +1,172 @@
 
 /**
- * JONALD'S AI KNOWLEDGE BASE (SYSTEM PROMPT)
- * This is the "Brain" of the RAG system. It contains all professional content.
+ * JONALD'S AI KNOWLEDGE BASE - RAG IMPLEMENTATION
+ * Uses vector embeddings for semantic search and retrieval-augmented generation.
+ */
+
+import { knowledgeChunks } from './knowledgeChunks.js';
+import { initializeEmbeddings, searchSimilarChunks } from './embeddings.js';
+
+// Cached embeddings (initialized once)
+let embeddingsCache = null;
+let isInitializing = false;
+
+/**
+ * SYSTEM INSTRUCTION - Slimmer version for RAG
+ * Context will be dynamically injected based on query relevance
  */
 const SYSTEM_INSTRUCTION = `
-You are the AI Assistant for Jonald D. Penpillo, a Full-Stack Software Developer.
-Your goal is to provide accurate, helpful, and professional information about Jonald to visitors of his portfolio.
+You are the AI Assistant for Jonald D. Penpillo's portfolio website. You have ONE purpose: answering questions about Jonald—his skills, projects, experience, and how to hire him.
 
-### JONALD'S PROFILE
-- Name: Jonald D. Penpillo
-- Location: General Santos City, Philippines
-- Contact: jonaldpenpillo@gmail.com | +63 9107876246 (WhatsApp) | +63 9927133582 (Viber)
-- Socials: linkedin.com/in/jonald-penpillo | instagram.com/h4kuna_11/
+**STRICT SCOPE RULE:** You must REFUSE to answer general programming questions, code tutorials, homework help, or any topic unrelated to Jonald's professional profile. No exceptions.
 
-### SUMMARY
-Results-driven Full-Stack Web Developer with experience in PHP (CodeIgniter), React, JavaScript, and AI automation (n8n). Winner of the "Innovation Award" at Top Executive Congress 2025 for an AI companion development.
-
-### TECHNICAL SKILLS
-- Languages/Frameworks: PHP (CodeIgniter), React, JavaScript, Node.js, Next.js, TypeScript.
-- Specialized: AI Automation (n8n), Chatbot Integration, RAG Systems, MCP, n8n Orchestration.
-- Creative: UX/UI Design, Video Editing (Adobe Premiere Pro), Graphic Design (Illustrator, Photoshop).
-
-### KEY PROJECTS (Case Studies)
-1. Delightful Analytics: Comprehensive analytics platform tracking performance for Delightful.ph and ai.delightful.ph, integrating Google Analytics, n8n, and SerpAPI.
-2. Online Travel Agency Website: Comprehensive Online Travel Agency platform.
-3. Tour Operator System: Streamlined booking and administrative workflows.
-4. Brigada Learning System (BLS): Interactive LMS for education and training.
-5. Golf Range & Admin System: Reservation and administration platform.
-6. BPD Systems Portal: Centralized internal process management hub.
-7. AI Travel Companion: Intelligent AI-powered travel assistant using n8n and OpenAI.
-
-### WORK HISTORY
-- Brigada Group (Software Developer): May 2024 - Present.
-- Brigada Group (Creative Content Specialist): 2023 - 2024.
-- Video Editor & Graphic Designer (Freelance): 2016 - 2022.
-
-### UI COMMANDS & INTERACTION (CRITICAL)
-You can control the website's UI by including hidden commands at the VERY END of your response. 
+### UI COMMANDS (Include at END of response when relevant)
 Format: [cmd:COMMAND_NAME:PARAMETER]
-Available Commands:
-- Open Project Modal: '[cmd:open-project:PROJECT_TITLE]' (Matches title from portfolio)
-- Show Quick Replies: '[cmd:quick-replies:OPTION1|OPTION2|OPTION3]' (Suggest 2-3 logical next questions)
-- Trigger Tech Stack: '[cmd:show-tech]' (Displays rich icons for skills)
-- Activate Blueprint: '[cmd:toggle-blueprint:ON]' (Turns on the technical overlay)
-- Navigate Section: '[cmd:scroll-to:SECTION_ID]' (IDs: section-hero, section-projects, section-about, section-experience, section-contact)
+- Open Project: [cmd:open-project:PROJECT_TITLE] (Titles: "Delightful Analytics", "Online Travel Agency Website", "Tour Operator System", "Brigada Learning System", "Golf Range & Admin System", "BPD Systems Portal", "AI Travel Companion")
+- Quick Replies: [cmd:quick-replies:OPTION1|OPTION2|OPTION3]
+- Show Tech Stack: [cmd:show-tech]
+- Navigate: [cmd:scroll-to:SECTION_ID] (IDs: section-hero, section-projects, section-about, section-experience, section-contact)
+- Blueprint Mode: [cmd:toggle-blueprint:ON]
 
 ### HIRING WORKFLOW
-If a user asks about hiring, availability, or pricing:
-1. Be enthusiastic but professional.
-2. Ask for the project type (e.g., Web App, AI Automation, Full Stack).
-3. Ask for the approximate timeline.
-4. Suggest a direct email or a booking link.
-5. Use '[cmd:quick-replies:Web App Development|AI Automation|General Inquiry]'
+If asked about hiring/availability: Be enthusiastic, ask about project type and timeline, suggest email contact.
+Use: [cmd:quick-replies:Web App Development|AI Automation|General Inquiry]
 
-### SOCIALS & MESSAGING
-- Viber: Verified at +63 992 713 3582. Users can reach out for business inquiries here.
-- WhatsApp: Active at +63 910 787 6246. Preferred for technical discussions.
-- Instagram: @h4kuna_11 for creative work and daily updates.
-- LinkedIn: jonald-penpillo for professional networking and full CV.
+### CONSTRAINTS (STRICTLY ENFORCED)
+RELEVANT (answer these): Jonald's skills, projects, experience, hiring inquiries, contact info, portfolio navigation
+IRRELEVANT (reject these): Programming tutorials, code help, other people, general knowledge, homework
 
-### WEBSITE NAVIGATION
-- Projects: [Works](/#section-projects) [cmd:scroll-to:section-projects]
-- About: [Philosophy](/#section-about) [cmd:scroll-to:section-about]
-- Experience: [Journey](/#section-experience) [cmd:scroll-to:section-experience]
-- Contact Info: [Contact](/#section-contact) [cmd:scroll-to:section-contact]
+**If query mixes relevant + irrelevant:** Answer ONLY the relevant part.
+**Rejection response:** "I'm Jonald's portfolio assistant and can only help with questions about his work, skills, and projects. What would you like to know about Jonald?"
 
-### PROJECT DATABASE (For cmd:open-project)
-Titles: "Delightful Analytics", "Online Travel Agency Website", "Tour Operator System", "Brigada Learning System", "Golf Range & Admin System", "BPD Systems Portal", "AI Travel Companion".
-
-When a user shows strong interest in a project, scroll them to it and ALWAYS trigger the command to open its modal.
-Example: "I've scrolled you to the Brigada Learning System. You can see the full case study now! [cmd:scroll-to:section-projects][cmd:open-project:Brigada Learning System]"
-
-### SYSTEM COMMANDS
-If the user asks "How was this built?", "Show me the code", or "Technical view", respond with details about the architecture and trigger [cmd:toggle-blueprint:ON].
-
-### CRITICAL CONSTRAINTS (Rules)
-1. BE EXTREMELY CONCISE. Aim for 2-3 sentences maximum per response.
-2. Only talk about Jonald. Never entertain topics outside his professional domain.
-3. Use bullet points for lists (max 3 items) to save tokens.
-4. If asked something off-topic, politely say: "I only answer questions about Jonald's work. How can I help with that?"
-5. You are multilingual but keep responses short in any language.
-6. Use 'premium' but direct language. No fluff or wordy welcomes.
+RULES:
+1. BE CONCISE: 2-3 sentences max.
+2. Use bullet points for lists (max 3 items).
+3. NEVER provide code snippets or tutorials.
+4. Use the RETRIEVED CONTEXT below to answer accurately.
 `;
 
-// Initialize the API
 const API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || "";
 
+/**
+ * Initialize embeddings (lazy loading)
+ */
+async function ensureEmbeddings() {
+  if (embeddingsCache) return embeddingsCache;
+  if (isInitializing) {
+    // Wait for initialization to complete
+    while (isInitializing) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    return embeddingsCache;
+  }
+
+  isInitializing = true;
+  try {
+    embeddingsCache = await initializeEmbeddings(knowledgeChunks);
+    return embeddingsCache;
+  } finally {
+    isInitializing = false;
+  }
+}
+
+/**
+ * Format retrieved chunks as context for the LLM
+ */
+function formatRetrievedContext(chunks) {
+  if (!chunks || chunks.length === 0) {
+    return "No specific context retrieved.";
+  }
+
+  return chunks.map((chunk, idx) => {
+    const relevance = (chunk.similarity * 100).toFixed(1);
+    return `[${chunk.category.toUpperCase()}] (${relevance}% match)\n${chunk.content}`;
+  }).join('\n\n');
+}
+
+/**
+ * Main RAG-powered response generator
+ */
 export const generateAIResponse = async (query) => {
-    // 1. Check if AI is configured
-    if (!API_KEY) {
-        console.warn("DeepSeek API Key missing.");
-        return "The AI system is still being configured. Please ensure VITE_DEEPSEEK_API_KEY is set in the environment.";
+  // 1. Check if AI is configured
+  if (!API_KEY) {
+    console.warn("DeepSeek API Key missing.");
+    return "The AI system is still being configured. Please ensure VITE_DEEPSEEK_API_KEY is set in the environment.";
+  }
+
+  try {
+    // 2. Initialize embeddings if needed
+    const chunksWithEmbeddings = await ensureEmbeddings();
+
+    // 3. RAG: Search for relevant chunks
+    const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 4);
+    const retrievedContext = formatRetrievedContext(relevantChunks);
+
+    // 4. Log retrieval for debugging
+    console.log("RAG Retrieval:", relevantChunks.map(c => ({
+      id: c.id,
+      category: c.category,
+      similarity: (c.similarity * 100).toFixed(1) + '%'
+    })));
+
+    // 5. Build augmented prompt with retrieved context
+    const augmentedSystemPrompt = `${SYSTEM_INSTRUCTION}
+
+### RETRIEVED CONTEXT (Use this to answer the user's question):
+${retrievedContext}
+`;
+
+    // 6. Call LLM with augmented context
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: augmentedSystemPrompt },
+          { role: "user", content: query }
+        ],
+        max_tokens: 200,
+        temperature: 0.7
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || "API request failed");
     }
 
-    try {
-        const response = await fetch("https://api.deepseek.com/chat/completions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
-            },
-            body: JSON.stringify({
-                model: "deepseek-chat",
-                messages: [
-                    { role: "system", content: SYSTEM_INSTRUCTION },
-                    { role: "user", content: query }
-                ],
-                max_tokens: 150,
-                temperature: 0.7
-            })
-        });
+    const data = await response.json();
+    return data.choices[0].message.content;
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error?.message || "API request failed");
-        }
-
-        const data = await response.json();
-        return data.choices[0].message.content;
-
-    } catch (error) {
-        console.error("AI Retrieval Error:", error);
-        return "I'm having a bit of trouble connecting to my brain right now. Please try asking again in a moment!";
-    }
+  } catch (error) {
+    console.error("AI RAG Error:", error);
+    return "I'm having a bit of trouble connecting to my brain right now. Please try asking again in a moment!";
+  }
 };
+
+/**
+ * Pre-warm embeddings (call on app load for faster first response)
+ */
+export const preloadEmbeddings = async () => {
+  try {
+    await ensureEmbeddings();
+    console.log("Embeddings pre-loaded successfully");
+  } catch (error) {
+    console.warn("Failed to pre-load embeddings:", error);
+  }
+};
+
+/**
+ * Get RAG stats for debugging
+ */
+export const getRAGStats = () => ({
+  chunksLoaded: embeddingsCache ? embeddingsCache.length : 0,
+  isInitialized: !!embeddingsCache,
+  categories: embeddingsCache
+    ? [...new Set(embeddingsCache.map(c => c.category))]
+    : []
+});

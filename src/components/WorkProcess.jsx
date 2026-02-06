@@ -131,12 +131,12 @@ const ProcessStep = ({ step, index, onOpen }) => {
     >
       {/* Visual Component */}
       <div className={`lg:col-span-6 ${index % 2 === 0 ? 'order-2' : 'order-2 lg:order-1'}`}>
-         <div className={`aspect-[16/10] rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-700 border relative group ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-50 shadow-blue-500/5 border-neutral-100'}`}>
-            <motion.img 
+         <div className={`aspect-[16/10] rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-700 border relative group ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-50 shadow-blue-500/5 border-neutral-100'}`}>
+            <motion.img
               style={{ y: yImage }}
-              src={step.img} 
-              alt={step.title} 
-              className={`w-full h-full object-cover grayscale transition-all duration-700 ${blueprintMode ? 'opacity-20' : 'group-hover:grayscale-0'}`}
+              src={step.img}
+              alt={step.title}
+              className={`w-full h-[calc(100%+50px)] object-cover grayscale transition-all duration-700 ${blueprintMode ? 'opacity-20' : 'group-hover:grayscale-0'}`}
             />
             <div className={`absolute inset-0 mix-blend-overlay transition-colors ${blueprintMode ? 'bg-blue-600/20' : 'bg-blue-600/5'}`}></div>
             

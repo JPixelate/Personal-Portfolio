@@ -7,7 +7,7 @@ const ExplorerControls = () => {
   const { blueprintMode, toggleBlueprint, playSound } = useUI();
 
   return (
-    <div className="fixed bottom-32 right-8 flex flex-col gap-4 z-[100]">
+    <div className="fixed bottom-8 left-8 flex-col gap-4 z-[100] hidden lg:flex">
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -28,10 +28,10 @@ const ExplorerControls = () => {
       <AnimatePresence>
         {blueprintMode && (
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="absolute right-16 top-0 bg-[#050505] border border-blue-500/30 p-4 rounded-xl shadow-2xl w-64 pointer-events-none"
+            exit={{ opacity: 0, x: -20 }}
+            className="absolute left-16 top-0 bg-[#050505] border border-blue-500/30 p-4 rounded-xl shadow-2xl w-64 pointer-events-none"
           >
             <div className="flex items-center gap-2 mb-3 text-blue-500">
                 <Terminal size={14} />

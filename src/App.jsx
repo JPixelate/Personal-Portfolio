@@ -14,6 +14,8 @@ import FocusIndicator from './components/FocusIndicator.jsx';
 import ScreenReaderAnnouncer from './components/ScreenReaderAnnouncer.jsx';
 import SystemConcierge from './components/SystemConcierge.jsx';
 import ExplorerControls from './components/ExplorerControls.jsx';
+import ScrollProgress from './components/ScrollProgress.jsx';
+import { preloadEmbeddings } from './utils/aiKnowledge.js';
 const ProcessPage = React.lazy(() => import('./pages/ProcessPage.jsx'));
 const DeployPage = React.lazy(() => import('./pages/DeployPage.jsx'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage.jsx'));
@@ -89,6 +91,11 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  // Pre-load RAG embeddings for faster AI responses
+  useEffect(() => {
+    preloadEmbeddings();
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-white dark:bg-neutral-950">
@@ -110,6 +117,7 @@ function App() {
         <FloatingNavbar />
         <SystemConcierge />
         <ExplorerControls />
+        <ScrollProgress />
 
 
         {/* 4. ANIMATED ROUTES */}
