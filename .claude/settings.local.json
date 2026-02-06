@@ -5,7 +5,11 @@
       "Bash(dir:*)",
       "Read(//d/**)",
       "Bash(tree:*)",
-      "Bash(node scripts/generateEmbeddings.js:*)"
+      "Bash(node scripts/generateEmbeddings.js:*)",
+      "Bash(magick:*)",
+      "Bash(convert:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(findstr:*)"
     ]
   }
 }

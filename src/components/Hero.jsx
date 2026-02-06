@@ -157,8 +157,6 @@ const Hero = () => {
                     alt="Creative Direction"
                     className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-40 grayscale brightness-50' : 'opacity-100'}`}
                    />
-                   <div className={`absolute inset-0 bg-gradient-to-t transition-colors duration-700 ${blueprintMode ? 'from-blue-600/20 to-transparent' : 'from-neutral-900/40 to-transparent'}`}></div>
-                   
                    {/* Blueprint Labels Overlay */}
                    {blueprintMode && (
                      <div className="absolute inset-0 p-4 font-mono text-[8px] text-blue-500/50 pointer-events-none">
@@ -167,12 +165,6 @@ const Hero = () => {
                         <div className="border-b border-blue-500/20">TRANSFORM: translateZ(0)</div>
                      </div>
                    )}
-
-                   {/* Floating Label */}
-                   <div className={`absolute bottom-8 left-8 right-8 p-6 backdrop-blur-xl rounded-2xl border transition-all duration-700 ${blueprintMode ? 'bg-blue-600/10 border-blue-500/30 text-blue-400' : 'bg-white/20 border-white/30 text-white'}`}>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-80 mb-1">Full Stack Web Developer</p>
-                      <h3 className="text-lg font-bold tracking-tighter">Architecture & Engineering</h3>
-                   </div>
                 </div>
 
                 {/* Bottom Trigger */}
