@@ -51,7 +51,7 @@ const FloatingNavbar = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${
-          blueprintMode ? "bg-[#050505]/90 backdrop-blur-md border-b border-blue-900/50 py-3 md:py-4 shadow-lg shadow-blue-500/5" : "bg-white border-b border-neutral-100 py-3 md:py-4 shadow-sm"
+          blueprintMode ? "bg-[#050505]/90 backdrop-blur-md py-3 md:py-4" : "bg-white py-3 md:py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8">
