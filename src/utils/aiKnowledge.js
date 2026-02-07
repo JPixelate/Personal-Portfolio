@@ -252,7 +252,7 @@ export const generateAIResponse = async (query, userHistory = []) => {
     const chunksWithEmbeddings = await ensureEmbeddings();
 
     // 3. RAG: Search for relevant chunks
-    const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 4);
+    const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 6);
     const retrievedContext = formatRetrievedContext(relevantChunks);
 
     // 4. Log retrieval for debugging
@@ -319,7 +319,7 @@ export const generateAIResponseStreaming = async (query, { onSentence, onComplet
   (async () => {
     try {
       const chunksWithEmbeddings = await ensureEmbeddings();
-      const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 4);
+      const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 6);
       const retrievedContext = formatRetrievedContext(relevantChunks);
 
       const response = await fetch(`${API_URL}/api/chat/stream`, {

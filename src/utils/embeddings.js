@@ -89,16 +89,38 @@ export function cosineSimilarity(vecA, vecB) {
  * @param {number} topK - Number of results to return
  * @returns {Array} Top matching chunks with similarity scores
  */
-export async function searchSimilarChunks(query, chunksWithEmbeddings = null, topK = 3) {
+export async function searchSimilarChunks(query, chunksWithEmbeddings = null, topK = 6) {
   const chunks = chunksWithEmbeddings || embeddingsData;
   const queryEmbedding = generateEmbedding(query);
+  const normalize = str => str.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+  const queryWords = normalize(query).split(/\s+/).filter(w => w.length > 2);
 
-  const scored = chunks.map(chunk => ({
-    ...chunk,
-    similarity: cosineSimilarity(queryEmbedding, chunk.embedding)
-  }));
+  const scored = chunks.map(chunk => {
+    // 1. Vector Similarity
+    const sim = cosineSimilarity(queryEmbedding, chunk.embedding);
+    
+    // 2. Keyword Boost
+    let keywordMatches = 0;
+    const chunkContent = normalize(chunk.content + ' ' + chunk.category);
+    
+    queryWords.forEach(word => {
+      if (chunkContent.includes(word)) {
+        keywordMatches++;
+      }
+    });
+    
+    // Boost score: 10% boost per matching keyword (capped at 50%)
+    const boost = Math.min(keywordMatches * 0.1, 0.5);
+    
+    return {
+      ...chunk,
+      similarity: sim + boost,
+      originalSimilarity: sim,
+      matches: keywordMatches
+    };
+  });
 
-  // Sort by similarity (highest first) and return top K
+  // Sort by combined score
   scored.sort((a, b) => b.similarity - a.similarity);
 
   return scored.slice(0, topK);
