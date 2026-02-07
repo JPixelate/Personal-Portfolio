@@ -241,7 +241,7 @@ const API_URL = import.meta.env.VITE_API_URL || ''; // Relative in production, o
 /**
  * Main RAG-powered response generator (now using secure backend)
  */
-export const generateAIResponse = async (query) => {
+export const generateAIResponse = async (query, userHistory = []) => {
   // 1. Validate Input Quality (Anti-Gibberish Filter)
   if (!isValidInput(query)) {
     return "I'm not sure I understand. Could you please rephrase your question?";
@@ -270,7 +270,8 @@ export const generateAIResponse = async (query) => {
       },
       body: JSON.stringify({
         query: query,
-        relevantChunks: retrievedContext
+        relevantChunks: retrievedContext,
+        userHistory: userHistory
       })
     });
 
@@ -305,7 +306,7 @@ export const generateAIResponse = async (query) => {
  * Streams DeepSeek response via SSE and calls onSentence for each complete sentence.
  * Returns an abort function to cancel the stream.
  */
-export const generateAIResponseStreaming = async (query, { onSentence, onComplete, onError }) => {
+export const generateAIResponseStreaming = async (query, { onSentence, onComplete, onError, userHistory = [] }) => {
   if (!isValidInput(query)) {
     const msg = "I'm not sure I understand. Could you please rephrase your question?";
     onSentence(msg);
@@ -324,7 +325,7 @@ export const generateAIResponseStreaming = async (query, { onSentence, onComplet
       const response = await fetch(`${API_URL}/api/chat/stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, relevantChunks: retrievedContext }),
+        body: JSON.stringify({ query, relevantChunks: retrievedContext, userHistory: userHistory }),
         signal: abortController.signal
       });
 

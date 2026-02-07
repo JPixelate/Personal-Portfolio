@@ -11,7 +11,24 @@ export const UIProvider = ({ children }) => {
   });
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [viewedProjects, setViewedProjects] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('viewedProjects');
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
   const audioCtxRef = useRef(null);
+
+  const trackProjectView = (project) => {
+    setViewedProjects(prev => {
+      // Don't duplicate and keep only the last 10
+      const filtered = prev.filter(p => p.id !== project.id);
+      const updated = [project, ...filtered].slice(0, 10);
+      localStorage.setItem('viewedProjects', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   // Derived booleans
   const blueprintMode = themeMode === 'blueprint';
@@ -149,7 +166,9 @@ export const UIProvider = ({ children }) => {
       isChatOpen,
       openChat,
       closeChat,
-      toggleChat
+      toggleChat,
+      viewedProjects,
+      trackProjectView
     }}>
       {children}
     </UIContext.Provider>

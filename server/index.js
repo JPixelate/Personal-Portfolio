@@ -187,7 +187,7 @@ app.get('/api/chat/limit', (req, res) => {
  */
 app.post('/api/chat', async (req, res) => {
   const ip = getClientIP(req);
-  const { query, relevantChunks } = req.body;
+  const { query, relevantChunks, userHistory } = req.body;
 
   // Validate input
   if (!query || typeof query !== 'string') {
@@ -269,6 +269,10 @@ When mentioning project, experience, or contact, provide a clickable link:
 
 Example: "Jonald specializes in React. You can check out his work in the [Portfolio](/#section-projects)."
 
+### USER CONTEXT (Historical interactions):
+The user has recently viewed the following projects: ${userHistory && userHistory.length > 0 ? userHistory.map(p => p.title).join(', ') : 'None yet'}. 
+If they have viewed specific projects, you can occasionally cross-reference them or suggest related ones if relevant to their current question.
+
 ### RETRIEVED CONTEXT (Use this to answer the user's question):
 ${relevantChunks || 'No specific context retrieved.'}
 `;
@@ -323,7 +327,7 @@ ${relevantChunks || 'No specific context retrieved.'}
  */
 app.post('/api/chat/stream', async (req, res) => {
   const ip = getClientIP(req);
-  const { query, relevantChunks } = req.body;
+  const { query, relevantChunks, userHistory } = req.body;
 
   if (!query || typeof query !== 'string') {
     return res.status(400).json({ error: 'Invalid query' });
@@ -365,6 +369,9 @@ You are the AI Assistant for Jonald Penpillo's portfolio website. Answer questio
 STRICT SCOPE: Only answer about Jonald. Refuse general programming or unrelated tasks.
 BE CONCISE: 2-3 sentences max. Use bullet points for lists (max 3 items).
 ALWAYS refer to Jonald in 3rd person. NEVER use 1st person.
+
+### USER CONTEXT:
+Recently viewed: ${userHistory && userHistory.length > 0 ? userHistory.map(p => p.title).join(', ') : 'None'}.
 
 ### RETRIEVED CONTEXT:
 ${relevantChunks || 'No specific context retrieved.'}

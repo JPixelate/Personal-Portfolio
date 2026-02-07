@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ExternalLink, ArrowUpRight } from 'lucide-react';
 
 const SystemConcierge = () => {
-    const { themeMode, blueprintMode, darkMode, isDark, themed, playSound, isChatOpen, toggleChat, closeChat, toggleBlueprint } = useUI();
+    const { themeMode, blueprintMode, darkMode, isDark, themed, playSound, isChatOpen, toggleChat, closeChat, toggleBlueprint, viewedProjects } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -471,6 +471,7 @@ const SystemConcierge = () => {
                         ));
                         enqueueSentence(sentence);
                     },
+                    userHistory: viewedProjects,
                     onComplete: (completeText) => {
                         // Extract commands from full text
                         const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
@@ -505,7 +506,7 @@ const SystemConcierge = () => {
 
             } else {
                 // --- NON-STREAMING PATH (text chat, unchanged) ---
-                const responseTextRaw = await generateAIResponse(userMessage.text);
+                const responseTextRaw = await generateAIResponse(userMessage.text, viewedProjects);
 
                 const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
                 let finalResponseText = responseTextRaw;
@@ -940,7 +941,7 @@ const SystemConcierge = () => {
                                e.preventDefault();
                                handleSendMessage();
                            }}
-                           className={`p-6 border-t transition-colors duration-500 ${
+                           className={`p-6 border-t relative transition-colors duration-500 ${
                                 themed('bg-white border-neutral-100', 'bg-[#0f0f0f] border-neutral-800', 'bg-[#0a0a0a] border-blue-500/10', 'bg-[#eee8d5] border-[#433422]/10')
                             }`}
                         >
@@ -951,7 +952,11 @@ const SystemConcierge = () => {
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 10 }}
-                                        className="absolute -top-12 left-6 right-6 bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wide px-4 py-2 rounded-xl border border-red-100 shadow-sm flex items-center gap-2"
+                                        className={`absolute -top-12 left-6 right-6 text-[10px] font-bold uppercase tracking-wide px-4 py-2 rounded-xl border shadow-sm flex items-center gap-2 ${
+                                            blueprintMode 
+                                                ? 'bg-red-900/20 text-red-400 border-red-500/30 shadow-red-900/10' 
+                                                : 'bg-red-50 text-red-600 border-red-100'
+                                        }`}
                                     >
                                         <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
                                         {inputWarning}
@@ -984,7 +989,7 @@ const SystemConcierge = () => {
                                 <button
                                     type="submit"
                                     disabled={!inputValue.trim() || isTyping || isLimitReached}
-                                    className={`absolute right-2 top-2 bottom-2 px-4 rounded-xl transition-all disabled:opacity-50 ${
+                                    className={`absolute right-2 top-2 bottom-2 px-3 rounded-xl transition-all disabled:opacity-50 ${
                                         themed(
                                             'bg-neutral-900 text-white hover:bg-blue-600 disabled:hover:bg-neutral-900',
                                             'bg-blue-600 text-white hover:bg-blue-500',

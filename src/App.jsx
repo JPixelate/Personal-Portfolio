@@ -14,6 +14,7 @@ import FocusIndicator from './components/FocusIndicator.jsx';
 import ScreenReaderAnnouncer from './components/ScreenReaderAnnouncer.jsx';
 import SystemConcierge from './components/SystemConcierge.jsx';
 import ExplorerControls from './components/ExplorerControls.jsx';
+import { BlueprintStats, ArchitectureViewer } from './components/BlueprintStats.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import { preloadEmbeddings } from './utils/aiKnowledge.js';
 const ProcessPage = React.lazy(() => import('./pages/ProcessPage.jsx'));
@@ -118,6 +119,9 @@ function App() {
         <SystemConcierge />
         <ExplorerControls />
         <ScrollProgress />
+
+        <BlueprintStats global componentName="App" bundleSize="124kb" />
+        <ArchitectureViewer />
 
 
         {/* 4. ANIMATED ROUTES */}

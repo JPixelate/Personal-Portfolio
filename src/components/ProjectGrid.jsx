@@ -6,8 +6,13 @@ import { PROJECTS } from "../constants/projects";
 import { useUI } from "../context/UIContext";
 
 const ProjectGrid = () => {
-  const { themeMode, blueprintMode, isDark, themed } = useUI();
+  const { themeMode, blueprintMode, isDark, themed, trackProjectView } = useUI();
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const handleOpenProject = (project) => {
+    setSelectedProject(project);
+    trackProjectView(project);
+  };
 
   useEffect(() => {
     const handleRemoteOpen = (e) => {
@@ -15,6 +20,7 @@ const ProjectGrid = () => {
       const project = PROJECTS.find(p => p.title === projectTitle);
       if (project) {
         setSelectedProject(project);
+        trackProjectView(project);
       }
     };
 
@@ -41,7 +47,7 @@ const ProjectGrid = () => {
               key={idx}
               project={project}
               index={idx}
-              onOpen={() => setSelectedProject(project)}
+              onOpen={() => handleOpenProject(project)}
             />
           ))}
         </div>

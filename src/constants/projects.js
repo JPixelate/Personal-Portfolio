@@ -12,6 +12,7 @@ import analyticsScreenshot3 from "../assets/images/analytics (3).jpg";
 
 export const PROJECTS = [
   {
+    id: "analytics",
     title: "Delightful Analytics",
     category: "Analytics & Data",
     year: "2025",
@@ -30,6 +31,7 @@ export const PROJECTS = [
     ]
   },
   {
+    id: "ota",
     title: "Online Travel Agency Website",
     category: "Travel & Booking",
     year: "2025",
@@ -41,6 +43,7 @@ export const PROJECTS = [
     link: "#"
   },
   {
+    id: "tour-operator",
     title: "Tour Operator System",
     category: "Enterprise Management",
     year: "2024",
@@ -52,6 +55,7 @@ export const PROJECTS = [
     link: "#"
   },
   {
+    id: "brigada-learning",
     title: "Brigada Learning System",
     category: "Educational Tech",
     year: "2024",
@@ -63,6 +67,7 @@ export const PROJECTS = [
     link: "#"
   },
   {
+    id: "ai-travel",
     title: "AI Travel Companion",
     category: "AI & Automation",
     year: "2025",
@@ -75,6 +80,7 @@ export const PROJECTS = [
     link: "#"
   },
   {
+    id: "golf-range",
     title: "Golf Range & Admin System",
     category: "Reservation Platform",
     year: "2024",
@@ -86,6 +92,7 @@ export const PROJECTS = [
     link: "#"
   },
   {
+    id: "bpd-portal",
     title: "BPD Systems Portal",
     category: "Internal Enterprise Tool",
     year: "2024",
