@@ -249,11 +249,9 @@ const DeployPage = () => {
                                                             <button 
                                                                 key={type.id} 
                                                                 onClick={() => { playSound('click'); setFormData({...formData, solutionType: type.id}); setStep(2); }}
-                                                                className={`p-10 rounded-[2rem] border text-left transition-all duration-500 group relative overflow-hidden transform hover:scale-[1.02] hover:-translate-y-1 hover:shadow-2xl ${formData.solutionType === type.id ? `${themed('bg-neutral-100 border-neutral-900', 'bg-neutral-800 border-white', 'bg-blue-900/40 border-blue-400', 'bg-[#fdf6e3] border-[#433422]')}` : `${inputBorder} hover:border-neutral-400 dark:hover:border-white/40`}`}
+                                                                className={`p-10 rounded-[2rem] border text-left transition-all duration-500 group relative overflow-hidden transform hover:scale-[1.02] hover:-translate-y-1 ${formData.solutionType === type.id ? `${themed('bg-neutral-100 border-neutral-900', 'bg-neutral-800 border-white', 'bg-blue-900/40 border-blue-400', 'bg-[#fdf6e3] border-[#433422]')}` : `${inputBorder} hover:border-neutral-400 dark:hover:border-white/40`}`}
                                                             >
-                                                                {/* Background Glow Effect on Hover */}
-                                                                <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity bg-gradient-to-br ${themed('from-black', 'from-white', 'from-blue-400', 'from-[#433422]')}`}></div>
-                                                                
+                                                                {/* Bottom Corner Accent */}
                                                                 <type.icon size={32} className={`mb-8 transition-all duration-500 ${formData.solutionType === type.id ? type.color : 'opacity-40 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-3'}`} />
                                                                 <h4 className="font-extrabold text-xl mb-2 uppercase tracking-tight relative z-10 transition-colors group-hover:text-current">{type.title}</h4>
                                                                 <p className="text-xs font-medium opacity-50 mb-8 relative z-10">{type.desc}</p>
@@ -334,7 +332,7 @@ const DeployPage = () => {
                                                         <button 
                                                             onClick={() => setStep(3)} 
                                                             disabled={!formData.budget || !formData.timeline} 
-                                                            className={`px-12 py-5 ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-white text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl disabled:opacity-20 transform hover:scale-105 active:scale-95 transition-all`}
+                                                            className={`px-12 py-5 ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-white text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] disabled:opacity-20 transform hover:scale-105 active:scale-95 transition-all`}
                                                         >
                                                             Continue
                                                         </button>
@@ -386,7 +384,7 @@ const DeployPage = () => {
                                                         <button 
                                                             onClick={() => setStep(4)} 
                                                             disabled={!formData.name || !formData.email || !formData.details} 
-                                                            className={`px-12 py-5 ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-white text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl disabled:opacity-20 transform hover:scale-105 active:scale-95 transition-all`}
+                                                            className={`px-12 py-5 ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-white text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] disabled:opacity-20 transform hover:scale-105 active:scale-95 transition-all`}
                                                         >
                                                             Review Details
                                                         </button>
@@ -400,7 +398,7 @@ const DeployPage = () => {
                                                         <div className="hidden" aria-hidden="true"><input type="text" name="system_id" /></div>
                                                         
                                                         {/* High-Performance Manifest Card */}
-                                                        <div className={`p-10 rounded-[2rem] border ${themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-neutral-100', 'bg-[#0a0a0a] text-blue-400 border-blue-500/30', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')} shadow-2xl relative overflow-hidden group`}>
+                                                        <div className={`p-10 rounded-[2rem] border ${themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-neutral-100', 'bg-[#0a0a0a] text-blue-400 border-blue-500/30', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')} relative overflow-hidden group`}>
                                                              {/* Animated Grid Overlay */}
                                                              <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                                                                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent"></div>
@@ -508,7 +506,7 @@ const DeployPage = () => {
                                                                 <button 
                                                                     type="submit" 
                                                                     disabled={isLoading} 
-                                                                    className={`flex-[2] py-6 relative group overflow-hidden ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-blue-500 text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.5em] text-xs shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50`}
+                                                                    className={`flex-[2] py-6 relative group overflow-hidden ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-blue-500 text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.5em] text-xs transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50`}
                                                                 >
                                                                     {/* Hover Background Shine */}
                                                                     <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"></div>
