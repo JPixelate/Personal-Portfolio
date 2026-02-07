@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquareCode, CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useUI } from '../context/UIContext';
+import SEO from '../components/SEO.jsx';
 
 const MCPChatbotsPage = () => {
     const navigate = useNavigate();
+    const { themed } = useUI();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -14,7 +17,6 @@ const MCPChatbotsPage = () => {
         title: "MCP-Powered Chatbots",
         subtitle: "Next-Gen Conversational AI",
         icon: MessageSquareCode,
-        iconColor: "text-emerald-400",
         overview: "Deploy intelligent AI agents that don't just chat—they understand, remember, and act. Our MCP-powered solutions integrate seamlessly with your existing systems to provide autonomous assistance.",
         features: [
             "Context-aware conversations with memory retention",
@@ -33,6 +35,22 @@ const MCPChatbotsPage = () => {
             "Continuous learning and improvement system"
         ]
     };
+
+    // Theme-specific styles
+    const accentText = themed('text-emerald-600', 'text-emerald-400', 'text-blue-400', 'text-amber-700');
+    const accentBorder = themed('border-emerald-500/50', 'border-emerald-500/50', 'border-blue-500/50', 'border-amber-500/50');
+    const cardBg = themed('bg-black/5', 'bg-white/5', 'bg-blue-500/5', 'bg-amber-900/5');
+    const cardBorder = themed('border-black/10', 'border-white/10', 'border-blue-500/20', 'border-amber-900/10');
+    const hoverBorder = themed('hover:border-emerald-500/30', 'hover:border-emerald-500/30', 'hover:border-blue-500/60', 'hover:border-amber-500/50');
+    const pillBg = themed('bg-black/5', 'bg-white/5', 'bg-blue-500/10', 'bg-amber-900/5');
+    const pillHover = themed('hover:bg-black/10', 'hover:bg-white/10', 'hover:bg-blue-500/20', 'hover:bg-amber-900/10');
+    const btnGradient = themed(
+        'from-emerald-600 to-teal-600',
+        'from-emerald-600 to-teal-600',
+        'from-blue-500 to-cyan-500',
+        'from-amber-600 to-orange-700'
+    );
+    const orbColor = themed('bg-emerald-900/10', 'bg-emerald-900/10', 'bg-blue-500/10', 'bg-amber-500/10');
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -58,10 +76,15 @@ const MCPChatbotsPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-emerald-500/30">
+        <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-emerald-500/30 transition-colors duration-500">
+            <SEO 
+                title="MCP Chatbots & AI Agents | JPixelate"
+                description="Next-generation conversational AI agents powered by Model Context Protocol (MCP) and RAG for intelligent, autonomous assistance."
+            />
+            
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-[radial-gradient(#00000003_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none"></div>
-            <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-emerald-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className={`absolute inset-0 ${themed('bg-[radial-gradient(#00000003_1px,transparent_1px)]', 'bg-[radial-gradient(#ffffff03_1px,transparent_1px)]', 'bg-[radial-gradient(#3b82f610_1px,transparent_1px)]', 'bg-[radial-gradient(#b5890010_1px,transparent_1px)]')} [background-size:32px_32px] pointer-events-none`}></div>
+            <div className={`absolute top-0 left-0 w-[600px] h-[600px] ${orbColor} rounded-full blur-[120px] pointer-events-none`}></div>
 
             <div className="relative pt-40 pb-20 px-8">
                 <motion.div
@@ -82,8 +105,8 @@ const MCPChatbotsPage = () => {
 
                     {/* Overview */}
                     <motion.div variants={itemVariants} className="mb-16">
-                        <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-6">Overview</h2>
-                        <p className="text-neutral-600 dark:text-gray-400 leading-relaxed text-base md:text-lg border-l-4 border-emerald-500/50 pl-6">
+                        <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-white">Overview</h2>
+                        <p className={`text-neutral-600 dark:text-gray-400 leading-relaxed text-base md:text-lg border-l-4 ${accentBorder} pl-6`}>
                             {serviceData.overview}
                         </p>
                     </motion.div>
@@ -96,9 +119,9 @@ const MCPChatbotsPage = () => {
                                 <motion.div
                                     key={idx}
                                     variants={itemVariants}
-                                    className="flex items-start gap-4 bg-black/5 dark:bg-white/5 p-6 rounded-2xl border border-black/10 dark:border-white/10 hover:border-emerald-500/30 transition-colors"
+                                    className={`flex items-start gap-4 ${cardBg} p-6 rounded-2xl border ${cardBorder} ${hoverBorder} transition-all duration-300`}
                                 >
-                                    <CheckCircle2 className={`w-6 h-6 ${serviceData.iconColor} mt-0.5 flex-shrink-0`} />
+                                    <CheckCircle2 className={`w-6 h-6 ${accentText} mt-0.5 flex-shrink-0`} />
                                     <span className="text-neutral-600 dark:text-gray-300 text-lg">{feature}</span>
                                 </motion.div>
                             ))}
@@ -112,7 +135,7 @@ const MCPChatbotsPage = () => {
                             {serviceData.technologies.map((tech, idx) => (
                                 <span
                                     key={idx}
-                                    className="px-6 py-3 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-full text-base font-medium text-neutral-600 dark:text-gray-300 hover:border-emerald-500/50 hover:bg-black/10 dark:hover:bg-white/10 transition-all"
+                                    className={`px-6 py-3 ${pillBg} border ${cardBorder} rounded-full text-base font-medium text-neutral-600 dark:text-gray-300 ${hoverBorder} ${pillHover} transition-all`}
                                 >
                                     {tech}
                                 </span>
@@ -127,10 +150,10 @@ const MCPChatbotsPage = () => {
                             {serviceData.deliverables.map((item, idx) => (
                                 <div
                                     key={idx}
-                                    className="flex items-center gap-4 p-6 bg-gradient-to-r from-black/5 to-transparent dark:from-white/5 dark:to-transparent rounded-2xl border border-black/10 dark:border-white/10"
+                                    className={`flex items-center gap-4 p-6 bg-gradient-to-r ${themed('from-black/5', 'from-white/5', 'from-blue-500/10', 'from-amber-900/5')} to-transparent rounded-2xl border ${cardBorder}`}
                                 >
-                                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{idx + 1}</span>
+                                    <div className={`w-10 h-10 rounded-full ${themed('bg-emerald-500/20', 'bg-emerald-500/20', 'bg-blue-500/30', 'bg-amber-500/20')} border ${accentBorder} flex items-center justify-center flex-shrink-0`}>
+                                        <span className={`${accentText} font-bold`}>{idx + 1}</span>
                                     </div>
                                     <span className="text-neutral-600 dark:text-gray-300 text-lg">{item}</span>
                                 </div>
@@ -139,10 +162,10 @@ const MCPChatbotsPage = () => {
                     </motion.div>
 
                     {/* CTA */}
-                    <motion.div variants={itemVariants} className="pt-8 border-t border-black/10 dark:border-white/10">
+                    <motion.div variants={itemVariants} className={`pt-8 border-t ${cardBorder}`}>
                         <button
                             onClick={() => navigate('/deploy')}
-                            className="w-full py-5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-2xl hover:from-emerald-500 hover:to-teal-500 transition-all shadow-[0_0_40px_rgba(16,185,129,0.3)] flex items-center justify-center gap-3 group"
+                            className={`w-full py-5 bg-gradient-to-r ${btnGradient} text-white font-bold text-lg rounded-2xl hover:brightness-110 transition-all shadow-[0_0_40px_rgba(16,185,129,0.3)] flex items-center justify-center gap-3 group`}
                         >
                             Get Started with MCP Chatbots
                             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />

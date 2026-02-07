@@ -472,7 +472,7 @@ const SystemConcierge = () => {
                         enqueueSentence(sentence);
                     },
                     userHistory: viewedProjects,
-                    onComplete: (completeText) => {
+                    onComplete: (completeText, usage) => {
                         // Extract commands from full text
                         const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
                         let finalText = completeText;
@@ -483,11 +483,20 @@ const SystemConcierge = () => {
                             finalText = finalText.replace(match[0], '');
                         }
 
-                        setMessages(prev => prev.map(msg =>
-                            msg.id === botMessageId
-                                ? { ...msg, text: finalText.trim(), showTech: commands.some(c => c.name === 'show-tech') }
-                                : msg
-                        ));
+                        setMessages(prev => {
+                            const newMessages = [...prev];
+                            // Find the user message that started this
+                            const userMsgIndex = [...newMessages].reverse().findIndex(m => m.sender === 'user');
+                            if (userMsgIndex !== -1) {
+                                const actualIndex = newMessages.length - 1 - userMsgIndex;
+                                newMessages[actualIndex] = { ...newMessages[actualIndex], prompt_tokens: usage?.prompt_tokens };
+                            }
+                            return newMessages.map(msg =>
+                                msg.id === botMessageId
+                                    ? { ...msg, text: finalText.trim(), completion_tokens: usage?.completion_tokens, showTech: commands.some(c => c.name === 'show-tech') }
+                                    : msg
+                            );
+                        });
 
                         incrementUsage();
                         setIsTyping(false);
@@ -505,8 +514,8 @@ const SystemConcierge = () => {
                 streamAbortRef.current = abort;
 
             } else {
-                // --- NON-STREAMING PATH (text chat, unchanged) ---
-                const responseTextRaw = await generateAIResponse(userMessage.text, viewedProjects);
+                // --- NON-STREAMING PATH (text chat) ---
+                const { response: responseTextRaw, usage } = await generateAIResponse(userMessage.text, viewedProjects);
 
                 const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
                 let finalResponseText = responseTextRaw;
@@ -522,10 +531,21 @@ const SystemConcierge = () => {
                     id: Date.now() + 1,
                     text: finalResponseText.trim(),
                     sender: 'bot',
+                    completion_tokens: usage?.completion_tokens,
                     showTech: commands.some(c => c.name === 'show-tech')
                 };
 
-                setMessages(prev => [...prev, botMessage]);
+                setMessages(prev => {
+                    const newMessages = [...prev];
+                    // Update current user message with prompt tokens
+                    const userMsgIndex = [...newMessages].reverse().findIndex(m => m.sender === 'user');
+                    if (userMsgIndex !== -1) {
+                        const actualIndex = newMessages.length - 1 - userMsgIndex;
+                        newMessages[actualIndex] = { ...newMessages[actualIndex], prompt_tokens: usage?.prompt_tokens };
+                    }
+                    return [...newMessages, botMessage];
+                });
+
                 incrementUsage();
 
                 setTimeout(() => {
@@ -551,12 +571,12 @@ const SystemConcierge = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         className={`fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] rounded-[2rem] shadow-[0_30px_100px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col transition-all duration-500 backdrop-blur-2xl ${
-                            themed('bg-white/95', 'bg-[#0a0a0a]/95 border border-neutral-800', 'bg-[#050505]/95 shadow-blue-900/10', 'bg-[#fdf6e3]/95 border border-[#433422]/10')
+                            themed('bg-white/95', 'bg-[#0a0a0a]/95 border border-neutral-800', 'bg-[#050505]/95 shadow-blue-900/10 border border-blue-500/20', 'bg-[#fdf6e3]/95 border border-[#433422]/10')
                         }`}
                     >
                         {/* Header */}
                         <div className={`p-6 flex items-center justify-between shrink-0 transition-colors duration-500 border-b ${
-                            themed('bg-white border-neutral-100 text-neutral-900', 'bg-[#0f0f0f] text-neutral-100 border-neutral-800', 'bg-[#0a0a0a]/50 text-blue-400 border-blue-500/10', 'bg-[#eee8d5] border-[#433422]/10 text-[#433422]')
+                            themed('bg-white border-neutral-100 text-neutral-900', 'bg-[#0f0f0f] text-neutral-100 border-neutral-800', 'bg-[#0a0a0a]/50 text-blue-400 border-blue-500/20', 'bg-[#eee8d5] border-[#433422]/10 text-[#433422]')
                         }`}>
                             <div className="flex items-center gap-3">
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-500 ${
@@ -606,58 +626,74 @@ const SystemConcierge = () => {
                             themed('bg-neutral-50/50', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]/50')
                         }`}>
                             {messages.map((msg) => (
-                                <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-500 ${
-                                        msg.sender === 'bot' 
-                                            ? themed('bg-neutral-900 text-white', 'bg-[#1a1a1a] text-neutral-300 border border-neutral-800', 'bg-blue-900/20 text-blue-400 border border-blue-500/20', 'bg-[#433422] text-[#fdf6e3]')
-                                            : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600/20 text-blue-400 border border-blue-500/40', 'bg-[#b58900] text-[#fdf6e3]')
-                                    }`}>
-                                        {msg.sender === 'bot' ? <Bot size={16} /> : <User size={16} />}
-                                    </div>
-                                    <div className={`p-4 rounded-3xl shadow-sm max-w-[80%] transition-colors duration-500 ${
-                                        msg.sender === 'bot'
-                                            ? themed('bg-white rounded-tl-none shadow-neutral-200/50', 'bg-[#1a1a1a] rounded-tl-none text-neutral-100 border border-neutral-800', 'bg-blue-950/20 rounded-tl-none text-blue-300 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)]', 'bg-[#eee8d5] rounded-tl-none text-[#433422] shadow-[#433422]/05')
-                                            : themed('bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50', 'bg-blue-500 text-white rounded-tr-none shadow-lg shadow-blue-950/40', 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-950/20', 'bg-[#b58900] text-[#fdf6e3] rounded-tr-none shadow-[#b58900]/20')
-                                    }`}>
-                                        {msg.sender === 'bot' ? (
-                                            <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
-                                                themed('text-neutral-800 prose-neutral prose-headings:text-neutral-900 prose-strong:text-neutral-900', 'text-neutral-200 prose-invert prose-headings:text-white prose-strong:text-white', 'text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200', 'text-[#433422] prose-brown prose-headings:text-[#433422] prose-strong:text-[#433422]')
-                                            }`}>
-                                                <ReactMarkdown 
-                                                    components={{
-                                                        a: MarkdownLink
-                                                    }}
-                                                >
+                                <div key={msg.id} className={`flex flex-col gap-1 ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
+                                    {blueprintMode && msg.prompt_tokens && (
+                                        <div className="px-2 mb-1">
+                                            <span className="text-[9px] font-black tracking-tighter text-blue-500/60 uppercase">
+                                                I_TOKENS: {msg.prompt_tokens}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {blueprintMode && msg.completion_tokens && (
+                                        <div className="px-2 mb-1">
+                                            <span className="text-[9px] font-black tracking-tighter text-blue-400/80 uppercase">
+                                                O_TOKENS: {msg.completion_tokens}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <div className={`flex gap-3 w-full ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
+                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-500 ${
+                                            msg.sender === 'bot' 
+                                                ? themed('bg-neutral-900 text-white', 'bg-[#1a1a1a] text-neutral-300 border border-neutral-800', 'bg-blue-900/20 text-blue-400 border border-blue-500/20', 'bg-[#433422] text-[#fdf6e3]')
+                                                : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600/20 text-blue-400 border border-blue-500/40', 'bg-[#b58900] text-[#fdf6e3]')
+                                        }`}>
+                                            {msg.sender === 'bot' ? <Bot size={16} /> : <User size={16} />}
+                                        </div>
+                                        <div className={`p-4 rounded-3xl shadow-sm max-w-[80%] transition-all duration-500 ${
+                                            msg.sender === 'bot'
+                                                ? themed('bg-white rounded-tl-none shadow-neutral-200/50', 'bg-[#1a1a1a] rounded-tl-none text-neutral-100 border border-neutral-800', 'bg-blue-950/20 rounded-tl-none text-blue-300 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)] border border-blue-500/20', 'bg-[#eee8d5] rounded-tl-none text-[#433422] shadow-[#433422]/05')
+                                                : themed('bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50', 'bg-blue-500 text-white rounded-tr-none shadow-lg shadow-blue-950/40', 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-500/20 border border-blue-400/30', 'bg-[#b58900] text-[#fdf6e3] rounded-tr-none shadow-[#b58900]/20')
+                                        }`}>
+                                            {msg.sender === 'bot' ? (
+                                                <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
+                                                    themed('text-neutral-800 prose-neutral prose-headings:text-neutral-900 prose-strong:text-neutral-900', 'text-neutral-200 prose-invert prose-headings:text-white prose-strong:text-white', 'text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200', 'text-[#433422] prose-brown prose-headings:text-[#433422] prose-strong:text-[#433422]')
+                                                }`}>
+                                                    <ReactMarkdown 
+                                                        components={{
+                                                            a: MarkdownLink
+                                                        }}
+                                                    >
+                                                        {msg.text}
+                                                    </ReactMarkdown>
+
+                                                    {msg.showTech && (
+                                                        <div className="mt-6 flex flex-wrap gap-2">
+                                                            {['React', 'Next.js', 'Node.js', 'Tailwind', 'OpenAI', 'Python', 'PostgreSQL', 'Framer Motion'].map((tech, i) => (
+                                                                <motion.div 
+                                                                    key={tech}
+                                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                                    animate={{ opacity: 1, scale: 1 }}
+                                                                    transition={{ delay: i * 0.05 }}
+                                                                    className={`px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-2 group/tech transition-all hover:scale-110 ${
+                                                                        themed('bg-neutral-100 text-neutral-600 border border-neutral-200', 'bg-neutral-800 text-neutral-400 border border-neutral-700', 'bg-blue-900/10 text-blue-400 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')
+                                                                    }`}
+                                                                >
+                                                                    <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${blueprintMode ? 'bg-blue-400 animate-pulse' : 'bg-blue-500'}`} />
+                                                                    {tech}
+                                                                </motion.div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                            ) : (
+                                                <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap ${
+                                                    blueprintMode ? 'text-blue-300' : 'text-white'
+                                                }`}>
                                                     {msg.text}
-                                                </ReactMarkdown>
-
-                                                {msg.showTech && (
-                                                    <div className="mt-6 flex flex-wrap gap-2">
-                                                        {['React', 'Next.js', 'Node.js', 'Tailwind', 'OpenAI', 'Python', 'PostgreSQL', 'Framer Motion'].map((tech, i) => (
-                                                            <motion.div 
-                                                                key={tech}
-                                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                                animate={{ opacity: 1, scale: 1 }}
-                                                                transition={{ delay: i * 0.05 }}
-                                                                 className={`px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-2 group/tech transition-all hover:scale-110 ${
-                                                                    themed('bg-neutral-100 text-neutral-600 border border-neutral-200', 'bg-neutral-800 text-neutral-400 border border-neutral-700', 'bg-blue-900/10 text-blue-400 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')
-                                                                }`}
-                                                            >
-                                                                <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${blueprintMode ? 'bg-blue-400 animate-pulse' : 'bg-blue-500'}`} />
-                                                                {tech}
-                                                            </motion.div>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                        ) : (
-                                            <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap ${
-                                                blueprintMode ? 'text-blue-300' : 'text-white'
-                                            }`}>
-                                                {msg.text}
-                                            </p>
-                                        )}
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -914,7 +950,7 @@ const SystemConcierge = () => {
                         {!isVoiceMode && <AnimatePresence>
                             {quickReplies.length > 0 && (
                                 <div className={`px-6 py-3 border-t flex gap-2 overflow-x-auto no-scrollbar shrink-0 transition-colors duration-500 ${
-                                    themed('bg-white border-neutral-50', 'bg-[#0f0f0f] border-neutral-800', 'bg-[#0a0a0a] border-blue-900/30', 'bg-[#eee8d5] border-[#433422]/10')
+                                    themed('bg-white border-neutral-50', 'bg-[#0f0f0f] border-neutral-800', 'bg-[#0a0a0a] border-blue-500/20', 'bg-[#eee8d5] border-[#433422]/10')
                                 }`}>
                                     {quickReplies.map((reply) => (
                                         <motion.button
@@ -981,7 +1017,7 @@ const SystemConcierge = () => {
                                         themed(
                                             'bg-neutral-50 border border-neutral-100 focus:border-blue-600',
                                             'bg-[#1a1a1a] border border-neutral-800 text-neutral-200 focus:border-blue-500 placeholder-neutral-700',
-                                            'bg-[#0a0a0a] border border-blue-900/30 text-blue-400 focus:border-blue-500 placeholder-blue-700/30',
+                                            'bg-[#0a0a0a] border border-blue-500/20 text-blue-400 focus:border-blue-500 placeholder-blue-700/30',
                                             'bg-[#fdf6e3] border border-[#433422]/10 text-[#433422] focus:border-[#b58900] placeholder-[#433422]/30'
                                         )
                                     }`}

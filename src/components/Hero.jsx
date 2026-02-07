@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDownRight, Layers, Sparkles, Database } from "lucide-react";
 import meHero from "../assets/images/uss52.webp";
@@ -6,6 +7,7 @@ import { useUI } from "../context/UIContext";
 
 const Hero = () => {
   const { themeMode, blueprintMode, isDark, themed, playSound } = useUI();
+  const goToPage = useNavigate();
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -216,7 +218,7 @@ const Hero = () => {
                   onMouseEnter={() => playSound('hover')}
                   onClick={() => {
                     playSound('click');
-                    document.getElementById('section-projects')?.scrollIntoView({ behavior: 'smooth' });
+                    goToPage('/services/web-architecture');
                   }}
                   className={`absolute -bottom-10 right-10 w-20 h-20 rounded-full flex items-center justify-center shadow-xl cursor-pointer pointer-events-auto z-[40] transition-colors ${themed(
                     'bg-blue-600 text-white hover:bg-neutral-900',
