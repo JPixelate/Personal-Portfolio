@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { query, relevantChunks } = req.body;
+  const { query, relevantChunks, userHistory } = req.body;
 
   if (!DEEPSEEK_API_KEY) {
     return res.status(500).json({ error: 'API key not configured' });
@@ -23,15 +23,28 @@ export default async function handler(req, res) {
   });
 
   try {
-    const SYSTEM_INSTRUCTION = `
-You are the AI Assistant for Jonald Penpillo's portfolio website. Answer questions about Jonald—his skills, projects, and experience.
-STRICT SCOPE: Only answer about Jonald. Refuse general programming or unrelated tasks.
-BE CONCISE: 2-3 sentences max. Use bullet points for lists (max 3 items).
-ALWAYS refer to Jonald in 3rd person. NEVER use 1st person.
+    const historyText = userHistory && userHistory.length > 0 
+      ? `User viewed: ${userHistory.map(p => p.title).join(', ')}` 
+      : 'No history';
 
-### RETRIEVED CONTEXT:
-${relevantChunks || 'No specific context retrieved.'}
-`;
+    const SYSTEM_INSTRUCTION = `You are Jonald Penpillo's portfolio AI.
+Date: ${new Date().toDateString()}
+
+Purpose: Answer questions about Jonald's skills, projects, bio, and personal background. 
+
+**RULES:**
+- Use ONLY the RETRIEVED CONTEXT. If not there, say you don't know.
+- STRICT SCOPE: No general coding/homework help.
+- BE CONCISE (2-3 sentences). 
+- Always use 3rd person ("He").
+- NEVER provide code snippets.
+- Use [cmd:...] if found in context and relevant.
+- Jonald graduated from Goldenstate College (NOT STI).
+
+**USER CONTEXT:** ${historyText}
+
+**RETRIEVED CONTEXT:**
+${relevantChunks || 'No context found.'}`;
 
     const response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
@@ -47,7 +60,8 @@ ${relevantChunks || 'No specific context retrieved.'}
         ],
         max_tokens: 200,
         temperature: 0.7,
-        stream: true
+        stream: true,
+        stream_options: { include_usage: true }
       })
     });
 
