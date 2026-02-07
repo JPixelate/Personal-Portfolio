@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Bot, Send, User, X, Mail, Phone, Linkedin, MessageCircle, Mic, MicOff, Volume2, Globe, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
-import { generateAIResponse, isValidInput } from '../utils/aiKnowledge';
+import { generateAIResponse, generateAIResponseStreaming, isValidInput } from '../utils/aiKnowledge';
 import { AssemblyAIStreamer } from '../utils/assemblyAIStreamer';
 import { useUI } from '../context/UIContext';
 
@@ -55,6 +55,10 @@ const SystemConcierge = () => {
     const transcriptRef = useRef(""); // To access latest transcript in closures
     const handleSendMessageRef = useRef(null); // To access latest function in closures
     const isVoiceModeRef = useRef(false); // Ref for robust state access
+    const endOfTurnTimerRef = useRef(null); // Auto-send debounce timer
+    const ttsQueueRef = useRef([]); // TTS sentence queue
+    const isTTSSpeakingRef = useRef(false); // Is TTS currently speaking
+    const streamAbortRef = useRef(null); // Abort function for active stream
     
     // Update ref on render
     useEffect(() => {
@@ -68,14 +72,44 @@ const SystemConcierge = () => {
     // Initialize AssemblyAI Streamer
     useEffect(() => {
         streamerRef.current = new AssemblyAIStreamer({
-            onTranscript: (text, isFinal) => {
-                // Interrupt AI speech if user starts talking
-                if (text && synthesisRef.current.speaking) {
-                    synthesisRef.current.cancel();
-                    setIsSpeaking(false);
+            onTranscript: (text, endOfTurn) => {
+                // Interrupt: cancel speech, TTS queue, and active stream
+                if (text) {
+                    if (synthesisRef.current.speaking || ttsQueueRef.current.length > 0) {
+                        cancelTTSQueue();
+                    }
+                    if (streamAbortRef.current) {
+                        streamAbortRef.current();
+                        streamAbortRef.current = null;
+                        setIsTyping(false);
+                    }
                 }
+
                 setVoiceTranscript(text);
                 transcriptRef.current = text;
+
+                // Clear any existing auto-send timer
+                if (endOfTurnTimerRef.current) {
+                    clearTimeout(endOfTurnTimerRef.current);
+                    endOfTurnTimerRef.current = null;
+                }
+
+                // Auto-send after 1.5s silence when end_of_turn detected
+                if (endOfTurn && text && text.trim()) {
+                    endOfTurnTimerRef.current = setTimeout(() => {
+                        if (isVoiceModeRef.current && streamerRef.current?.state === 'listening') {
+                            streamerRef.current?.stop();
+                            setIsListening(false);
+                            const finalText = transcriptRef.current.trim();
+                            if (finalText) {
+                                handleSendMessageRef.current?.(finalText);
+                                setVoiceTranscript("");
+                                transcriptRef.current = "";
+                            }
+                        }
+                        endOfTurnTimerRef.current = null;
+                    }, 1500);
+                }
             },
             onStateChange: (state) => {
                 setIsListening(state === "listening");
@@ -88,6 +122,7 @@ const SystemConcierge = () => {
 
         return () => {
             streamerRef.current?.destroy();
+            if (endOfTurnTimerRef.current) clearTimeout(endOfTurnTimerRef.current);
         };
     }, []);
 
@@ -97,11 +132,12 @@ const SystemConcierge = () => {
         const newMode = !isVoiceMode;
         setIsVoiceMode(newMode);
         isVoiceModeRef.current = newMode;
-        
+
         if (!newMode) {
-            synthesisRef.current.cancel();
-            setIsSpeaking(false);
+            cancelTTSQueue();
             streamerRef.current?.stop();
+            if (streamAbortRef.current) { streamAbortRef.current(); streamAbortRef.current = null; }
+            if (endOfTurnTimerRef.current) { clearTimeout(endOfTurnTimerRef.current); endOfTurnTimerRef.current = null; }
         } else {
              playSound('click');
         }
@@ -128,10 +164,70 @@ const SystemConcierge = () => {
 
         return preferred.find(v => v) || enVoices[0];
     };
-    
+
+    // Clean text for TTS
+    const cleanForSpeech = (text) => {
+        return text
+            .replace(/\[cmd:.*?\]/g, '')
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+            .replace(/https?:\/\/[^\s)]+/g, '')
+            .replace(/mailto:[^\s)]+/g, '')
+            .replace(/[*#_`~]/g, '')
+            .replace(/[^\x00-\x7F\s]/g, '')
+            .replace(/Penpillo/gi, 'Penpilyo')
+            .replace(/\s+/g, ' ')
+            .trim();
+    };
+
+    // Enqueue a sentence for immediate TTS playback
+    const enqueueSentence = (text) => {
+        const cleanText = cleanForSpeech(text);
+        if (!cleanText) return;
+        ttsQueueRef.current.push(cleanText);
+        processNextSentence();
+    };
+
+    // Process next sentence in TTS queue (FIFO)
+    const processNextSentence = () => {
+        if (isTTSSpeakingRef.current) return;
+        if (ttsQueueRef.current.length === 0) {
+            setIsSpeaking(false);
+            return;
+        }
+
+        const sentence = ttsQueueRef.current.shift();
+        isTTSSpeakingRef.current = true;
+        setIsSpeaking(true);
+
+        const utterance = new SpeechSynthesisUtterance(sentence);
+        utterance.lang = 'en-US';
+        const bestVoice = getBestVoice();
+        if (bestVoice) utterance.voice = bestVoice;
+        utterance.rate = 0.98 + (Math.random() * 0.04);
+        utterance.pitch = 1.0 + (Math.random() - 0.5) * 0.05;
+
+        utterance.onend = () => { isTTSSpeakingRef.current = false; processNextSentence(); };
+        utterance.onerror = () => { isTTSSpeakingRef.current = false; processNextSentence(); };
+        synthesisRef.current.speak(utterance);
+    };
+
+    // Cancel all TTS and clear queue
+    const cancelTTSQueue = () => {
+        ttsQueueRef.current = [];
+        isTTSSpeakingRef.current = false;
+        synthesisRef.current.cancel();
+        setIsSpeaking(false);
+    };
+
     // Unified interaction handler
     const handleVoiceToggle = async (e) => {
         if (e && e.preventDefault && e.cancelable) e.preventDefault();
+
+        // Cancel any pending auto-send
+        if (endOfTurnTimerRef.current) {
+            clearTimeout(endOfTurnTimerRef.current);
+            endOfTurnTimerRef.current = null;
+        }
 
         if (isListening) {
             // STOP AND SEND
@@ -146,10 +242,7 @@ const SystemConcierge = () => {
             }
         } else {
             // START LISTENING
-            if (synthesisRef.current.speaking) {
-                synthesisRef.current.cancel();
-                setIsSpeaking(false);
-            }
+            cancelTTSQueue();
             setVoiceTranscript("");
             transcriptRef.current = "";
 
@@ -160,62 +253,6 @@ const SystemConcierge = () => {
             }
         }
     };
-
-    const speakText = (text) => {
-        if (!synthesisRef.current) return;
-        
-        // Note: We DO NOT stop listening here anymore for true full-duplex feel.
-        // The echo cancellation in modern browsers/OS should handle the feedback.
-        
-        // Clean text for natural speech output
-        const cleanText = text
-            .replace(/\[cmd:.*?\]/g, '')                // Remove [cmd:...] navigation/commands
-            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')   // Convert [text](url) → just text
-            .replace(/https?:\/\/[^\s)]+/g, '')         // Remove URLs
-            .replace(/mailto:[^\s)]+/g, '')             // Remove mailto links
-            .replace(/[*#_`~]/g, '')                    // Remove markdown symbols
-            .replace(/[^\x00-\x7F\s]/g, '')             // Remove emoji/non-ASCII
-            .replace(/Penpillo/gi, 'Penpilyo')          // Phonetic pronunciation fix
-            .replace(/\s+/g, ' ')                       // Normalize whitespace
-            .trim();
-        
-        synthesisRef.current.cancel(); // Stop any current speech
-        const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = 'en-US'; 
-        
-        // Attempt to make it sound slightly more natural        
-        const bestVoice = getBestVoice();
-        if (bestVoice) utterance.voice = bestVoice;
-        
-        // Dynamic rate/pitch for less robotic feel
-        // Add tiny randomization for "human" variance
-        const variance = (Math.random() - 0.5) * 0.05; 
-        utterance.rate = 0.98 + (Math.random() * 0.04); 
-        utterance.pitch = 1.0 + variance; 
-        
-        utterance.onstart = () => setIsSpeaking(true);
-        utterance.onend = () => setIsSpeaking(false);
-        
-        // Tiny delay before speaking helps user transition from "thinking" state
-        setTimeout(() => {
-            synthesisRef.current.speak(utterance);
-        }, 300);
-    };
-
-    const startListening = async () => {
-        if (streamerRef.current && !isListening && !isSpeaking) {
-            setVoiceTranscript("");
-            transcriptRef.current = "";
-            try { await streamerRef.current.start(); } catch(e) {}
-        }
-    };
-
-    const stopListening = () => {
-        if (streamerRef.current && isListening) {
-            streamerRef.current.stop();
-        }
-    };
-    // -------------------------
 
     // Sync limit from backend on mount
     useEffect(() => {
@@ -411,46 +448,93 @@ const SystemConcierge = () => {
         setIsTyping(true);
         setQuickReplies([]);
 
+        // Cancel any active stream from a previous request
+        if (streamAbortRef.current) {
+            streamAbortRef.current();
+            streamAbortRef.current = null;
+        }
+
         try {
-            const responseTextRaw = await generateAIResponse(userMessage.text);
-            
-            // Extract commands [cmd:name:param]
-            const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
-            let finalResponseText = responseTextRaw;
-            let commands = [];
-            let match;
+            if (isVoiceModeRef.current) {
+                // --- STREAMING PATH (voice mode) ---
+                const botMessageId = Date.now() + 1;
+                setMessages(prev => [...prev, { id: botMessageId, text: '...', sender: 'bot' }]);
 
-            while ((match = cmdRegex.exec(responseTextRaw)) !== null) {
-                commands.push({ name: match[1], param: match[2] });
-                finalResponseText = finalResponseText.replace(match[0], '');
+                let accumulatedText = '';
+
+                const abort = await generateAIResponseStreaming(messageText, {
+                    onSentence: (sentence) => {
+                        accumulatedText += (accumulatedText ? ' ' : '') + sentence;
+                        setMessages(prev => prev.map(msg =>
+                            msg.id === botMessageId ? { ...msg, text: accumulatedText } : msg
+                        ));
+                        enqueueSentence(sentence);
+                    },
+                    onComplete: (completeText) => {
+                        // Extract commands from full text
+                        const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
+                        let finalText = completeText;
+                        let commands = [];
+                        let match;
+                        while ((match = cmdRegex.exec(completeText)) !== null) {
+                            commands.push({ name: match[1], param: match[2] });
+                            finalText = finalText.replace(match[0], '');
+                        }
+
+                        setMessages(prev => prev.map(msg =>
+                            msg.id === botMessageId
+                                ? { ...msg, text: finalText.trim(), showTech: commands.some(c => c.name === 'show-tech') }
+                                : msg
+                        ));
+
+                        incrementUsage();
+                        setIsTyping(false);
+
+                        setTimeout(() => {
+                            commands.forEach(cmd => handleCommand(cmd.name, cmd.param));
+                        }, 100);
+                    },
+                    onError: (error) => {
+                        console.error("Streaming AI Error:", error);
+                        setIsTyping(false);
+                    }
+                });
+
+                streamAbortRef.current = abort;
+
+            } else {
+                // --- NON-STREAMING PATH (text chat, unchanged) ---
+                const responseTextRaw = await generateAIResponse(userMessage.text);
+
+                const cmdRegex = /\[cmd:([^:]+):?([^\]]*)\]/g;
+                let finalResponseText = responseTextRaw;
+                let commands = [];
+                let match;
+
+                while ((match = cmdRegex.exec(responseTextRaw)) !== null) {
+                    commands.push({ name: match[1], param: match[2] });
+                    finalResponseText = finalResponseText.replace(match[0], '');
+                }
+
+                const botMessage = {
+                    id: Date.now() + 1,
+                    text: finalResponseText.trim(),
+                    sender: 'bot',
+                    showTech: commands.some(c => c.name === 'show-tech')
+                };
+
+                setMessages(prev => [...prev, botMessage]);
+                incrementUsage();
+
+                setTimeout(() => {
+                    commands.forEach(cmd => handleCommand(cmd.name, cmd.param));
+                }, 100);
+
+                setIsTyping(false);
             }
-
-            const botMessage = {
-                id: Date.now() + 1,
-                text: finalResponseText.trim(),
-                sender: 'bot',
-                showTech: commands.some(c => c.name === 'show-tech')
-            };
-
-            setMessages(prev => [...prev, botMessage]);
-            
-
-            
-            // Increment daily usage
-            incrementUsage();
-
-            if (isVoiceMode) {
-                speakText(finalResponseText.trim());
-            }
-
-            // Execute commands after a tiny delay
-            setTimeout(() => {
-                commands.forEach(cmd => handleCommand(cmd.name, cmd.param));
-            }, 100);
 
         } catch (error) {
             console.error("AI Error:", error);
-        } finally {
             setIsTyping(false);
         }
     };

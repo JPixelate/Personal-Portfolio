@@ -20,7 +20,9 @@
       "Read(//d/React/Personal Portfolio/**)",
       "WebFetch(domain:penpillo-portfolio.vercel.app)",
       "Bash(curl:*)",
-      "Bash(npx vercel env:*)"
+      "Bash(npx vercel env:*)",
+      "Bash(npx vite build:*)",
+      "Bash(del \"d:\\\\React\\\\Personal Portfolio\\\\PLAN.md\")"
     ]
   }
 }

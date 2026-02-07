@@ -319,6 +319,101 @@ ${relevantChunks || 'No specific context retrieved.'}
 });
 
 /**
+ * Streaming AI Chat endpoint (for voice mode - low latency)
+ */
+app.post('/api/chat/stream', async (req, res) => {
+  const ip = getClientIP(req);
+  const { query, relevantChunks } = req.body;
+
+  if (!query || typeof query !== 'string') {
+    return res.status(400).json({ error: 'Invalid query' });
+  }
+  if (query.length > 500) {
+    return res.status(400).json({ error: 'Query too long (max 500 characters)' });
+  }
+
+  const limitCheck = checkRateLimit(ip);
+  if (!limitCheck.allowed) {
+    const timeRemaining = Math.ceil((limitCheck.resetTime - Date.now()) / 1000 / 60);
+    return res.status(429).json({
+      error: 'Chat limit reached',
+      message: `You've reached the limit of ${CHATS_PER_WINDOW} messages. Please try again in ${timeRemaining} minutes.`,
+      resetTime: limitCheck.resetTime,
+      remaining: 0
+    });
+  }
+
+  const API_KEY = process.env.DEEPSEEK_API_KEY;
+  if (!API_KEY) {
+    return res.status(500).json({ error: 'AI service not configured' });
+  }
+
+  // Set SSE headers
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+    'X-Accel-Buffering': 'no',
+  });
+
+  // Send rate limit info as first event
+  res.write(`event: rateLimit\ndata: ${JSON.stringify({ remaining: limitCheck.remaining, resetTime: limitCheck.resetTime, limit: CHATS_PER_WINDOW })}\n\n`);
+
+  try {
+    const SYSTEM_INSTRUCTION = `
+You are the AI Assistant for Jonald Penpillo's portfolio website. Answer questions about Jonald—his skills, projects, and experience.
+STRICT SCOPE: Only answer about Jonald. Refuse general programming or unrelated tasks.
+BE CONCISE: 2-3 sentences max. Use bullet points for lists (max 3 items).
+ALWAYS refer to Jonald in 3rd person. NEVER use 1st person.
+
+### RETRIEVED CONTEXT:
+${relevantChunks || 'No specific context retrieved.'}
+`;
+
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: SYSTEM_INSTRUCTION },
+          { role: 'user', content: query }
+        ],
+        max_tokens: 200,
+        temperature: 0.7,
+        stream: true
+      })
+    });
+
+    if (!response.ok) {
+      res.write(`event: error\ndata: ${JSON.stringify({ message: 'DeepSeek API error' })}\n\n`);
+      return res.end();
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      res.write(decoder.decode(value, { stream: true }));
+    }
+
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (error) {
+    console.error('Streaming Chat Error:', error);
+    if (!res.writableEnded) {
+      res.write(`event: error\ndata: ${JSON.stringify({ message: error.message })}\n\n`);
+      res.end();
+    }
+  }
+});
+
+/**
  * Generate temporary token for AssemblyAI (Voice-to-Text)
  * This avoids exposing the master API key to the frontend.
  */

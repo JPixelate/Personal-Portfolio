@@ -301,6 +301,106 @@ export const generateAIResponse = async (query) => {
 };
 
 /**
+ * Streaming RAG-powered response generator (for voice mode - low latency)
+ * Streams DeepSeek response via SSE and calls onSentence for each complete sentence.
+ * Returns an abort function to cancel the stream.
+ */
+export const generateAIResponseStreaming = async (query, { onSentence, onComplete, onError }) => {
+  if (!isValidInput(query)) {
+    const msg = "I'm not sure I understand. Could you please rephrase your question?";
+    onSentence(msg);
+    onComplete(msg);
+    return () => {};
+  }
+
+  const abortController = new AbortController();
+
+  (async () => {
+    try {
+      const chunksWithEmbeddings = await ensureEmbeddings();
+      const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 4);
+      const retrievedContext = formatRetrievedContext(relevantChunks);
+
+      const response = await fetch(`${API_URL}/api/chat/stream`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, relevantChunks: retrievedContext }),
+        signal: abortController.signal
+      });
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          const error = await response.json();
+          const msg = error.message || "You've reached the chat limit.";
+          onSentence(msg);
+          onComplete(msg);
+          return;
+        }
+        throw new Error(`API request failed: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = '';
+      let sentenceBuffer = '';
+      let sseBuffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        sseBuffer += decoder.decode(value, { stream: true });
+        const lines = sseBuffer.split('\n');
+        sseBuffer = lines.pop();
+
+        for (const line of lines) {
+          if (line.startsWith('data: [DONE]')) continue;
+          if (!line.startsWith('data: ')) continue;
+
+          const jsonStr = line.slice(6);
+          if (!jsonStr.trim()) continue;
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const delta = parsed.choices?.[0]?.delta?.content;
+            if (!delta) continue;
+
+            fullText += delta;
+            sentenceBuffer += delta;
+
+            // Detect sentence boundaries: ., !, ? followed by space or end
+            let match;
+            while ((match = /([.!?])\s/.exec(sentenceBuffer)) !== null) {
+              const sentenceEnd = match.index + match[1].length;
+              const sentence = sentenceBuffer.slice(0, sentenceEnd).trim();
+              if (sentence) onSentence(sentence);
+              sentenceBuffer = sentenceBuffer.slice(sentenceEnd).trimStart();
+            }
+          } catch (e) {
+            // Skip non-JSON SSE lines (e.g., event: rateLimit)
+          }
+        }
+      }
+
+      // Flush remaining buffer as final sentence
+      const remaining = sentenceBuffer.trim();
+      if (remaining) onSentence(remaining);
+
+      onComplete(fullText);
+    } catch (error) {
+      if (error.name === 'AbortError') return;
+      console.error("Streaming AI Error:", error);
+      const fallbackMsg = "I'm having trouble connecting right now. Please try again!";
+      onError?.(error);
+      onSentence(fallbackMsg);
+      onComplete(fallbackMsg);
+    }
+  })();
+
+  return () => abortController.abort();
+};
+
+/**
  * Pre-warm embeddings (call on app load for faster first response)
  */
 export const preloadEmbeddings = async () => {
