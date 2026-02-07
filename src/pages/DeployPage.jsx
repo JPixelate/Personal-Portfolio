@@ -384,7 +384,7 @@ const DeployPage = () => {
                                                         <button 
                                                             onClick={() => setStep(4)} 
                                                             disabled={!formData.name || !formData.email || !formData.details} 
-                                                            className={`px-12 py-5 ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-white text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] disabled:opacity-20 transform hover:scale-105 active:scale-95 transition-all`}
+                                                            className={`px-8 py-4 md:py-5 ${themed('bg-neutral-900 text-white', 'bg-white text-black', 'bg-white text-black', 'bg-[#433422] text-[#fdf6e3]')} rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] disabled:opacity-20 transform hover:scale-105 active:scale-95 transition-all`}
                                                         >
                                                             Review Details
                                                         </button>
