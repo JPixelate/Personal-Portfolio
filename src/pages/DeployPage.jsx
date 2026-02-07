@@ -144,7 +144,7 @@ const DeployPage = () => {
             <div className="relative pt-40 pb-32 px-4 md:px-8 z-10">
                 <div className="max-w-7xl mx-auto">
                     {/* Standardized Homepage Header */}
-                    <div className={`mb-24 flex items-end justify-between border-b pb-8 ${accentBorder}`}>
+                    <div className={`mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between border-b pb-8 gap-6 ${accentBorder}`}>
                         <div>
                             <span className={`text-xs font-bold uppercase tracking-widest block mb-4 ${accentText}`}>Request a Quote</span>
                             <h1 className={`text-4xl md:text-5xl font-bold tracking-tight ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Start Your Project.</h1>
@@ -173,7 +173,7 @@ const DeployPage = () => {
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
                         {/* Left Column: Progress & Logic */}
-                        <div className="lg:col-span-4 space-y-8 sticky top-32" data-guide-target="progress-sidebar">
+                        <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32" data-guide-target="progress-sidebar">
                             <div className={`p-8 rounded-[2rem] border backdrop-blur-md transition-all duration-700 ${themed('bg-white/80 border-neutral-100', 'bg-neutral-900/80 border-neutral-800', 'bg-[#0a0a0a]/80 border-blue-500/20', 'bg-[#eee8d5]/80 border-[#433422]/10')} ${blueprintMode ? 'blueprint-active-outline shadow-[0_0_30px_rgba(59,130,246,0.1)]' : 'shadow-xl'}`} data-blueprint-label="PHASE_LOG">
                                 <div className="flex items-center justify-between mb-10 pb-4 border-b border-current opacity-10">
                                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em]">Project Roadmap</h3>
@@ -228,9 +228,9 @@ const DeployPage = () => {
                             <div className={`min-h-[600px] p-8 rounded-[2rem] border transition-all duration-700 ${cardBg} ${accentBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="TERMINAL_UI">
                                 <AnimatePresence mode="wait">
                                     {isSubmitted ? (
-                                        <motion.div key="success" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-20">
-                                            <div className={`w-20 h-20 ${mainSolidBg} text-white rounded-full flex items-center justify-center mx-auto mb-10 shadow-2xl`}>
-                                                <Check size={40} strokeWidth={3} />
+                                        <motion.div key="success" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 md:py-20 px-4">
+                                            <div className={`w-16 h-16 md:w-20 md:h-20 ${mainSolidBg} text-white rounded-full flex items-center justify-center mx-auto mb-8 md:mb-10 shadow-2xl`}>
+                                                <Check size={32} className="md:w-10 md:h-10" strokeWidth={3} />
                                             </div>
                                             <h2 className="text-4xl font-black mb-6 uppercase tracking-tight">Transmission OK</h2>
                                             <p className="text-lg opacity-60 max-w-md mx-auto mb-12">Your request has been successfully recorded into the system. Our architecture team will synchronize within 24 hours.</p>
@@ -249,7 +249,7 @@ const DeployPage = () => {
                                                             <button 
                                                                 key={type.id} 
                                                                 onClick={() => { playSound('click'); setFormData({...formData, solutionType: type.id}); setStep(2); }}
-                                                                className={`p-10 rounded-[2rem] border text-left transition-all duration-500 group relative overflow-hidden transform hover:scale-[1.02] hover:-translate-y-1 ${formData.solutionType === type.id ? `${themed('bg-neutral-100 border-neutral-900', 'bg-neutral-800 border-white', 'bg-blue-900/40 border-blue-400', 'bg-[#fdf6e3] border-[#433422]')}` : `${inputBorder} hover:border-neutral-400 dark:hover:border-white/40`}`}
+                                                                className={`p-6 md:p-10 rounded-[2rem] border text-left transition-all duration-500 group relative overflow-hidden transform hover:scale-[1.02] hover:-translate-y-1 ${formData.solutionType === type.id ? `${themed('bg-neutral-100 border-neutral-900', 'bg-neutral-800 border-white', 'bg-blue-900/40 border-blue-400', 'bg-[#fdf6e3] border-[#433422]')}` : `${inputBorder} hover:border-neutral-400 dark:hover:border-white/40`}`}
                                                             >
                                                                 {/* Bottom Corner Accent */}
                                                                 <type.icon size={32} className={`mb-8 transition-all duration-500 ${formData.solutionType === type.id ? type.color : 'opacity-40 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-3'}`} />
@@ -296,7 +296,7 @@ const DeployPage = () => {
                                                                     <button 
                                                                         key={b} 
                                                                         onClick={() => { playSound('click'); setFormData({...formData, budget: b})}} 
-                                                                        className={`py-5 px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.budget === b ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : 'bg-transparent border-neutral-200/50 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-neutral-400 dark:hover:border-white/30'}`}
+                                                                        className={`py-4 md:py-5 px-6 md:px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.budget === b ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : 'bg-transparent border-neutral-200/50 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-neutral-400 dark:hover:border-white/30'}`}
                                                                     >
                                                                         {b}
                                                                         {formData.budget === b && <Check size={14} strokeWidth={4} />}
@@ -314,7 +314,7 @@ const DeployPage = () => {
                                                                     <button 
                                                                         key={t} 
                                                                         onClick={() => { playSound('click'); setFormData({...formData, timeline: t})}} 
-                                                                        className={`py-5 px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.timeline === t ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : 'bg-transparent border-neutral-200/50 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-neutral-400 dark:hover:border-white/30'}`}
+                                                                        className={`py-4 md:py-5 px-6 md:px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.timeline === t ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : 'bg-transparent border-neutral-200/50 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-neutral-400 dark:hover:border-white/30'}`}
                                                                     >
                                                                         {t}
                                                                         {formData.timeline === t && <Check size={14} strokeWidth={4} />}
@@ -398,7 +398,7 @@ const DeployPage = () => {
                                                         <div className="hidden" aria-hidden="true"><input type="text" name="system_id" /></div>
                                                         
                                                         {/* High-Performance Manifest Card */}
-                                                        <div className={`p-10 rounded-[2rem] border ${themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-neutral-100', 'bg-[#0a0a0a] text-blue-400 border-blue-500/30', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')} relative overflow-hidden group`}>
+                                                        <div className={`p-6 md:p-10 rounded-[2rem] border ${themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-neutral-100', 'bg-[#0a0a0a] text-blue-400 border-blue-500/30', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')} relative overflow-hidden group`}>
                                                              {/* Animated Grid Overlay */}
                                                              <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                                                                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent"></div>
