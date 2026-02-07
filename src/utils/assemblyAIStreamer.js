@@ -163,8 +163,8 @@ export class AssemblyAIStreamer {
     }
 
     _cleanup() {
-        try { this.processorNode?.disconnect(); } catch (e) {}
-        try { this.sourceNode?.disconnect(); } catch (e) {}
+        try { this.processorNode?.disconnect(); } catch (e) { /* ignore */ }
+        try { this.sourceNode?.disconnect(); } catch (e) { /* ignore */ }
 
         if (this.audioContext && this.audioContext.state !== "closed") {
             this.audioContext.close().catch(() => {});

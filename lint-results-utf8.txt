@@ -1,0 +1,19 @@
+﻿
+D:\React\Personal Portfolio\src\components\SystemConcierge.jsx
+  176:22  error  Unexpected control character(s) in regular expression: \x00  no-control-regex
+  391:17  error  Unexpected lexical declaration in case block                 no-case-declarations
+  405:21  error  'toggleBlueprint' is not defined                             no-undef
+  407:21  error  'toggleBlueprint' is not defined                             no-undef
+
+D:\React\Personal Portfolio\src\context\ThemeContext.jsx
+  36:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\React\Personal Portfolio\src\context\UIContext.jsx
+  159:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\React\Personal Portfolio\src\utils\assemblyAIStreamer.js
+  166:61  error  Empty block statement  no-empty
+  167:58  error  Empty block statement  no-empty
+
+Γ£û 8 problems (8 errors, 0 warnings)
+

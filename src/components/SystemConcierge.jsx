@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ExternalLink, ArrowUpRight } from 'lucide-react';
 
 const SystemConcierge = () => {
-    const { themeMode, blueprintMode, darkMode, isDark, themed, playSound, isChatOpen, toggleChat, closeChat } = useUI();
+    const { themeMode, blueprintMode, darkMode, isDark, themed, playSound, isChatOpen, toggleChat, closeChat, toggleBlueprint } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -173,7 +173,7 @@ const SystemConcierge = () => {
             .replace(/https?:\/\/[^\s)]+/g, '')
             .replace(/mailto:[^\s)]+/g, '')
             .replace(/[*#_`~]/g, '')
-            .replace(/[^\x00-\x7F\s]/g, '')
+            .replace(/[^\u0000-\u007F\s]/g, '')
             .replace(/Penpillo/gi, 'Penpilyo')
             .replace(/\s+/g, ' ')
             .trim();
@@ -387,7 +387,7 @@ const SystemConcierge = () => {
             case 'quick-replies':
                 setQuickReplies(param.split('|'));
                 break;
-            case 'scroll-to':
+            case 'scroll-to': {
                 const element = document.getElementById(param);
                 if (element) {
                     const offset = 80;
@@ -400,6 +400,7 @@ const SystemConcierge = () => {
                     if (isMobile) setIsOpen(false); // Close on mobile after navigating to section
                 }
                 break;
+            }
             case 'toggle-blueprint':
                 if (param === 'ON' && !blueprintMode) {
                     toggleBlueprint();
