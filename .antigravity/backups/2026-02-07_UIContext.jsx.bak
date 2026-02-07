@@ -16,14 +16,12 @@ export const UIProvider = ({ children }) => {
   // Derived booleans
   const blueprintMode = themeMode === 'blueprint';
   const darkMode = themeMode === 'dark';
-  const readingMode = themeMode === 'reading';
   const isDark = themeMode === 'dark' || themeMode === 'blueprint';
 
   // Helper to pick value by current theme
-  const themed = useCallback((light, dark, blueprint, reading) => {
-    if (themeMode === 'blueprint') return blueprint || dark || light;
-    if (themeMode === 'dark') return dark || light;
-    if (themeMode === 'reading') return reading || light;
+  const themed = useCallback((light, dark, blueprint) => {
+    if (themeMode === 'blueprint') return blueprint;
+    if (themeMode === 'dark') return dark;
     return light;
   }, [themeMode]);
 
@@ -81,13 +79,11 @@ export const UIProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    document.documentElement.classList.remove('blueprint-mode', 'dark-mode', 'dark', 'reading-mode');
+    document.documentElement.classList.remove('blueprint-mode', 'dark-mode');
     if (themeMode === 'blueprint') {
-      document.documentElement.classList.add('blueprint-mode', 'dark');
+      document.documentElement.classList.add('blueprint-mode');
     } else if (themeMode === 'dark') {
-      document.documentElement.classList.add('dark-mode', 'dark');
-    } else if (themeMode === 'reading') {
-      document.documentElement.classList.add('reading-mode');
+      document.documentElement.classList.add('dark-mode');
     }
     localStorage.setItem('themeMode', themeMode);
   }, [themeMode]);
@@ -97,14 +93,8 @@ export const UIProvider = ({ children }) => {
     setThemeMode(prev => {
       if (prev === 'light') return 'blueprint';
       if (prev === 'blueprint') return 'dark';
-      if (prev === 'dark') return 'reading';
       return 'light';
     });
-    playSound('toggle');
-  };
-
-  const setTheme = (mode) => {
-    setThemeMode(mode);
     playSound('toggle');
   };
 
@@ -137,11 +127,9 @@ export const UIProvider = ({ children }) => {
       themeMode,
       blueprintMode,
       darkMode,
-      readingMode,
       isDark,
       themed,
       cycleTheme,
-      setTheme,
       toggleBlueprint,
       soundEnabled,
       toggleSound,

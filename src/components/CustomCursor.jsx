@@ -14,7 +14,7 @@ const isTouchDevice = () => {
 };
 
 const CustomCursor = () => {
-  const { blueprintMode, playSound } = useUI();
+  const { blueprintMode, isDark, themed, playSound } = useUI();
   const [isMobile, setIsMobile] = useState(true); // Default to true to prevent flash
 
   // Check for mobile on mount
@@ -32,11 +32,11 @@ const CustomCursor = () => {
   // Don't render anything on mobile - early return for performance
   if (isMobile) return null;
 
-  return <CursorRenderer blueprintMode={blueprintMode} playSound={playSound} />;
+  return <CursorRenderer blueprintMode={blueprintMode} isDark={isDark} themed={themed} playSound={playSound} />;
 };
 
 // Separate component to avoid hook issues with early return
-const CursorRenderer = ({ blueprintMode, playSound }) => {
+const CursorRenderer = ({ blueprintMode, isDark, themed, playSound }) => {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
@@ -106,9 +106,9 @@ const CursorRenderer = ({ blueprintMode, playSound }) => {
     opacity: isVisible ? 1 : 0,
     scale: isClicked ? 0.8 : 1,
     backgroundColor: isHovering
-      ? (blueprintMode ? 'rgba(59, 130, 246, 0.15)' : 'rgba(99, 102, 241, 0.15)')
+      ? themed('rgba(99, 102, 241, 0.15)', 'rgba(200, 200, 200, 0.12)', 'rgba(59, 130, 246, 0.15)')
       : 'rgba(99, 102, 241, 0)',
-  }), [isHovering, cursorText, isVisible, isClicked, blueprintMode]);
+  }), [isHovering, cursorText, isVisible, isClicked, blueprintMode, isDark]);
 
   const coreAnimation = useMemo(() => ({
     scale: isHovering ? 0 : (isClicked ? 1.5 : 1),
@@ -133,13 +133,13 @@ const CursorRenderer = ({ blueprintMode, playSound }) => {
             stiffness: 300,
             damping: 30
           }}
-          className={`rounded-full border flex items-center justify-center overflow-hidden transition-colors ${blueprintMode ? 'border-blue-500' : 'border-indigo-500/40'}`}
+          className={`rounded-full border flex items-center justify-center overflow-hidden transition-colors ${themed('border-indigo-500/40', 'border-neutral-400/40', 'border-blue-500')}`}
         >
           {cursorText && (
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className={`text-[10px] font-black tracking-widest ${blueprintMode ? 'text-blue-500' : 'text-indigo-600 dark:text-indigo-400'}`}
+              className={`text-[10px] font-black tracking-widest ${themed('text-indigo-600', 'text-neutral-300', 'text-blue-500')}`}
             >
               {cursorText}
             </motion.span>
@@ -160,7 +160,7 @@ const CursorRenderer = ({ blueprintMode, playSound }) => {
       >
         <motion.div
           animate={coreAnimation}
-          className={`h-1.5 w-1.5 rounded-full transition-colors ${blueprintMode ? 'bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.8)]' : 'bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]'}`}
+          className={`h-1.5 w-1.5 rounded-full transition-colors ${themed('bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]', 'bg-neutral-300 shadow-[0_0_10px_rgba(200,200,200,0.4)]', 'bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.8)]')}`}
         />
       </motion.div>
     </>

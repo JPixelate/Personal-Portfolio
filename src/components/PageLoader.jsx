@@ -1,75 +1,115 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import quillLogo from "../assets/images/quill_logo.png";
+import PenpilloLogo from "./PenpilloLogo";
+import { useUI } from "../context/UIContext";
 
 const PageLoader = () => {
+    const { themed, isDark } = useUI();
     const [isLoading, setIsLoading] = useState(true);
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        const images = Array.from(document.images);
-        const totalImages = images.length;
+        let maxProgress = 0;
+        let totalImages = 0;
         let loadedImages = 0;
-        let isWindowLoaded = false;
+        let fontsReady = false;
+        let windowLoaded = false;
+        let settleTimer = null;
 
-        const updateProgress = () => {
-            setProgress(prev => {
-                // Calculate real progress based on images + window load state
-                // We give 80% weight to images and 20% to the window load event
-                const imageProgress = totalImages > 0 ? (loadedImages / totalImages) * 80 : 80;
-                const windowProgress = isWindowLoaded ? 20 : 0;
-                const realProgress = imageProgress + windowProgress;
-
-                // Ensure the progress only moves forward and is smooth
-                if (realProgress > prev) {
-                    return Math.min(realProgress, 100);
-                }
-                return prev;
-            });
+        const update = (value) => {
+            if (value > maxProgress) {
+                maxProgress = value;
+                setProgress(Math.min(Math.round(value), 100));
+            }
         };
 
-        // Track image loading
-        if (totalImages === 0) {
-            loadedImages = 0;
-            updateProgress();
-        } else {
-            images.forEach(img => {
-                if (img.complete) {
-                    loadedImages++;
-                    updateProgress();
-                } else {
-                    img.addEventListener('load', () => {
-                        loadedImages++;
-                        updateProgress();
-                    });
-                    img.addEventListener('error', () => {
-                        loadedImages++; // Count errors as "done" to avoid getting stuck
-                        updateProgress();
-                    });
-                }
-            });
-        }
-
-        // Track window load
-        const handleWindowLoad = () => {
-            isWindowLoaded = true;
-            updateProgress();
+        // Complete when: images all loaded + fonts ready + window loaded
+        const checkComplete = () => {
+            if (fontsReady && (totalImages === 0 || loadedImages >= totalImages) && windowLoaded) {
+                update(100);
+            }
         };
 
+        // Settle: if no new DOM mutations for 500ms, check completion
+        const resetSettleTimer = () => {
+            if (settleTimer) clearTimeout(settleTimer);
+            settleTimer = setTimeout(() => {
+                checkComplete();
+                if (totalImages === 0 && fontsReady) update(100);
+            }, 500);
+        };
+
+        // Track images added to the DOM dynamically (React renders after mount)
+        const checkImageProgress = () => {
+            if (totalImages === 0) return;
+            const ratio = loadedImages / totalImages;
+            // Images map to the 20%–90% range
+            update(20 + ratio * 70);
+            checkComplete();
+        };
+
+        const trackImage = (img) => {
+            totalImages++;
+            if (img.complete) {
+                loadedImages++;
+                checkImageProgress();
+            } else {
+                const done = () => { loadedImages++; checkImageProgress(); };
+                img.addEventListener('load', done, { once: true });
+                img.addEventListener('error', done, { once: true });
+            }
+        };
+
+        // Base: JS bundle loaded & React running
+        update(10);
+
+        // Track font loading → 20%
+        document.fonts.ready.then(() => {
+            fontsReady = true;
+            update(20);
+            checkComplete();
+        });
+
+        // Track images already in the DOM
+        document.querySelectorAll('img').forEach(trackImage);
+
+        // Watch for new images React adds to the DOM
+        const mutationObserver = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType !== 1) continue;
+                    if (node.tagName === 'IMG') trackImage(node);
+                    if (node.querySelectorAll) {
+                        node.querySelectorAll('img').forEach(trackImage);
+                    }
+                }
+            }
+            resetSettleTimer();
+        });
+        mutationObserver.observe(document.documentElement, { childList: true, subtree: true });
+
+        // Window load event → at least 90%
+        const onWindowLoad = () => {
+            windowLoaded = true;
+            update(90);
+            resetSettleTimer();
+        };
         if (document.readyState === 'complete') {
-            handleWindowLoad();
+            onWindowLoad();
         } else {
-            window.addEventListener('load', handleWindowLoad);
+            window.addEventListener('load', onWindowLoad);
         }
 
-        // Fallback: If it takes too long, just finish
-        const fallbackTimer = setTimeout(() => {
-            setProgress(100);
-        }, 3000);
+        resetSettleTimer();
+
+        // Safety fallback (generous — real progress should finish well before this)
+        const fallback = setTimeout(() => update(100), 10000);
 
         return () => {
-            window.removeEventListener('load', handleWindowLoad);
-            clearTimeout(fallbackTimer);
+            window.removeEventListener('load', onWindowLoad);
+            mutationObserver.disconnect();
+            clearTimeout(fallback);
+            if (settleTimer) clearTimeout(settleTimer);
         };
     }, []);
 
@@ -90,7 +130,7 @@ const PageLoader = () => {
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                    className="fixed inset-0 z-[99999] flex items-center justify-center bg-white"
+                    className={`fixed inset-0 z-[99999] flex items-center justify-center transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]')}`}
                 >
                     {/* Minimalist Background Logic */}
                     <div className="absolute inset-0 bg-[radial-gradient(#00000008_1px,transparent_1px)] [background-size:40px_40px]" />
@@ -103,35 +143,20 @@ const PageLoader = () => {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                 className="flex items-center"
                             >
-                                <motion.img 
-                                    src={quillLogo} 
-                                    alt="Logo" 
-                                    className="w-20 h-20 md:w-24 md:h-24 -mr-3 md:-mr-4 object-contain"
-                                    animate={{ 
-                                        rotate: [0, 5, 0],
-                                        y: [0, -5, 0]
-                                    }}
-                                    transition={{ 
-                                        duration: 4, 
-                                        repeat: Infinity, 
-                                        ease: "easeInOut" 
-                                    }}
+                                <PenpilloLogo
+                                    animated
+                                    className={`h-20 md:h-28 transition-colors duration-700 ${themed('text-neutral-800', 'text-neutral-100', 'text-blue-500')}`}
                                 />
-                                <div className="text-4xl md:text-6xl font-logo text-neutral-600 flex items-center">
-                                    <span className="font-fancy text-5xl md:text-7xl -mr-1 upright-script">p</span>
-                                    <span className="mt-2 text-neutral-600 upright-script">enpillo.</span>
-                                    <span className="font-fancy text-5xl md:text-7xl ml-1 upright-script">j</span>
-                                </div>
                             </motion.div>
                             
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.4, duration: 0.8 }}
-                                className="text-neutral-400 font-bold uppercase tracking-[0.4em] text-[10px]"
+                                className={`font-bold uppercase tracking-[0.4em] text-[10px] transition-colors duration-700 ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-400/60')}`}
                             >
                                 Full Stack Developer
                             </motion.div>
@@ -140,10 +165,10 @@ const PageLoader = () => {
                         {/* Minimalist Progress Indicator */}
                         <div className="w-full space-y-4">
                             <div className="flex justify-between items-end">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-neutral-900 mt-24">
+                                <span className={`text-[10px] font-black uppercase tracking-widest mt-24 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500')}`}>
                                     {progress < 100 ? 'Architecting Framework' : 'System Ready'}
                                 </span>
-                                <span className="text-[10px] font-mono font-bold text-blue-600">
+                                <span className={`text-[10px] font-mono font-bold transition-colors duration-700 ${themed('text-blue-600', 'text-neutral-400', 'text-blue-400')}`}>
                                     {Math.round(progress)}%
                                 </span>
                             </div>

@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ExternalLink, ArrowUpRight } from 'lucide-react';
 
 const SystemConcierge = () => {
-    const { blueprintMode, toggleBlueprint, playSound, isChatOpen, toggleChat, closeChat } = useUI();
+    const { themeMode, blueprintMode, darkMode, isDark, themed, playSound, isChatOpen, toggleChat, closeChat } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -549,18 +549,16 @@ const SystemConcierge = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         className={`fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] rounded-[2rem] shadow-[0_30px_100px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col transition-all duration-500 backdrop-blur-2xl ${
-                            blueprintMode 
-                            ? 'bg-[#050505]/95 shadow-blue-900/10' 
-                            : 'bg-white/95'
+                            themed('bg-white/95', 'bg-[#0a0a0a]/95 border border-neutral-800', 'bg-[#050505]/95 shadow-blue-900/10', 'bg-[#fdf6e3]/95 border border-[#433422]/10')
                         }`}
                     >
                         {/* Header */}
-                        <div className={`p-6 flex items-center justify-between shrink-0 transition-colors duration-500 ${
-                            blueprintMode ? 'bg-[#0a0a0a]/50 text-blue-400' : 'bg-neutral-900 text-white'
+                        <div className={`p-6 flex items-center justify-between shrink-0 transition-colors duration-500 border-b ${
+                            themed('bg-white border-neutral-100 text-neutral-900', 'bg-[#0f0f0f] text-neutral-100 border-neutral-800', 'bg-[#0a0a0a]/50 text-blue-400 border-blue-500/10', 'bg-[#eee8d5] border-[#433422]/10 text-[#433422]')
                         }`}>
                             <div className="flex items-center gap-3">
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-500 ${
-                                    blueprintMode ? 'bg-blue-900/20 text-blue-400 border border-blue-500/30' : 'bg-blue-600'
+                                    themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-900/20 text-blue-400 border border-blue-500/30', 'bg-[#b58900] text-[#fdf6e3]')
                                 }`}>
                                     <Bot size={20} />
                                 </div>
@@ -582,7 +580,7 @@ const SystemConcierge = () => {
                                 className={`p-2 rounded-full transition-colors ${
                                     isVoiceMode 
                                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
-                                        : blueprintMode ? 'text-blue-500 hover:bg-blue-900/20' : 'hover:bg-white/10'
+                                        : themed('text-neutral-500 hover:bg-neutral-100', 'text-neutral-400 hover:bg-white/10', 'text-blue-500 hover:bg-blue-900/20', 'text-[#433422]/60 hover:bg-[#433422]/10')
                                 }`}
                                 title={isVoiceMode ? "Exit Voice Mode" : "Voice Conversation"}
                             >
@@ -590,9 +588,9 @@ const SystemConcierge = () => {
                             </button>
                             <button 
                                 onClick={() => setIsOpen(false)}
-                                className={`p-2 rounded-full transition-colors ${
-                                    blueprintMode ? 'text-blue-500 hover:bg-blue-900/20' : 'hover:bg-white/10'
-                                }`}
+                                    className={`p-2 rounded-full transition-colors ${
+                                        themed('text-neutral-500 hover:bg-neutral-100', 'text-neutral-400 hover:bg-white/10', 'text-blue-500 hover:bg-blue-900/20')
+                                    }`}
                             >
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                                     <path d="M18 6L6 18M6 6l12 12" />
@@ -603,31 +601,25 @@ const SystemConcierge = () => {
                         {/* Chat Body */}
                         {!isVoiceMode && (
                         <div className={`flex-1 p-6 overflow-y-auto space-y-6 transition-colors duration-500 ${
-                            blueprintMode ? 'bg-[#050505]' : 'bg-neutral-50/50'
+                            themed('bg-neutral-50/50', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]/50')
                         }`}>
                             {messages.map((msg) => (
                                 <div key={msg.id} className={`flex gap-3 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}>
                                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-500 ${
                                         msg.sender === 'bot' 
-                                            ? blueprintMode ? 'bg-blue-900/20 text-blue-400 border border-blue-500/20' : 'bg-neutral-900 text-white'
-                                            : blueprintMode ? 'bg-blue-600/20 text-blue-400 border border-blue-500/40' : 'bg-blue-600 text-white'
+                                            ? themed('bg-neutral-900 text-white', 'bg-[#1a1a1a] text-neutral-300 border border-neutral-800', 'bg-blue-900/20 text-blue-400 border border-blue-500/20', 'bg-[#433422] text-[#fdf6e3]')
+                                            : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600/20 text-blue-400 border border-blue-500/40', 'bg-[#b58900] text-[#fdf6e3]')
                                     }`}>
                                         {msg.sender === 'bot' ? <Bot size={16} /> : <User size={16} />}
                                     </div>
                                     <div className={`p-4 rounded-3xl shadow-sm max-w-[80%] transition-colors duration-500 ${
                                         msg.sender === 'bot'
-                                            ? blueprintMode 
-                                                ? 'bg-blue-950/20 rounded-tl-none text-blue-300 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)]' 
-                                                : 'bg-white rounded-tl-none shadow-neutral-200/50'
-                                            : blueprintMode
-                                                ? 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-950/20'
-                                                : 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50'
+                                            ? themed('bg-white rounded-tl-none shadow-neutral-200/50', 'bg-[#1a1a1a] rounded-tl-none text-neutral-100 border border-neutral-800', 'bg-blue-950/20 rounded-tl-none text-blue-300 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)]', 'bg-[#eee8d5] rounded-tl-none text-[#433422] shadow-[#433422]/05')
+                                            : themed('bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50', 'bg-blue-500 text-white rounded-tr-none shadow-lg shadow-blue-950/40', 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-950/20', 'bg-[#b58900] text-[#fdf6e3] rounded-tr-none shadow-[#b58900]/20')
                                     }`}>
                                         {msg.sender === 'bot' ? (
                                             <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
-                                                blueprintMode 
-                                                    ? 'text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200' 
-                                                    : 'text-neutral-800 prose-neutral prose-headings:text-neutral-900 prose-strong:text-neutral-900'
+                                                themed('text-neutral-800 prose-neutral prose-headings:text-neutral-900 prose-strong:text-neutral-900', 'text-neutral-200 prose-invert prose-headings:text-white prose-strong:text-white', 'text-blue-300 prose-p:text-blue-300 prose-strong:text-blue-200 prose-headings:text-blue-200', 'text-[#433422] prose-brown prose-headings:text-[#433422] prose-strong:text-[#433422]')
                                             }`}>
                                                 <ReactMarkdown 
                                                     components={{
@@ -645,10 +637,8 @@ const SystemConcierge = () => {
                                                                 initial={{ opacity: 0, scale: 0.8 }}
                                                                 animate={{ opacity: 1, scale: 1 }}
                                                                 transition={{ delay: i * 0.05 }}
-                                                                className={`px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-2 group/tech transition-all hover:scale-110 ${
-                                                                    blueprintMode 
-                                                                        ? 'bg-blue-600/10 text-blue-400 shadow-[inset_0_0_15px_rgba(59,130,246,0.1)] hover:bg-blue-600/20' 
-                                                                        : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                                                                 className={`px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-2 group/tech transition-all hover:scale-110 ${
+                                                                    themed('bg-neutral-100 text-neutral-600 border border-neutral-200', 'bg-neutral-800 text-neutral-400 border border-neutral-700', 'bg-blue-900/10 text-blue-400 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')
                                                                 }`}
                                                             >
                                                                 <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${blueprintMode ? 'bg-blue-400 animate-pulse' : 'bg-blue-500'}`} />
@@ -677,7 +667,7 @@ const SystemConcierge = () => {
                                         <Bot size={16} />
                                     </div>
                                     <div className={`p-4 rounded-2xl rounded-tl-none border shadow-sm ${
-                                        blueprintMode ? 'bg-[#0a0a0a] border-blue-900/30' : 'bg-white border-neutral-100'
+                                        themed('bg-white border-neutral-100', 'bg-[#1a1a1a] border-neutral-800', 'bg-[#0a0a0a] border-blue-900/30', 'bg-[#eee8d5] border-[#433422]/10')
                                     }`}>
                                         <div className="flex gap-1">
                                             {[0, 0.2, 0.4].map((delay, i) => (
@@ -753,32 +743,38 @@ const SystemConcierge = () => {
 
                         {isVoiceMode && (
                              <div className={`flex-1 relative overflow-hidden flex flex-col items-center justify-between py-8 px-6 ${
-                                blueprintMode ? 'bg-[#050505]' : 'bg-white'
+                                themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')
                              }`}>
 
                                 {/* Background — Subtle grid matching homepage */}
                                 <div className="absolute inset-0 pointer-events-none" style={{
-                                    backgroundImage: blueprintMode
-                                        ? 'linear-gradient(to right, rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.06) 1px, transparent 1px)'
-                                        : 'linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px)',
+                                    backgroundImage: themed(
+                                        'linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px)',
+                                        'linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)',
+                                        'linear-gradient(to right, rgba(59,130,246,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(59,130,246,0.06) 1px, transparent 1px)',
+                                        'linear-gradient(to right, rgba(67,52,34,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(67,52,34,0.05) 1px, transparent 1px)'
+                                    ),
                                     backgroundSize: '20px 20px'
                                 }} />
                                 <div className={`absolute inset-0 pointer-events-none ${
-                                    blueprintMode
-                                        ? 'bg-gradient-to-b from-[#050505] via-transparent to-[#050505]'
-                                        : 'bg-gradient-to-b from-white via-transparent to-white'
+                                    themed(
+                                        'bg-gradient-to-b from-white via-transparent to-white',
+                                        'bg-gradient-to-b from-[#0a0a0a] via-transparent to-[#0a0a0a]',
+                                        'bg-gradient-to-b from-[#050505] via-transparent to-[#050505]',
+                                        'bg-gradient-to-b from-[#fdf6e3] via-transparent to-[#fdf6e3]'
+                                    )
                                 }`} />
 
                                 {/* Status Badge — pill style matching homepage */}
                                 <div className="relative z-10">
                                     <div className={`inline-flex items-center gap-2.5 px-5 py-2 rounded-full border-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
                                         isSpeaking
-                                            ? (blueprintMode ? 'border-blue-500/40 text-blue-400 bg-blue-950/20' : 'border-blue-600 text-blue-600 bg-blue-50')
+                                            ? themed('border-blue-600 text-blue-600 bg-blue-50', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-blue-500/40 text-blue-400 bg-blue-950/20', 'border-[#b58900] text-[#b58900] bg-[#b58900]/10')
                                             : isListening
-                                                ? (blueprintMode ? 'border-blue-500/40 text-blue-400 bg-blue-950/20' : 'border-blue-600 text-blue-600 bg-blue-50')
+                                                ? themed('border-blue-600 text-blue-600 bg-blue-50', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-blue-500/40 text-blue-400 bg-blue-950/20', 'border-[#b58900] text-[#b58900] bg-[#b58900]/10')
                                                 : isTyping
-                                                    ? (blueprintMode ? 'border-amber-500/40 text-amber-400 bg-amber-950/20' : 'border-neutral-300 text-neutral-500 bg-white')
-                                                    : (blueprintMode ? 'border-white/10 text-neutral-500 bg-white/5' : 'border-neutral-200 text-neutral-400 bg-white')
+                                                    ? themed('border-neutral-300 text-neutral-500 bg-white', 'border-neutral-700 text-neutral-400 bg-neutral-900', 'border-amber-500/40 text-amber-400 bg-amber-950/20', 'border-[#433422]/20 text-[#433422]/60 bg-[#eee8d5]')
+                                                    : themed('border-neutral-200 text-neutral-400 bg-white', 'border-neutral-800 text-neutral-600 bg-neutral-900', 'border-white/10 text-neutral-500 bg-white/5', 'border-[#433422]/10 text-[#433422]/40 bg-[#eee8d5]')
                                     }`}>
                                         <span className={`w-2 h-2 rounded-full transition-colors ${
                                             isSpeaking
@@ -787,7 +783,7 @@ const SystemConcierge = () => {
                                                     ? 'bg-green-500 animate-pulse'
                                                     : isTyping
                                                         ? 'bg-amber-500 animate-pulse'
-                                                        : (blueprintMode ? 'bg-neutral-600' : 'bg-neutral-300')
+                                                        : themed('bg-neutral-300', 'bg-neutral-800', 'bg-neutral-600', 'bg-[#433422]/20')
                                         }`} />
                                         {isSpeaking ? 'Speaking' : isListening ? 'Listening' : isTyping ? 'Processing' : 'Ready'}
                                     </div>
@@ -798,9 +794,9 @@ const SystemConcierge = () => {
                                     <div className="relative flex items-center justify-center">
                                         {/* Subtle ring pulse — only when active */}
                                         {(isListening || isSpeaking) && (
-                                            <motion.div
+                                                <motion.div
                                                 className={`absolute w-32 h-32 rounded-full ${
-                                                    blueprintMode ? 'border-2 border-blue-500/20' : 'border-2 border-blue-600/15'
+                                                    themed('border-2 border-blue-600/15', 'border-2 border-blue-500/20', 'border-2 border-blue-500/20', 'border-2 border-[#b58900]/20')
                                                 }`}
                                                 animate={{ scale: [1, 1.4], opacity: [0.5, 0] }}
                                                 transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
@@ -812,12 +808,8 @@ const SystemConcierge = () => {
                                             onClick={handleVoiceToggle}
                                             className={`w-32 h-32 rounded-full flex items-center justify-center relative outline-none transition-all duration-300 active:scale-95 cursor-pointer select-none touch-none ${
                                                 isListening || isSpeaking
-                                                    ? (blueprintMode
-                                                        ? 'bg-blue-600 border-2 border-blue-400 shadow-2xl shadow-blue-500/20'
-                                                        : 'bg-blue-600 border-2 border-blue-600 shadow-2xl shadow-blue-500/25')
-                                                    : (blueprintMode
-                                                        ? 'bg-[#0a0a0a] border-2 border-blue-500/30 shadow-xl'
-                                                        : 'bg-white border-2 border-neutral-200 shadow-xl hover:border-blue-600 hover:shadow-blue-100')
+                                                    ? themed('bg-blue-600 border-2 border-blue-600 shadow-2xl shadow-blue-500/25', 'bg-blue-500 border-2 border-blue-400 shadow-2xl shadow-blue-500/40', 'bg-blue-600 border-2 border-blue-400 shadow-2xl shadow-blue-500/20', 'bg-[#b58900] border-2 border-[#b58900] shadow-2xl shadow-[#b58900]/25')
+                                                    : themed('bg-white border-2 border-neutral-200 shadow-xl hover:border-blue-600 hover:shadow-blue-100', 'bg-[#1a1a1a] border-2 border-neutral-800 shadow-xl hover:border-blue-500 hover:shadow-blue-900/40', 'bg-[#0a0a0a] border-2 border-blue-500/30 shadow-xl', 'bg-[#eee8d5] border-2 border-[#433422]/10 shadow-xl hover:border-[#b58900] hover:shadow-[#b58900]/10')
                                             }`}
                                             style={{ WebkitTouchCallout: 'none' }}
                                         >
@@ -829,7 +821,7 @@ const SystemConcierge = () => {
                                                 <Bot size={48} className={
                                                     isListening || isSpeaking
                                                         ? 'text-white'
-                                                        : (blueprintMode ? 'text-blue-400' : 'text-blue-600')
+                                                        : themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')
                                                 } />
                                             </motion.div>
                                         </button>
@@ -853,10 +845,10 @@ const SystemConcierge = () => {
                                                     repeatType: "reverse",
                                                     delay: i * 0.03
                                                 }}
-                                                className={`w-1 rounded-full ${
+                                                 className={`w-1 rounded-full ${
                                                     isSpeaking || isListening
-                                                        ? (blueprintMode ? 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]' : 'bg-blue-600')
-                                                        : (blueprintMode ? 'bg-white/10' : 'bg-neutral-200')
+                                                        ? themed('bg-blue-600', 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]', 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]', 'bg-[#b58900]')
+                                                        : themed('bg-neutral-200', 'bg-neutral-800', 'bg-white/10', 'bg-[#433422]/20')
                                                 }`}
                                             />
                                         ))}
@@ -866,21 +858,21 @@ const SystemConcierge = () => {
                                 {/* Transcript + Action Hint */}
                                 <div className="relative z-10 text-center w-full max-w-xs min-h-[56px] flex flex-col items-center justify-end gap-2">
                                     {/* Processing bar */}
-                                    {isTyping && !isSpeaking && !isListening && (
-                                        <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: "60%", opacity: 1 }} className={`h-0.5 rounded-full overflow-hidden ${blueprintMode ? 'bg-white/5' : 'bg-neutral-100'}`}>
-                                            <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className={`w-1/2 h-full ${blueprintMode ? 'bg-blue-500' : 'bg-blue-600'}`} />
+                                     {isTyping && !isSpeaking && !isListening && (
+                                        <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: "60%", opacity: 1 }} className={`h-0.5 rounded-full overflow-hidden ${themed('bg-neutral-100', 'bg-neutral-800', 'bg-white/5', 'bg-[#433422]/10')}`}>
+                                            <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className={`h-full ${themed('bg-blue-600 w-1/2', 'bg-blue-500 w-1/2 shadow-[0_0_10px_rgba(59,130,246,0.5)]', 'bg-blue-500 w-1/2', 'bg-[#b58900] w-1/2')}`} />
                                         </motion.div>
                                     )}
 
                                     {/* Transcript */}
                                     <AnimatePresence mode="wait">
                                         {voiceTranscript && (
-                                            <motion.p
+                                             <motion.p
                                                 key="transcript"
                                                 initial={{ opacity: 0, y: 5 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: -5 }}
-                                                className={`text-lg font-medium leading-relaxed ${blueprintMode ? 'text-blue-300' : 'text-neutral-800'}`}
+                                                 className={`text-lg font-medium leading-relaxed ${themed('text-neutral-800', 'text-neutral-200', 'text-blue-300', 'text-[#433422]')}`}
                                             >
                                                 {voiceTranscript}
                                             </motion.p>
@@ -889,7 +881,7 @@ const SystemConcierge = () => {
 
                                     {/* Action hints */}
                                     {!isListening && !isSpeaking && !isTyping && (
-                                        <p className={`text-xs font-bold uppercase tracking-widest ${blueprintMode ? 'text-blue-500/50' : 'text-neutral-400'}`}>
+                                        <p className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-600', 'text-blue-500/50', 'text-[#433422]/40')}`}>
                                             Tap to Speak
                                         </p>
                                     )}
@@ -920,7 +912,7 @@ const SystemConcierge = () => {
                         {!isVoiceMode && <AnimatePresence>
                             {quickReplies.length > 0 && (
                                 <div className={`px-6 py-3 border-t flex gap-2 overflow-x-auto no-scrollbar shrink-0 transition-colors duration-500 ${
-                                    blueprintMode ? 'bg-[#0a0a0a] border-blue-900/30' : 'bg-white border-neutral-50'
+                                    themed('bg-white border-neutral-50', 'bg-[#0f0f0f] border-neutral-800', 'bg-[#0a0a0a] border-blue-900/30', 'bg-[#eee8d5] border-[#433422]/10')
                                 }`}>
                                     {quickReplies.map((reply) => (
                                         <motion.button
@@ -930,9 +922,7 @@ const SystemConcierge = () => {
                                             exit={{ opacity: 0, scale: 0.9 }}
                                             onClick={() => handleSendMessage(reply)}
                                             className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-nowrap ${
-                                                blueprintMode 
-                                                    ? 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30' 
-                                                    : 'bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 border-neutral-100 hover:border-blue-100'
+                                                themed('bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 border-neutral-100 hover:border-blue-100', 'bg-[#1a1a1a] hover:bg-blue-500/10 text-neutral-400 hover:text-blue-400 border-neutral-800 hover:border-blue-500/40', 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30', 'bg-[#fdf6e3] hover:bg-[#b58900]/10 text-[#433422]/60 hover:text-[#b58900] border-[#433422]/10 hover:border-[#b58900]/30')
                                             }`}
                                         >
                                             {reply}
@@ -944,14 +934,14 @@ const SystemConcierge = () => {
 
                         {/* Input Area - Hidden in Voice Mode if desired, or kept for fallback */}
                         {!isVoiceMode && (
-                        <form 
+                        <form
                            onSubmit={(e) => {
                                e.preventDefault();
                                handleSendMessage();
-                           }} 
-                           className={`p-6 shrink-0 relative transition-colors duration-500 ${
-                               blueprintMode ? 'bg-[#050505]/50' : 'bg-white'
-                           }`}
+                           }}
+                           className={`p-6 border-t transition-colors duration-500 ${
+                                themed('bg-white border-neutral-100', 'bg-[#0f0f0f] border-neutral-800', 'bg-[#0a0a0a] border-blue-500/10', 'bg-[#eee8d5] border-[#433422]/10')
+                            }`}
                         >
                             {/* Validation Warning */}
                             <AnimatePresence>
@@ -969,38 +959,44 @@ const SystemConcierge = () => {
                             </AnimatePresence>
 
                             <div className="relative">
-                                <input 
-                                    type="text" 
+                                <input
+                                    type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     disabled={isTyping || isLimitReached}
                                     placeholder={
-                                        isLimitReached 
-                                            ? "Limit reached..." 
-                                            : isTyping 
-                                                ? (blueprintMode ? "PROCESSING..." : "AI is thinking...") 
+                                        isLimitReached
+                                            ? "Limit reached..."
+                                            : isTyping
+                                                ? (blueprintMode ? "PROCESSING..." : "AI is thinking...")
                                                 : (blueprintMode ? "ENTER_COMMAND..." : "Ask about Jonald's experience...")
                                     }
                                     className={`w-full pl-6 pr-14 py-4 rounded-2xl text-sm focus:outline-none transition-all font-medium disabled:opacity-70 ${
-                                        blueprintMode 
-                                            ? 'bg-[#0a0a0a] border border-blue-900/30 text-blue-400 focus:border-blue-500 placeholder-blue-700/30' 
-                                            : 'bg-neutral-50 border border-neutral-100 focus:border-blue-600'
+                                        themed(
+                                            'bg-neutral-50 border border-neutral-100 focus:border-blue-600',
+                                            'bg-[#1a1a1a] border border-neutral-800 text-neutral-200 focus:border-blue-500 placeholder-neutral-700',
+                                            'bg-[#0a0a0a] border border-blue-900/30 text-blue-400 focus:border-blue-500 placeholder-blue-700/30',
+                                            'bg-[#fdf6e3] border border-[#433422]/10 text-[#433422] focus:border-[#b58900] placeholder-[#433422]/30'
+                                        )
                                     }`}
                                 />
-                                <button 
+                                <button
                                     type="submit"
                                     disabled={!inputValue.trim() || isTyping || isLimitReached}
                                     className={`absolute right-2 top-2 bottom-2 px-4 rounded-xl transition-all disabled:opacity-50 ${
-                                        blueprintMode 
-                                            ? 'bg-blue-900/20 text-blue-400 hover:bg-blue-900/40 border border-blue-500/30' 
-                                            : 'bg-neutral-900 text-white hover:bg-blue-600 disabled:hover:bg-neutral-900'
+                                        themed(
+                                            'bg-neutral-900 text-white hover:bg-blue-600 disabled:hover:bg-neutral-900',
+                                            'bg-blue-600 text-white hover:bg-blue-500',
+                                            'bg-blue-900/20 text-blue-400 hover:bg-blue-900/40 border border-blue-500/30',
+                                            'bg-[#b58900] text-[#fdf6e3] hover:bg-[#433422]'
+                                        )
                                     }`}
                                 >
                                     <Send size={18} />
                                 </button>
                             </div>
                             <p className={`text-[10px] text-center mt-4 font-bold uppercase tracking-widest transition-colors ${
-                                blueprintMode ? 'text-blue-500/40' : 'text-neutral-400'
+                                themed('text-neutral-400', 'text-neutral-600', 'text-blue-500/40', 'text-[#433422]/20')
                             }`}>
                                 {blueprintMode ? 'SYSTEM_ARCHITECTURE_V1.0' : "Powered by Jonald's AI Architecture"}
                             </p>
@@ -1020,15 +1016,22 @@ const SystemConcierge = () => {
                     >
                         <div className="relative group">
                             {/* Glassmorphic Background Card */}
-                            <div className="bg-neutral-900/90 backdrop-blur-xl text-white p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 flex items-center gap-4 min-w-[280px]">
+                             <div className={`p-4 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-xl flex items-center gap-4 min-w-[280px] border transition-colors duration-500 ${
+                                themed(
+                                    'bg-neutral-900 border-white/10 text-white',
+                                    'bg-[#1a1a1a] border-neutral-800 text-neutral-100',
+                                    'bg-[#0a0a0a]/90 border-blue-500/20 text-blue-100',
+                                    'bg-[#433422] border-[#b58900]/20 text-[#fdf6e3]'
+                                )
+                            }`}>
                                 {/* Icon container */}
                                 <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
                                     <Bot size={20} className="text-white" />
                                 </div>
                                 
                                 {/* Content */}
-                                <div className="flex flex-col pr-6">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 mb-0.5">AI Concierge</span>
+                                  <div className="flex flex-col pr-6">
+                                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 ${themed('text-blue-400', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>AI Concierge</span>
                                     <p className="text-xs font-bold leading-relaxed opacity-90">
                                         Have questions? <br/>Ask my AI assistant!
                                     </p>
@@ -1043,8 +1046,15 @@ const SystemConcierge = () => {
                                     <X size={14} className="opacity-40 group-hover/close:opacity-100 transition-opacity" />
                                 </button>
 
-                                {/* Tail/Arrow */}
-                                <div className="absolute -bottom-2 right-6 w-4 h-4 bg-neutral-900/90 border-r border-b border-white/10 rotate-45" />
+                                 {/* Tail/Arrow */}
+                                 <div className={`absolute -bottom-2 right-6 w-4 h-4 border-r border-b rotate-45 transition-colors duration-500 ${
+                                    themed(
+                                        'bg-neutral-900 border-white/10',
+                                        'bg-[#1a1a1a] border-neutral-800',
+                                        'bg-[#0a0a0a]/90 border-blue-500/20',
+                                        'bg-[#433422] border-[#b58900]/20'
+                                    )
+                                }`} />
                             </div>
                         </div>
                     </motion.div>
@@ -1058,8 +1068,8 @@ const SystemConcierge = () => {
                 whileTap={{ scale: 0.95 }}
                 className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 ${
                     isOpen 
-                        ? blueprintMode ? 'bg-[#050505] text-blue-400 border border-blue-500/50 rotate-90' : 'bg-neutral-900 text-white rotate-90' 
-                        : blueprintMode ? 'bg-blue-600 text-white shadow-blue-500/40' : 'bg-blue-600 text-white'
+                        ? themed('bg-neutral-900 text-white rotate-90', 'bg-neutral-100 text-neutral-900 rotate-90', 'bg-[#050505] text-blue-400 border border-blue-500/50 rotate-90') 
+                        : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600 text-white shadow-blue-500/40')
                 }`}
             >
                 {isOpen ? (

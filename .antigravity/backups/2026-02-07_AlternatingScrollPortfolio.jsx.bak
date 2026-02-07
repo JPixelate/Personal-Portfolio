@@ -14,7 +14,7 @@ const AlternatingScrollPortfolio = () => {
   }, []);
 
   return (
-    <main id="main-content" className="bg-white dark:bg-[#0a0a0a] relative transition-colors duration-700">
+    <main id="main-content" className="bg-white relative">
       <SEO
         title="Jonald Penpillo | Portfolio"
         description="Full-Stack Web Developer engineering high-performance web systems and modern digital architecture."

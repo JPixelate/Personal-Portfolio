@@ -6,18 +6,18 @@ import quillLogo from "../assets/images/quill_logo.png";
 import { useUI } from "../context/UIContext";
 
 const Contact = () => {
-  const { blueprintMode, playSound } = useUI();
+  const { themed, isDark, blueprintMode, darkMode, themeMode, playSound } = useUI();
   const [time, setTime] = useState("");
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const options = { 
-        timeZone: "Asia/Manila", 
-        hour: "2-digit", 
-        minute: "2-digit", 
+      const options = {
+        timeZone: "Asia/Manila",
+        hour: "2-digit",
+        minute: "2-digit",
         second: "2-digit",
-        hour12: false 
+        hour12: false
       };
       setTime(new Intl.DateTimeFormat("en-US", options).format(now));
     };
@@ -28,96 +28,103 @@ const Contact = () => {
   }, []);
 
   return (
-    <footer id="section-contact" className={`pt-24 md:pt-32 pb-12 px-4 md:px-8 relative overflow-hidden border-t transition-colors duration-700 ${blueprintMode ? 'bg-[#050505] border-blue-900/40' : 'bg-neutral-50 border-neutral-100'}`}>
-      
+    <footer id="section-contact" className={`pt-24 md:pt-32 pb-12 px-4 md:px-8 relative overflow-hidden border-t transition-colors duration-700 ${themed('bg-neutral-50 border-neutral-100', 'bg-[#0a0a0a] border-neutral-800', 'bg-[#050505] border-blue-900/40', 'bg-[#eee8d5] border-[#433422]/10')}`}>
+
       <div className="max-w-7xl mx-auto relative z-10">
-        
+
         {/* Structured Editorial Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-8 pb-24">
-          
+
           <div className="md:col-span-4 lg:col-span-5">
              <div className="flex flex-col gap-8">
-                <Link 
+                <Link
                   onMouseEnter={() => playSound('hover')}
                   onClick={() => playSound('click')}
-                  to="/" 
-                  className={`text-4xl font-logo transition-all duration-300 flex items-center group/logo inline-flex ${blueprintMode ? 'text-blue-500 hover:text-blue-300' : 'text-neutral-600 hover:text-blue-600'}`}
+                  to="/"
+                  className="inline-flex items-center gap-3 group/logo"
                 >
-                  <motion.img 
-                    src={quillLogo} 
-                    alt="Logo" 
-                    className={`w-14 h-14 -mr-1 object-contain transition-all duration-500 group-hover/logo:rotate-12 ${blueprintMode ? 'invert brightness-50 sepia-[1] hue-rotate-[180deg] saturate-[10]' : ''}`}
-                    whileHover={{ scale: 1.1 }}
+                  <motion.img
+                    src={quillLogo}
+                    alt="Quill"
+                    className={`h-24 object-contain transition-all duration-500 ${
+                      darkMode || blueprintMode 
+                        ? 'invert brightness-100' 
+                        : themeMode === 'reading' 
+                          ? 'sepia-[0.5] brightness-[0.9]' 
+                          : ''
+                    }`}
+                    whileHover={{ scale: 1.05 }}
                   />
-                  <span className="mt-2 upright-script">penpillo.</span>
-                  <span className="font-fancy text-5xl ml-1 upright-script">j</span>
+                  <span className={`-ml-2 font-logo text-4xl tracking-wide transition-colors duration-300 ${themed('text-neutral-600 group-hover/logo:text-blue-600', 'text-neutral-200 group-hover/logo:text-white', 'text-blue-400 group-hover/logo:text-blue-300', 'text-[#433422] group-hover/logo:text-[#b58900]')}`}>
+                    penpillo.j
+                  </span>
                 </Link>
 
 
                 <div className="flex items-center gap-4">
-                   <div className={`w-10 h-10 rounded-xl transition-colors duration-700 flex items-center justify-center ${blueprintMode ? 'bg-blue-600/10 text-blue-500 border border-blue-500/20' : 'bg-blue-100 text-blue-600'}`}>
+                   <div className={`w-10 h-10 rounded-xl transition-colors duration-700 flex items-center justify-center ${themed('bg-blue-100 text-blue-600', 'bg-neutral-800 text-neutral-300 border border-neutral-700', 'bg-blue-600/10 text-blue-500 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')}`}>
                       <Globe size={18} />
                    </div>
                    <div className="flex flex-col">
-                      <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${blueprintMode ? 'text-blue-400' : 'text-neutral-400'}`}>General Santos City</span>
-                      <span className={`text-sm font-bold tabular-nums transition-colors ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>{time} GMT+8</span>
+                      <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>General Santos City</span>
+                      <span className={`text-sm font-bold tabular-nums transition-colors ${themed('text-neutral-900', 'text-neutral-200', 'text-blue-500', 'text-[#433422]')}`}>{time} GMT+8</span>
                    </div>
                 </div>
-                <p className={`text-xl font-medium leading-relaxed max-w-sm transition-colors duration-700 ${blueprintMode ? 'text-blue-400/60' : 'text-neutral-500'}`}>
+                <p className={`text-xl font-medium leading-relaxed max-w-sm transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/60', 'text-[#433422]/60')}`}>
                    Engineering high-performance web systems and AI-powered digital architecture from the heart of the Philippines.
                 </p>
              </div>
           </div>
 
           <div className="md:col-span-3 lg:col-span-2 space-y-8">
-             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-200'}`}>Sitemap</h4>
+             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#b58900]')}`}>Sitemap</h4>
              <ul className="space-y-4">
-                <FooterLink to="/#section-hero" label="Overview" blueprintMode={blueprintMode} playSound={playSound} />
-                <FooterLink to="/#section-process" label="Process" blueprintMode={blueprintMode} playSound={playSound} />
-                <FooterLink to="/#section-projects" label="Portfolio" blueprintMode={blueprintMode} playSound={playSound} />
-                <FooterLink to="/#section-about" label="Manifesto" blueprintMode={blueprintMode} playSound={playSound} />
-                <FooterLink to="/#section-experience" label="Journey" blueprintMode={blueprintMode} playSound={playSound} />
-                <FooterLink to="/#section-tech" label="Stack" blueprintMode={blueprintMode} playSound={playSound} />
+                <FooterLink to="/#section-hero" label="Overview" />
+                <FooterLink to="/#section-process" label="Process" />
+                <FooterLink to="/#section-projects" label="Portfolio" />
+                <FooterLink to="/#section-about" label="Manifesto" />
+                <FooterLink to="/#section-experience" label="Journey" />
+                <FooterLink to="/#section-tech" label="Stack" />
              </ul>
           </div>
 
           <div className="md:col-span-3 lg:col-span-2 space-y-8">
-             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-200'}`}>Connect</h4>
+             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#b58900]')}`}>Connect</h4>
              <ul className="space-y-4">
-                <SocialLink icon={<Instagram size={16}/>} label="Instagram" href="https://www.instagram.com/h4kuna_11/" blueprintMode={blueprintMode} playSound={playSound} />
-                <SocialLink icon={<Linkedin size={16}/>} label="LinkedIn" href="https://www.linkedin.com/in/jonald-penpillo" blueprintMode={blueprintMode} playSound={playSound} />
-                <SocialLink icon={<Mail size={16}/>} label="Email" href="mailto:jonaldpenpillo@gmail.com" blueprintMode={blueprintMode} playSound={playSound} />
-                <SocialLink icon={<MessageCircle size={16}/>} label="Viber" href="viber://contact?number=%2B639927133582" blueprintMode={blueprintMode} playSound={playSound} />
-                <SocialLink icon={<Phone size={16}/>} label="WhatsApp" href="https://wa.me/639107876246" blueprintMode={blueprintMode} playSound={playSound} />
+                <SocialLink icon={<Instagram size={16}/>} label="Instagram" href="https://www.instagram.com/h4kuna_11/" />
+                <SocialLink icon={<Linkedin size={16}/>} label="LinkedIn" href="https://www.linkedin.com/in/jonald-penpillo" />
+                <SocialLink icon={<Mail size={16}/>} label="Email" href="mailto:jonaldpenpillo@gmail.com" />
+                <SocialLink icon={<MessageCircle size={16}/>} label="Viber" href="viber://contact?number=%2B639927133582" />
+                <SocialLink icon={<Phone size={16}/>} label="WhatsApp" href="https://wa.me/639107876246" />
              </ul>
           </div>
 
           <div className="md:col-span-2 lg:col-span-3 md:text-right flex flex-col justify-between items-start md:items-end">
-             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-200'}`}>Availability</h4>
+             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#b58900]')}`}>Availability</h4>
              <div className="flex flex-col md:items-end gap-2">
                 <div className="flex items-center gap-3">
-                   <span className={`w-2 h-2 rounded-full animate-pulse ${blueprintMode ? 'bg-blue-400' : 'bg-green-500'}`}></span>
-                   <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${blueprintMode ? 'text-blue-500' : 'text-neutral-900'}`}>Open For Q2 2026</span>
+                   <span className={`w-2 h-2 rounded-full animate-pulse ${themed('bg-green-500', 'bg-green-500', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
+                   <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-900', 'text-neutral-200', 'text-blue-500', 'text-[#433422]')}`}>Open For Q2 2026</span>
                 </div>
-                <span className={`text-[10px] font-medium transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-400'}`}>Ref: Architecture_V2</span>
+                <span className={`text-[10px] font-medium transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/30')}`}>Ref: Architecture_V2</span>
              </div>
           </div>
         </div>
 
         {/* Deep Bottom Bar */}
-        <div className={`pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-8 transition-colors duration-700 ${blueprintMode ? 'border-blue-900/40' : 'border-neutral-200'}`}>
-           <div className={`text-[10vw] md:text-[6vw] font-black uppercase tracking-tighter select-none leading-none absolute -bottom-4 right-0 pointer-events-none transition-colors duration-700 ${blueprintMode ? 'text-blue-500/[0.05]' : 'text-neutral-900/[0.02]'}`}>
+        <div className={`pt-12 border-t flex flex-col md:flex-row justify-between items-center gap-8 transition-colors duration-700 ${themed('border-neutral-200', 'border-neutral-800', 'border-blue-900/40', 'border-[#433422]/10')}`}>
+           <div className={`text-[10vw] md:text-[6vw] font-black uppercase tracking-tighter select-none leading-none absolute -bottom-4 right-0 pointer-events-none transition-colors duration-700 ${themed('text-neutral-900/[0.02]', 'text-neutral-200/[0.02]', 'text-blue-500/[0.05]', 'text-[#433422]/[0.05]')}`}>
               Modern Excellence
            </div>
-           
-           <div className={`flex gap-10 text-[10px] font-bold uppercase tracking-widest order-2 md:order-1 transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-300'}`}>
+
+           <div className={`flex gap-10 text-[10px] font-bold uppercase tracking-widest order-2 md:order-1 transition-colors ${themed('text-neutral-300', 'text-neutral-600', 'text-blue-900', 'text-[#433422]/30')}`}>
               <Link onMouseEnter={() => playSound('hover')} onClick={() => playSound('click')} to="/#" className="hover:text-blue-600 transition-colors cursor-pointer">Privacy</Link>
               <Link onMouseEnter={() => playSound('hover')} onClick={() => playSound('click')} to="/#" className="hover:text-blue-600 transition-colors cursor-pointer">Terms</Link>
               <Link onMouseEnter={() => playSound('hover')} onClick={() => playSound('click')} to="/#" className="hover:text-blue-600 transition-colors cursor-pointer">Cookies</Link>
            </div>
-           
+
            <div className="flex flex-col items-center md:items-start gap-1 order-1 md:order-2">
-              <p className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-colors ${blueprintMode ? 'text-blue-900' : 'text-neutral-400'}`}>
+              <p className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/40')}`}>
                  &copy; {new Date().getFullYear()} — Jonald Penpillo. Built with Logic.
               </p>
            </div>
@@ -127,34 +134,40 @@ const Contact = () => {
   );
 };
 
-const FooterLink = ({ to, label, blueprintMode, playSound }) => (
-  <li>
-    <Link 
-      onMouseEnter={() => playSound('hover')}
-      onClick={() => playSound('click')}
-      to={to} 
-      className={`group flex items-center gap-2 text-sm font-bold transition-all ${blueprintMode ? 'text-blue-500/60 hover:text-blue-300' : 'text-neutral-500 hover:text-neutral-900'}`}
-    >
-       <span className={`w-0 h-px transition-all duration-300 group-hover:w-4 ${blueprintMode ? 'bg-blue-400' : 'bg-blue-600'}`}></span>
-       {label}
-    </Link>
-  </li>
-);
+const FooterLink = ({ to, label }) => {
+  const { themed, playSound } = useUI();
+  return (
+    <li>
+      <Link
+        onMouseEnter={() => playSound('hover')}
+        onClick={() => playSound('click')}
+        to={to}
+        className={`group flex items-center gap-2 text-sm font-bold transition-all ${themed('text-neutral-500 hover:text-neutral-900', 'text-neutral-400 hover:text-neutral-100', 'text-blue-500/60 hover:text-blue-300', 'text-[#433422]/60 hover:text-[#b58900]')}`}
+      >
+         <span className={`w-0 h-px transition-all duration-300 group-hover:w-4 ${themed('bg-blue-600', 'bg-blue-500', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
+         {label}
+      </Link>
+    </li>
+  );
+};
 
-const SocialLink = ({ icon, label, href, blueprintMode, playSound }) => (
-  <li>
-    <a 
-      onMouseEnter={() => playSound('hover')}
-      onClick={() => playSound('click')}
-      href={href} 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className={`group flex items-center gap-3 text-sm font-bold transition-all font-inter ${blueprintMode ? 'text-blue-500/60 hover:text-blue-300' : 'text-neutral-500 hover:text-neutral-900'}`}
-    >
-       <span className={`transition-colors ${blueprintMode ? 'text-blue-900 group-hover:text-blue-400' : 'text-neutral-300 group-hover:text-blue-600'}`}>{icon}</span>
-       {label}
-    </a>
-  </li>
-);
+const SocialLink = ({ icon, label, href }) => {
+  const { themed, playSound } = useUI();
+  return (
+    <li>
+      <a
+        onMouseEnter={() => playSound('hover')}
+        onClick={() => playSound('click')}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`group flex items-center gap-3 text-sm font-bold transition-all font-inter ${themed('text-neutral-500 hover:text-neutral-900', 'text-neutral-400 hover:text-neutral-100', 'text-blue-500/60 hover:text-blue-300', 'text-[#433422]/60 hover:text-[#b58900]')}`}
+      >
+         <span className={`transition-colors ${themed('text-neutral-300 group-hover:text-blue-600', 'text-neutral-600 group-hover:text-neutral-300', 'text-blue-900 group-hover:text-blue-400', 'text-[#433422]/20 group-hover:text-[#b58900]')}`}>{icon}</span>
+         {label}
+      </a>
+    </li>
+  );
+};
 
 export default Contact;
