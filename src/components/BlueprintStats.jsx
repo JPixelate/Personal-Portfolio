@@ -16,7 +16,7 @@ export const ArchitectureViewer = () => {
         <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="fixed top-6 left-6 z-[100] flex flex-col gap-3 group"
+            className="fixed top-6 left-6 z-[100] hidden lg:flex flex-col gap-3 group"
         >
             <div className="flex items-center gap-3 border border-blue-500/30 bg-blue-500/5 backdrop-blur-sm p-3 rounded-xl shadow-2xl">
                 <div className="p-2 bg-blue-600/20 rounded-lg">
@@ -58,7 +58,7 @@ export const BlueprintStats = ({ componentName = "MainApp", bundleSize = '24.8kb
   const snippet = SOURCE_SNIPPETS[componentName] || '// No snippet available for this module';
 
   return (
-    <div className={global ? "fixed top-6 right-6 z-[100]" : "absolute top-2 right-2 z-[60]"}>
+    <div className={global ? "fixed top-6 right-6 z-[100] hidden lg:block" : "absolute top-2 right-2 z-[60]"}>
       <div className="flex items-center gap-4 border border-blue-500/40 bg-blue-500/5 text-blue-400 px-4 py-2 rounded-xl backdrop-blur-sm shadow-2xl transition-all hover:border-blue-500/60">
          <div className="flex items-center gap-2 border-r border-blue-500/20 pr-3">
             <Activity size={12} className="text-blue-500 animate-pulse" />

@@ -57,7 +57,7 @@ const FloatingNavbar = () => {
           "bg-[#fdf6e3]/90 backdrop-blur-md py-3 md:py-4 border-b border-[#433422]/10"
         )}`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between pl-2 lg:pl-0">
 
           <Link
             onMouseEnter={() => playSound('hover')}
