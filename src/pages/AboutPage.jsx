@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import serjoDark from "../assets/icons/serjo_dark.png";
 
 import meDetail from "../assets/images/ds0lq.webp";
 
