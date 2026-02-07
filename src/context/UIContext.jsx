@@ -11,6 +11,7 @@ export const UIProvider = ({ children }) => {
   });
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [shouldShowDeployGuide, setShouldShowDeployGuide] = useState(false);
   const [viewedProjects, setViewedProjects] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('viewedProjects');
@@ -149,6 +150,14 @@ export const UIProvider = ({ children }) => {
     playSound('click');
   };
 
+  const triggerDeployGuide = () => {
+    setShouldShowDeployGuide(true);
+  };
+
+  const resetDeployGuide = () => {
+    setShouldShowDeployGuide(false);
+  };
+
   return (
     <UIContext.Provider value={{
       themeMode,
@@ -168,7 +177,10 @@ export const UIProvider = ({ children }) => {
       closeChat,
       toggleChat,
       viewedProjects,
-      trackProjectView
+      trackProjectView,
+      shouldShowDeployGuide,
+      triggerDeployGuide,
+      resetDeployGuide
     }}>
       {children}
     </UIContext.Provider>

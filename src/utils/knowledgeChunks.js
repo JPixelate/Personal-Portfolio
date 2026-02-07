@@ -364,16 +364,53 @@ export const knowledgeChunks = [
     content: "Key features of the AI assistant include: chat mode with markdown-rendered responses, voice mode with real-time waveform visualization, UI command system that can open projects and navigate to sections (e.g. [cmd:open-project:PROJECT_TITLE] and [cmd:scroll-to:SECTION_ID]), quick reply suggestions, dual-theme support (light mode and blueprint/dark mode), mobile-responsive design, and a promotional bubble to invite users to try the assistant."
   },
 
+  // ========== DEPLOY PAGE & QUOTE WORKFLOW ==========
+  {
+    id: "page-deploy-overview",
+    category: "portfolio",
+    content: "The Request a Quote (Deploy) page is where users can start a project with Jonald. It features a technical 'Mission Control' interface for submitting project proposals. Users can access it at /deploy. (Keywords: quote, start project, hire, pricing, estimate)"
+  },
+  {
+    id: "page-deploy-steps",
+    category: "portfolio",
+    content: "The quote request process has 4 phases: (1) Solution: Select the core architecture (Web App, AI Automation, etc.), (2) Scope: Define monthly budget and projected timeline, (3) Contact: Provide full name, work email, and project requirements, (4) Review: A high-performance manifest card to verify all details before submitting. (Keywords: steps, process, workflow, form)"
+  },
+  {
+    id: "instruction-deploy-navigation",
+    category: "instruction",
+    content: "If a user wants to start a project, hire Jonald, or get a quote: Explain the 4-step process and offer to take them there. Use [cmd:navigate:/deploy] to open the page. Example: 'I can help you initiate that mission! [Start Your Proposal](/deploy) [cmd:navigate:/deploy]'"
+  },
+  {
+    id: "instruction-ui-commands-updated",
+    category: "instruction",
+    content: "UI COMMANDS AVAILABLE: \n- Open Project: [cmd:open-project:PROJECT_TITLE]\n- Navigate Page: [cmd:navigate:/PATH] (e.g., /deploy, /)\n- Quick Replies: [cmd:quick-replies:Opt1|Opt2]\n- Show Tech: [cmd:show-tech]\n- Scroll: [cmd:scroll-to:SECTION_ID]\n- Blueprint: [cmd:toggle-blueprint:ON]\n(Keywords: command, open, scroll, blueprint, tech stack, navigate)"
+  },
+  {
+    id: "page-deploy-guide-overview",
+    category: "portfolio",
+    content: "The Deploy page features an interactive guided tour called 'Deploy Guide' that walks users through the entire quote request process. It automatically appears for first-time visitors and can be manually triggered anytime via the 'Guide' button in the page header. (Keywords: guide, tutorial, help, walkthrough, tour)"
+  },
+  {
+    id: "page-deploy-guide-features",
+    category: "portfolio",
+    content: "The Deploy Guide includes 7 interactive steps covering: (1) Welcome introduction, (2) Solution selection explanation, (3) Budget and timeline scope, (4) Contact information, (5) Review and submit process, (6) Progress tracker sidebar, and (7) Completion message. Each step includes visual highlights, clear descriptions, and navigation controls. (Keywords: guide steps, tutorial features, help system)"
+  },
+  {
+    id: "instruction-deploy-guide",
+    category: "instruction",
+    content: "If a user is confused about the quote request process or asks how to request a quote: Mention the Deploy Guide feature. Example: 'The Deploy page has an interactive guide that walks you through each step! Just click the Guide button in the header, or it will appear automatically on your first visit. [Start Your Project](/deploy) [cmd:navigate:/deploy]' (Keywords: help, confused, how to, guide, tutorial)"
+  },
+  
   // ========== PORTFOLIO WEBSITE ==========
   {
     id: "portfolio-tech",
     category: "portfolio",
-    content: "This portfolio website was built by Jonald using React, Vite, Tailwind CSS, and Framer Motion. It features a custom AI assistant (System Concierge) powered by DeepSeek with a RAG pipeline, real-time voice interaction via AssemblyAI, smooth animations, blueprint mode toggle, responsive design, and is deployed on Vercel at https://penpillo-portfolio.vercel.app/"
+    content: "This portfolio website was built by Jonald using React, Vite, Tailwind CSS, and Framer Motion. It features a custom AI assistant (System Concierge) powered by DeepSeek with a RAG pipeline, real-time voice interaction via AssemblyAI, smooth animations, blueprint mode toggle, responsive design, and a premium 4-step project deployment system. Deployed on Vercel at https://penpillo-portfolio.vercel.app/"
   },
   {
     id: "portfolio-sections",
     category: "portfolio",
-    content: "The portfolio has sections for Projects ([View Portfolio](/#section-projects)), About ([Read Manifesto](/#section-about)), Experience ([View Experience](/#section-experience)), Process ([See Process](/#section-process)), and Contact ([Contact Me](/#section-contact))."
+    content: "The portfolio has sections for Projects ([View Portfolio](/#section-projects)), About ([Read Manifesto](/#section-about)), Experience ([View Experience](/#section-experience)), Process ([See Process](/#section-process)), Contact ([Contact Me](/#section-contact)), and a dedicated Quote Request page ([Start Project](/deploy))."
   }
 ];
 

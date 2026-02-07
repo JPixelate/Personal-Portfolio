@@ -131,7 +131,7 @@ const Section1Hero = () => {
                    </div>
                 </div>
 
-                <div className={`aspect-[3/5] rounded-[2.5rem] overflow-hidden shadow-2xl transition-all duration-700 border relative ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-100 border-neutral-100 shadow-blue-500/10'}`}>
+                <div className={`aspect-[3/5] rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-700 border relative ${blueprintMode ? 'bg-[#0a0a0a] border-blue-500/30' : 'bg-neutral-100 border-neutral-100 shadow-blue-500/10'}`}>
                    <img 
                     src={meHero} 
                     alt="Creative Direction"

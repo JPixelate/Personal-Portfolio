@@ -86,7 +86,7 @@ const AboutPage = () => {
                 <div className="hidden lg:block lg:col-span-5 sticky top-48">
                     <motion.div 
                         style={{ y }}
-                        className="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-500/10 border border-neutral-100"
+                        className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl shadow-blue-500/10 border border-neutral-100"
                     >
                         <img 
                             src={meDetail} 

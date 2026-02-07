@@ -206,7 +206,7 @@ const ProcessPage = () => {
 
                                         {/* Visual Column */}
                                         <div className={`lg:col-span-7 flex flex-col ${!isEven ? 'lg:order-1' : ''}`}>
-                                            <div className="flex-grow relative rounded-[2.5rem] border border-black/10 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-md overflow-hidden group mb-6">
+                                            <div className="flex-grow relative rounded-[2rem] border border-black/10 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-md overflow-hidden group mb-6">
                                                 {/* Subtle Color Glow */}
                                                 <div className="absolute inset-0 opacity-5 bg-current" style={{ color: colorHex }}></div>
 

@@ -384,6 +384,10 @@ const SystemConcierge = () => {
                 window.dispatchEvent(new CustomEvent('portfolio:open-project', { detail: param }));
                 if (isMobile) setIsOpen(false); // Close on mobile when navigating to project detail
                 break;
+            case 'navigate':
+                navigate(param);
+                if (isMobile) setIsOpen(false);
+                break;
             case 'quick-replies':
                 setQuickReplies(param.split('|'));
                 break;

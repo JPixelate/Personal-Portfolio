@@ -178,3 +178,130 @@ html {
     radial-gradient(at 0% 0%, rgba(181, 137, 0, 0.05) 0, transparent 50%),
     radial-gradient(at 100% 100%, rgba(181, 137, 0, 0.05) 0, transparent 50%);
 }
+
+/* Guide Highlight Effect - "Marching Ants" + High Vibrancy */
+.guide-highlight-active {
+  position: relative !important;
+  z-index: 9999 !important;
+  border-radius: 2rem !important;
+  box-shadow: 
+    0 0 0 100vmax rgba(0, 0, 0, 0.5), /* Focus spotlight - respects border-radius */
+    0 0 100px rgba(59, 130, 246, 0.6) !important;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  background-color: var(--bg-primary) !important;
+  outline: none !important;
+}
+
+/* Dashed Border with perfect 2rem radius */
+.guide-highlight-active::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border: 2px dashed rgba(59, 130, 246, 1);
+  border-radius: 2.2rem;
+  pointer-events: none;
+  animation: guide-ants 12s linear infinite;
+}
+
+@keyframes guide-ants {
+  0%, 100% { border-color: rgba(59, 130, 246, 1); filter: brightness(1); }
+  50% { border-color: rgba(96, 165, 250, 1); filter: brightness(1.2); }
+}
+
+
+
+/* Add a pseudo element for the "capture" effect */
+.guide-highlight-active::after {
+  content: "CAPTUR_ING...";
+  position: absolute;
+  top: -34px;
+  left: -12px;
+  background: #3b82f6;
+  color: white;
+  font-size: 8px;
+  font-family: monospace;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  animation: guide-blink 1s step-end infinite;
+}
+
+@keyframes guide-blink {
+  50% { opacity: 0; }
+}
+
+.dark-mode .guide-highlight-active::before,
+.blueprint-mode .guide-highlight-active::before {
+  border-color: #60a5fa !important;
+}
+
+.dark-mode .guide-highlight-active,
+.blueprint-mode .guide-highlight-active {
+  box-shadow: 
+    0 0 0 100vmax rgba(0, 0, 0, 0.6),
+    0 0 0 6px rgba(96, 165, 250, 0.1),
+    0 0 80px rgba(96, 165, 250, 0.6) !important;
+}
+
+.reading-mode .guide-highlight-active::before {
+  border-color: #b58900 !important;
+}
+
+.reading-mode .guide-highlight-active {
+  box-shadow: 
+    0 0 0 100vmax rgba(0, 0, 0, 0.3),
+    0 0 0 6px rgba(181, 137, 0, 0.1),
+    0 0 80px rgba(181, 137, 0, 0.5) !important;
+}
+
+
+.reading-mode .guide-highlight-active::after {
+  background: #b58900;
+}
+
+
+
+@keyframes guide-dash-flow {
+  from { outline-offset: 12px; }
+  to { outline-offset: 12px; }
+}
+
+@keyframes guide-capture-fade {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes guide-pulse {
+  0%, 100% {
+    outline-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.05), 0 0 40px rgba(59, 130, 246, 0.2);
+    transform: translateY(0);
+  }
+  50% {
+    outline-color: rgba(59, 130, 246, 1);
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1), 0 0 80px rgba(59, 130, 246, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+.dark-mode .guide-highlight-active,
+.blueprint-mode .guide-highlight-active {
+  outline-color: rgba(96, 165, 250, 0.7) !important;
+  box-shadow: 0 0 0 6px rgba(96, 165, 250, 0.1),
+              0 0 70px rgba(96, 165, 250, 0.4) !important;
+}
+
+.dark-mode .guide-highlight-active::before,
+.blueprint-mode .guide-highlight-active::before {
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+.reading-mode .guide-highlight-active {
+  outline-color: rgba(181, 137, 0, 0.7) !important;
+  box-shadow: 0 0 0 6px rgba(181, 137, 0, 0.1),
+              0 0 50px rgba(181, 137, 0, 0.3) !important;
+}
+
+.reading-mode .guide-highlight-active::before {
+  border-color: rgba(181, 137, 0, 0.5);
+}

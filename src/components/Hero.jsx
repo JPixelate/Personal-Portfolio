@@ -212,22 +212,22 @@ const Hero = () => {
                 </div>
 
                 {/* Bottom Trigger */}
-                <motion.div
-                  animate={isMobile ? {} : { y: [0, 10, 0] }}
+                <motion.div 
+                  animate={isMobile ? {} : { y: [0, 8, 0] }}
                   transition={isMobile ? {} : { duration: 3, repeat: Infinity }}
                   onMouseEnter={() => playSound('hover')}
                   onClick={() => {
                     playSound('click');
                     goToPage('/services/web-architecture');
                   }}
-                  className={`absolute -bottom-10 right-10 w-20 h-20 rounded-full flex items-center justify-center shadow-xl cursor-pointer pointer-events-auto z-[40] transition-colors ${themed(
+                  className={`absolute -bottom-10 right-10 w-20 h-20 rounded-full flex items-center justify-center shadow-2xl cursor-pointer pointer-events-auto z-[40] transition-all duration-500 hover:scale-110 active:scale-95 ${themed(
                     'bg-blue-600 text-white hover:bg-neutral-900',
                     'bg-blue-500 text-white hover:bg-white hover:text-neutral-900',
                     'bg-blue-600 text-white hover:bg-blue-400',
                     'bg-[#b58900] text-[#fdf6e3] hover:bg-[#433422]'
                   )}`}
                 >
-                   <ArrowDownRight size={32} />
+                  <ArrowDownRight size={32} />
                 </motion.div>
              </motion.div>
           </div>
