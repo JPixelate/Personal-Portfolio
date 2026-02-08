@@ -32,7 +32,7 @@ export const PROJECTS = [
   },
   {
     id: "ota",
-    title: "Online Travel Agency Website",
+    title: "Online Travel Agency",
     category: "Travel & Booking",
     year: "2025",
     img: otaImg,

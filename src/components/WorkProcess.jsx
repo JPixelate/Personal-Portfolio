@@ -157,7 +157,7 @@ const ProcessStep = ({ step, index, onOpen }) => {
            <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]/60')}`}>{step.label}</span>
         </div>
 
-        <h3 className={`text-5xl md:text-6xl font-bold tracking-tighter leading-[1.1] transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
+        <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
           {step.title}
         </h3>
 
