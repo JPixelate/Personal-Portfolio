@@ -117,7 +117,7 @@ const ProjectItem = ({ project, index, onOpen }) => {
               <span className={`w-2 h-2 rounded-full transition-colors ${themed('bg-blue-600', 'bg-blue-600', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
               <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-500', 'text-neutral-500', 'text-blue-500', 'text-[#433422]/60')}`}>{project.category}</span>
            </div>
-           <h3 className={`text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900 group-hover:text-blue-600', 'text-neutral-100 group-hover:text-blue-400', 'text-blue-500 group-hover:text-blue-300', 'text-[#433422] group-hover:text-[#b58900]')}`}>
+           <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900 group-hover:text-blue-600', 'text-neutral-100 group-hover:text-blue-400', 'text-blue-500 group-hover:text-blue-300', 'text-[#433422] group-hover:text-[#b58900]')}`}>
              {project.title}
            </h3>
         </div>
@@ -149,7 +149,7 @@ const ProjectModal = ({ project, onClose }) => {
         <div className={`flex items-center justify-between p-6 md:p-8 border-b transition-colors duration-700 z-10 ${themed('border-neutral-100 bg-white', 'border-neutral-800 bg-[#0a0a0a]', 'border-blue-900/30 bg-[#050505]', 'border-[#fdf6e3] bg-[#fdf6e3]')}`}>
            <div className="flex-1">
               <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>{project.category}</span>
-              <h3 className={`text-2xl md:text-3xl font-bold ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-400', 'text-[#433422]')}`}>{project.title}</h3>
+              <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-400', 'text-[#433422]')}`}>{project.title}</h3>
               <p className={`inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-md mt-2 ${themed('text-amber-600 bg-amber-50', 'text-amber-500 bg-amber-950/20', 'text-amber-400 bg-amber-900/10', 'text-[#b58900] bg-[#b58900]/10')}`}>
                 <AlertTriangle size={14} />
                 Portfolio Website is on Staging Environment — Live Demo is unavailable

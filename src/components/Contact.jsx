@@ -47,12 +47,17 @@ const Contact = () => {
                     src={quillLogo}
                     alt="Quill"
                     className={`h-12 object-contain transition-all duration-500 ${
-                      darkMode || blueprintMode 
-                        ? 'invert brightness-100' 
-                        : themeMode === 'reading' 
-                          ? 'sepia-[0.5] brightness-[0.9]' 
-                          : ''
+                      blueprintMode
+                        ? '' 
+                        : darkMode 
+                          ? 'invert brightness-100' 
+                          : themeMode === 'reading' 
+                            ? 'sepia-[0.5] brightness-[0.9]' 
+                            : ''
                     }`}
+                    style={{ 
+                      filter: blueprintMode ? 'invert(71%) sepia(87%) saturate(1475%) hue-rotate(185deg) brightness(101%) contrast(101%)' : 'none'
+                    }}
                     whileHover={{ scale: 1.05 }}
                   />
                   <span className={`-ml-2 font-logo text-4xl tracking-wide transition-colors duration-300 ${themed('text-neutral-600 group-hover/logo:text-blue-600', 'text-neutral-200 group-hover/logo:text-white', 'text-blue-400 group-hover/logo:text-blue-300', 'text-[#433422] group-hover/logo:text-[#b58900]')}`}>
