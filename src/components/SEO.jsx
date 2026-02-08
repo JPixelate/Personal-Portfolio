@@ -9,7 +9,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
     const defaultDescription = 'Jonald Penpillo is a high-performance Full-Stack Developer specializing in digital architecture, autonomous AI workflows, and enterprise-grade systems. He builds the scalable engines that drive modern business innovation.';
     const finalDescription = description || defaultDescription;
     const finalKeywords = keywords || 'Jonald Penpillo, Full-Stack Developer, AI Automation, Web Architecture, n8n workflows, React Developer, PHP CodeIgniter, Digital Transformation, Philippines Developer';
-    const finalImage = image || 'https://penpillo.j/og-image.jpg'; 
+    const finalImage = image || 'https://penpillo.j/og-image.png'; 
     const finalUrl = url || window.location.href;
 
     useEffect(() => {

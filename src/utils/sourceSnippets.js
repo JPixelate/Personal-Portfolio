@@ -72,8 +72,8 @@ window.$RefreshSig$ = () => (type) => type;</script>
     <meta property="og:url" content="https://penpillo-portfolio.vercel.app/" />
     <meta property="og:title" content="Jonald Penpillo | Full Stack Web Developer" />
     <meta property="og:description" content="Engineering high-performance web platforms and digital architecture." />
-    <meta property="og:image" content="https://penpillo-portfolio.vercel.app/og-image.jpg?v=2" />
-    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image" content="https://penpillo-portfolio.vercel.app/og-image.png?v=2" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Jonald Penpillo Portfolio - Full Stack Web Developer" />
@@ -83,7 +83,7 @@ window.$RefreshSig$ = () => (type) => type;</script>
     <meta name="twitter:url" content="https://penpillo-portfolio.vercel.app/" />
     <meta name="twitter:title" content="Jonald Penpillo | Full Stack Web Developer" />
     <meta name="twitter:description" content="Engineering high-performance web platforms and digital architecture." />
-    <meta name="twitter:image" content="https://penpillo-portfolio.vercel.app/og-image.jpg?v=2" />
+    <meta name="twitter:image" content="https://penpillo-portfolio.vercel.app/og-image.png?v=2" />
 
     <!-- PRELOAD CRITICAL ASSETS -->
     <link
