@@ -7,7 +7,7 @@ import { AssemblyAIStreamer } from '../utils/assemblyAIStreamer';
 import { useUI } from '../context/UIContext';
 
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ExternalLink, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, ArrowUpRight, Sparkles } from 'lucide-react';
 
 const SystemConcierge = () => {
     const { themeMode, blueprintMode, darkMode, isDark, themed, playSound, isChatOpen, toggleChat, closeChat, toggleBlueprint, viewedProjects } = useUI();
@@ -46,6 +46,23 @@ const SystemConcierge = () => {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [isListening, setIsListening] = useState(false);
     const [voiceTranscript, setVoiceTranscript] = useState("");
+    
+    // --- DRAG CONSTRAINTS ---
+    const [dragConstraints, setDragConstraints] = useState({ left: 0, right: 0, top: 0, bottom: 0 });
+
+    useEffect(() => {
+        const updateConstraints = () => {
+            setDragConstraints({
+                left: -window.innerWidth + 80,
+                right: 0,
+                top: -window.innerHeight + 80,
+                bottom: 0
+            });
+        };
+        updateConstraints();
+        window.addEventListener('resize', updateConstraints);
+        return () => window.removeEventListener('resize', updateConstraints);
+    }, []);
     // Default to English (en-US) implicit
 
     
@@ -583,8 +600,8 @@ const SystemConcierge = () => {
                             themed('bg-white border-neutral-100 text-neutral-900', 'bg-[#0f0f0f] text-neutral-100 border-neutral-800', 'bg-[#0a0a0a]/50 text-blue-400 border-blue-500/20', 'bg-[#eee8d5] border-[#433422]/10 text-[#433422]')
                         }`}>
                             <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-colors duration-500 ${
-                                    themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-900/20 text-blue-400 border border-blue-500/30', 'bg-[#b58900] text-[#fdf6e3]')
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 border-2 shadow-[0_0_15px_rgba(59,130,246,0.3)] ${
+                                    themed('bg-blue-600 border-blue-500 text-white', 'bg-blue-500 border-blue-400 text-white', 'bg-blue-900/20 border-blue-500 text-blue-400', 'bg-[#b58900] border-[#b58900] text-[#fdf6e3]')
                                 }`}>
                                     <Bot size={20} />
                                 </div>
@@ -1071,7 +1088,7 @@ const SystemConcierge = () => {
                                 )
                             }`}>
                                 {/* Icon container */}
-                                <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center shrink-0">
+                                <div className="w-10 h-10 rounded-full shrink-0 border-2 border-white/40 shadow-xl bg-blue-600 flex items-center justify-center">
                                     <Bot size={20} className="text-white" />
                                 </div>
                                 
@@ -1107,15 +1124,30 @@ const SystemConcierge = () => {
                 )}
             </AnimatePresence>
 
-            {/* Toggle Button */}
             <motion.button
                 onClick={() => setIsOpen(!isOpen)}
+                drag={!isOpen}
+                dragConstraints={dragConstraints}
+                dragElastic={0.05}
+                dragMomentum={true}
+                dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`w-16 h-16 rounded-full shadow-2xl items-center justify-center transition-all duration-500 ${
+                whileDrag={{ scale: 1.1, cursor: 'grabbing' }}
+                className={`w-16 h-16 rounded-full shadow-2xl items-center justify-center touch-none z-[160] transition-colors duration-500 ${
                     isOpen 
-                        ? 'hidden sm:flex ' + themed('bg-neutral-900 text-white rotate-90', 'bg-neutral-100 text-neutral-900 rotate-90', 'bg-[#050505] text-blue-400 border border-blue-500/50 rotate-90') 
-                        : 'flex ' + themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600 text-white shadow-blue-500/40')
+                        ? 'hidden sm:flex ' + themed(
+                            'bg-neutral-900 text-white rotate-90', 
+                            'bg-white text-neutral-900 rotate-90', 
+                            'bg-blue-600 text-white rotate-90 shadow-blue-500/40', 
+                            'bg-[#433422] text-[#fdf6e3] rotate-90'
+                        ) 
+                        : 'flex ' + themed(
+                            'bg-neutral-900 text-white', 
+                            'bg-white text-neutral-900 shadow-xl', 
+                            'bg-blue-600 text-white shadow-blue-500/40', 
+                            'bg-[#eee8d5] text-[#433422] border border-[#433422]/10'
+                        )
                 }`}
             >
                 {isOpen ? (
@@ -1123,12 +1155,12 @@ const SystemConcierge = () => {
                         <path d="M18 6L6 18M6 6l12 12" />
                     </svg>
                 ) : (
-                    <div className="relative">
-                        <MessageSquare size={28} />
+                    <div className="relative w-full h-full flex items-center justify-center">
+                        <Bot size={28} />
                         <motion.div 
                             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
                             transition={{ duration: 2, repeat: Infinity }}
-                            className="absolute -top-1 -right-1 w-4 h-4 bg-white/30 rounded-full"
+                            className={`absolute -top-1 -right-1 w-4 h-4 rounded-full ${themed('bg-blue-400', 'bg-blue-600', 'bg-white', 'bg-[#b58900]')}`}
                         />
                     </div>
                 )}

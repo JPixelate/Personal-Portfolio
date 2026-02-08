@@ -191,7 +191,7 @@ const Hero = () => {
                    </div>
                 </div>
 
-                <div className={`aspect-[3/5] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border relative ${themed(
+                <div className={`aspect-[4/5] lg:aspect-[3/5] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border relative ${themed(
                   'bg-neutral-100 border-neutral-100 shadow-blue-500/10',
                   'bg-neutral-900 border-neutral-700 shadow-neutral-900/30',
                   'bg-[#0a0a0a] border-blue-500/30',
@@ -220,14 +220,17 @@ const Hero = () => {
                     playSound('click');
                     goToPage('/services/web-architecture');
                   }}
-                  className={`absolute -bottom-10 right-10 w-20 h-20 rounded-full flex items-center justify-center shadow-2xl cursor-pointer pointer-events-auto z-[40] transition-all duration-500 hover:scale-110 active:scale-95 ${themed(
+                  className={`absolute top-[calc(100%+1.5rem)] lg:top-auto lg:-bottom-10 left-0 lg:left-auto lg:right-10 w-full lg:w-20 h-14 lg:h-20 rounded-2xl lg:rounded-full flex items-center justify-center shadow-2xl cursor-pointer pointer-events-auto z-[40] transition-all duration-500 hover:scale-105 lg:hover:scale-110 active:scale-95 ${themed(
                     'bg-blue-600 text-white hover:bg-neutral-900',
                     'bg-blue-500 text-white hover:bg-white hover:text-neutral-900',
                     'bg-blue-600 text-white hover:bg-blue-400',
                     'bg-[#b58900] text-[#fdf6e3] hover:bg-[#433422]'
                   )}`}
                 >
-                  <ArrowDownRight size={32} />
+                  <div className="flex items-center gap-3">
+                    <span className="lg:hidden text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">Get a Quote</span>
+                    <ArrowDownRight size={isMobile ? 22 : 32} />
+                  </div>
                 </motion.div>
              </motion.div>
           </div>
