@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import PenpilloLogo from "./PenpilloLogo";
+import quillLogo from "../assets/images/quill_logo.webp";
 import { useUI } from "../context/UIContext";
 
 const PageLoader = () => {
@@ -138,25 +138,31 @@ const PageLoader = () => {
                     
                     <div className="relative z-10 flex flex-col items-center gap-12 max-w-md w-full px-8">
                         
-                        {/* Large Typographic Identity */}
-                        <div className="flex flex-col items-center">
+                        <div className="flex flex-col items-center gap-4">
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className="flex items-center"
+                                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                className="flex items-center gap-4"
                             >
-                                <PenpilloLogo
-                                    animated
-                                    className={`h-20 md:h-28 transition-colors duration-700 ${themed('text-neutral-800', 'text-neutral-100', 'text-blue-500')}`}
+                                <img
+                                    src={quillLogo}
+                                    alt="Quill"
+                                    className="h-20 md:h-24 object-contain"
+                                    style={{
+                                        filter: isDark ? 'invert(1) brightness(2)' : 'none'
+                                    }}
                                 />
+                                <span className={`font-logo text-5xl md:text-7xl tracking-wide ${themed('text-neutral-900', 'text-white', 'text-blue-400')}`}>
+                                    penpillo.j
+                                </span>
                             </motion.div>
                             
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.4, duration: 0.8 }}
-                                className={`font-bold uppercase tracking-[0.4em] text-[10px] transition-colors duration-700 ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-400/60')}`}
+                                className={`font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mt-2 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/60')}`}
                             >
                                 Full Stack Developer
                             </motion.div>

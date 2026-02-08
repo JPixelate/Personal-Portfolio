@@ -4,8 +4,7 @@
  * Uses vector embeddings for semantic search and retrieval-augmented generation.
  */
 
-import { knowledgeChunks } from './knowledgeChunks.js';
-import { initializeEmbeddings, searchSimilarChunks } from './embeddings.js';
+// Note: Imports removed to enable lazy loading and reduce initial bundle size.
 
 // Cached embeddings (initialized once)
 let embeddingsCache = null;
@@ -29,6 +28,10 @@ async function ensureEmbeddings() {
 
   isInitializing = true;
   try {
+    // Dynamic imports for performance (splitting large files provided separately)
+    const { knowledgeChunks } = await import('./knowledgeChunks.js');
+    const { initializeEmbeddings } = await import('./embeddings.js');
+
     embeddingsCache = await initializeEmbeddings(knowledgeChunks);
     return embeddingsCache;
   } finally {
@@ -190,6 +193,9 @@ export const generateAIResponse = async (query, userHistory = []) => {
   }
 
   try {
+    // Dynamic import for utility function
+    const { searchSimilarChunks } = await import('./embeddings.js');
+
     // 2. Initialize embeddings if needed
     const chunksWithEmbeddings = await ensureEmbeddings();
 
@@ -266,6 +272,8 @@ export const generateAIResponseStreaming = async (query, { onSentence, onComplet
 
   (async () => {
     try {
+      // Dynamic import
+      const { searchSimilarChunks } = await import('./embeddings.js');
       const chunksWithEmbeddings = await ensureEmbeddings();
       const relevantChunks = await searchSimilarChunks(query, chunksWithEmbeddings, 6);
       const retrievedContext = formatRetrievedContext(relevantChunks);

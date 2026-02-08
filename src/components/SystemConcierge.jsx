@@ -1164,7 +1164,7 @@ const SystemConcierge = () => {
                         <motion.div 
                             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
                             transition={{ duration: 2, repeat: Infinity }}
-                            className={`absolute -top-1 -right-1 w-4 h-4 rounded-full ${themed('bg-blue-400', 'bg-blue-600', 'bg-white', 'bg-[#856404]')}`}
+                            className={`absolute -top-2 -right-2 w-4 h-4 rounded-full ${themed('bg-blue-400', 'bg-blue-600', 'bg-white', 'bg-[#856404]')}`}
                         />
                     </div>
                 )}
