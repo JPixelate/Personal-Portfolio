@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import AlternatingScrollPortfolio from './components/AlternatingScrollPortfolio.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import FloatingNavbar from './components/FloatingNavbar.jsx';
@@ -126,6 +127,9 @@ function App() {
 
         {/* 4. ANIMATED ROUTES */}
         <AnimatedRoutes />
+
+        {/* Vercel Speed Insights */}
+        <SpeedInsights />
 
       </div>
     </Router>
