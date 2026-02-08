@@ -159,7 +159,7 @@ const Hero = () => {
                    <Layers className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}`} />
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">Full-Stack Dev</span>
-                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/80')}`}>React & Modern UI</span>
+                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-600', 'text-neutral-400', 'text-blue-900', 'text-[#433422]/80')}`}>React & Modern UI</span>
                    </div>
                 </div>
 
@@ -173,7 +173,7 @@ const Hero = () => {
                    <Sparkles className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}`} />
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">AI Automation</span>
-                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/80')}`}>n8n & Chatbots</span>
+                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-600', 'text-neutral-400', 'text-blue-900', 'text-[#433422]/80')}`}>n8n & Chatbots</span>
                    </div>
                 </div>
 
@@ -187,7 +187,7 @@ const Hero = () => {
                    <Database className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}`} />
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">Backend Arch.</span>
-                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/80')}`}>PHP & Secure Data</span>
+                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-600', 'text-neutral-400', 'text-blue-900', 'text-[#433422]/80')}`}>PHP & Secure Data</span>
                    </div>
                 </div>
 

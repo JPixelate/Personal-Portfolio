@@ -92,7 +92,12 @@ const PageLoader = () => {
         const onWindowLoad = () => {
             windowLoaded = true;
             update(90);
+            checkComplete(); // Check immediately to avoid unnecessary settle delay
             resetSettleTimer();
+            
+            // Secondary safety fallback: ensure we finish shortly after window load
+            // This handles cases where image tracking might have missed a beat
+            setTimeout(() => update(100), 2000);
         };
         if (document.readyState === 'complete') {
             onWindowLoad();

@@ -7,7 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import AlternatingScrollPortfolio from './components/AlternatingScrollPortfolio.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import FloatingNavbar from './components/FloatingNavbar.jsx';
-import PageLoader from './components/PageLoader.jsx';
+// import PageLoader from './components/PageLoader.jsx';
 import PageTransition from './components/PageTransition.jsx';
 import RouteProgressBar from './components/RouteProgressBar.jsx';
 import SkipToContent from './components/SkipToContent.jsx';
@@ -122,7 +122,7 @@ function App() {
         <ScreenReaderAnnouncer />
 
 
-        <PageLoader />
+        {/* <PageLoader /> */}
         <RouteProgressBar />
         <ScrollToHash />
         <ScrollbarDetectionZone />
