@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from "react";
 import Hero from "./Hero.jsx";
-import Manifesto from "./Manifesto.jsx";
-import Contact from "./Contact.jsx";
-import WorkProcess from "./WorkProcess.jsx";
-import ProjectGrid from "./ProjectGrid.jsx";
-import TechStack from "./TechStack.jsx";
-import Experience from "./Experience.jsx";
 import SEO from "./SEO.jsx";
+
+const Manifesto = lazy(() => import("./Manifesto.jsx"));
+const Contact = lazy(() => import("./Contact.jsx"));
+const WorkProcess = lazy(() => import("./WorkProcess.jsx"));
+const ProjectGrid = lazy(() => import("./ProjectGrid.jsx"));
+const TechStack = lazy(() => import("./TechStack.jsx"));
+const Experience = lazy(() => import("./Experience.jsx"));
 
 const AlternatingScrollPortfolio = () => {
   useEffect(() => {
@@ -22,12 +23,24 @@ const AlternatingScrollPortfolio = () => {
       />
       
       <Hero />
-      <WorkProcess />
-      <ProjectGrid />
-      <Manifesto />
-      <Experience />
-      <TechStack />
-      <Contact />
+      <Suspense fallback={<div className="h-96" />}>
+        <WorkProcess />
+      </Suspense>
+      <Suspense fallback={<div className="h-96" />}>
+        <ProjectGrid />
+      </Suspense>
+      <Suspense fallback={<div className="h-96" />}>
+        <Manifesto />
+      </Suspense>
+      <Suspense fallback={<div className="h-96" />}>
+        <Experience />
+      </Suspense>
+      <Suspense fallback={<div className="h-96" />}>
+        <TechStack />
+      </Suspense>
+      <Suspense fallback={<div className="h-96" />}>
+        <Contact />
+      </Suspense>
     </main>
   );
 };

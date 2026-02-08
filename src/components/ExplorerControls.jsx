@@ -29,12 +29,13 @@ const ExplorerControls = () => {
               whileTap={{ scale: 0.9 }}
               onClick={() => setTheme(mode.id)}
               onMouseEnter={() => playSound('hover')}
+              aria-label={`Set theme to ${mode.label}`}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 shadow-xl border ${
                 isActive 
                   ? mode.id === 'blueprint' 
                     ? 'bg-blue-600 text-white border-blue-400 shadow-blue-500/40' 
                     : mode.id === 'reading'
-                      ? 'bg-[#b58900] text-[#fdf6e3] border-[#b58900] shadow-[#b58900]/40'
+                      ? 'bg-[#856404] text-[#fdf6e3] border-[#856404] shadow-[#856404]/40'
                       : themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-white', 'bg-blue-600 text-white border-blue-400')
                   : themed(
                       'bg-white text-neutral-400 border-neutral-100 hover:text-neutral-900', 

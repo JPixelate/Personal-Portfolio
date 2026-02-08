@@ -601,7 +601,7 @@ const SystemConcierge = () => {
                         }`}>
                             <div className="flex items-center gap-3">
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 border-2 shadow-[0_0_15px_rgba(59,130,246,0.3)] ${
-                                    themed('bg-blue-600 border-blue-500 text-white', 'bg-blue-500 border-blue-400 text-white', 'bg-blue-900/20 border-blue-500 text-blue-400', 'bg-[#b58900] border-[#b58900] text-[#fdf6e3]')
+                                    themed('bg-blue-600 border-blue-500 text-white', 'bg-blue-500 border-blue-400 text-white', 'bg-blue-900/20 border-blue-500 text-blue-400', 'bg-[#856404] border-[#856404] text-[#fdf6e3]')
                                 }`}>
                                     <Bot size={20} />
                                 </div>
@@ -620,6 +620,7 @@ const SystemConcierge = () => {
                             {/* Language removed */}
                             <button 
                                 onClick={toggleVoiceMode}
+                                aria-label={isVoiceMode ? "Disable voice mode" : "Enable voice mode"}
                                 className={`p-2 rounded-full transition-colors ${
                                     isVoiceMode 
                                         ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30' 
@@ -631,6 +632,7 @@ const SystemConcierge = () => {
                             </button>
                             <button 
                                 onClick={() => setIsOpen(false)}
+                                aria-label="Close assistant"
                                     className={`p-2 rounded-full transition-colors ${
                                         themed('text-neutral-500 hover:bg-neutral-100', 'text-neutral-400 hover:bg-white/10', 'text-blue-500 hover:bg-blue-900/20')
                                     }`}
@@ -666,14 +668,14 @@ const SystemConcierge = () => {
                                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-500 ${
                                             msg.sender === 'bot' 
                                                 ? themed('bg-neutral-900 text-white', 'bg-[#1a1a1a] text-neutral-300 border border-neutral-800', 'bg-blue-900/20 text-blue-400 border border-blue-500/20', 'bg-[#433422] text-[#fdf6e3]')
-                                                : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600/20 text-blue-400 border border-blue-500/40', 'bg-[#b58900] text-[#fdf6e3]')
+                                                : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600/20 text-blue-400 border border-blue-500/40', 'bg-[#856404] text-[#fdf6e3]')
                                         }`}>
                                             {msg.sender === 'bot' ? <Bot size={16} /> : <User size={16} />}
                                         </div>
                                         <div className={`p-4 rounded-3xl shadow-sm max-w-[80%] transition-all duration-500 ${
                                             msg.sender === 'bot'
                                                 ? themed('bg-white rounded-tl-none shadow-neutral-200/50', 'bg-[#1a1a1a] rounded-tl-none text-neutral-100 border border-neutral-800', 'bg-blue-950/20 rounded-tl-none text-blue-300 shadow-[inset_0_0_20px_rgba(59,130,246,0.05)] border border-blue-500/20', 'bg-[#eee8d5] rounded-tl-none text-[#433422] shadow-[#433422]/05')
-                                                : themed('bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50', 'bg-blue-500 text-white rounded-tr-none shadow-lg shadow-blue-950/40', 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-500/20 border border-blue-400/30', 'bg-[#b58900] text-[#fdf6e3] rounded-tr-none shadow-[#b58900]/20')
+                                                : themed('bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-200/50', 'bg-blue-500 text-white rounded-tr-none shadow-lg shadow-blue-950/40', 'bg-blue-600 text-white rounded-tr-none shadow-lg shadow-blue-500/20 border border-blue-400/30', 'bg-[#856404] text-[#fdf6e3] rounded-tr-none shadow-[#856404]/20')
                                         }`}>
                                             {msg.sender === 'bot' ? (
                                                 <div className={`text-sm leading-relaxed font-medium prose prose-sm max-w-none ${
@@ -696,7 +698,7 @@ const SystemConcierge = () => {
                                                                     animate={{ opacity: 1, scale: 1 }}
                                                                     transition={{ delay: i * 0.05 }}
                                                                     className={`px-3 py-1.5 rounded-full text-[10px] font-bold flex items-center gap-2 group/tech transition-all hover:scale-110 ${
-                                                                        themed('bg-neutral-100 text-neutral-600 border border-neutral-200', 'bg-neutral-800 text-neutral-400 border border-neutral-700', 'bg-blue-900/10 text-blue-400 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')
+                                                                        themed('bg-neutral-100 text-neutral-600 border border-neutral-200', 'bg-neutral-800 text-neutral-400 border border-neutral-700', 'bg-blue-900/10 text-blue-400 border border-blue-500/20', 'bg-[#856404]/10 text-[#856404] border border-[#856404]/20')
                                                                     }`}
                                                                 >
                                                                     <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${blueprintMode ? 'bg-blue-400 animate-pulse' : 'bg-blue-500'}`} />
@@ -828,9 +830,9 @@ const SystemConcierge = () => {
                                 <div className="relative z-10">
                                     <div className={`inline-flex items-center gap-2.5 px-5 py-2 rounded-full border-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
                                         isSpeaking
-                                            ? themed('border-blue-600 text-blue-600 bg-blue-50', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-blue-500/40 text-blue-400 bg-blue-950/20', 'border-[#b58900] text-[#b58900] bg-[#b58900]/10')
+                                            ? themed('border-blue-600 text-blue-600 bg-blue-50', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-blue-500/40 text-blue-400 bg-blue-950/20', 'border-[#856404] text-[#856404] bg-[#856404]/10')
                                             : isListening
-                                                ? themed('border-blue-600 text-blue-600 bg-blue-50', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-blue-500/40 text-blue-400 bg-blue-950/20', 'border-[#b58900] text-[#b58900] bg-[#b58900]/10')
+                                                ? themed('border-blue-600 text-blue-600 bg-blue-50', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-blue-500/40 text-blue-400 bg-blue-950/20', 'border-[#856404] text-[#856404] bg-[#856404]/10')
                                                 : isTyping
                                                     ? themed('border-neutral-300 text-neutral-500 bg-white', 'border-neutral-700 text-neutral-400 bg-neutral-900', 'border-amber-500/40 text-amber-400 bg-amber-950/20', 'border-[#433422]/20 text-[#433422]/60 bg-[#eee8d5]')
                                                     : themed('border-neutral-200 text-neutral-400 bg-white', 'border-neutral-800 text-neutral-600 bg-neutral-900', 'border-white/10 text-neutral-500 bg-white/5', 'border-[#433422]/10 text-[#433422]/40 bg-[#eee8d5]')
@@ -855,7 +857,7 @@ const SystemConcierge = () => {
                                         {(isListening || isSpeaking) && (
                                                 <motion.div
                                                 className={`absolute w-32 h-32 rounded-full ${
-                                                    themed('border-2 border-blue-600/15', 'border-2 border-blue-500/20', 'border-2 border-blue-500/20', 'border-2 border-[#b58900]/20')
+                                                    themed('border-2 border-blue-600/15', 'border-2 border-blue-500/20', 'border-2 border-blue-500/20', 'border-2 border-[#856404]/20')
                                                 }`}
                                                 animate={{ scale: [1, 1.4], opacity: [0.5, 0] }}
                                                 transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
@@ -867,8 +869,8 @@ const SystemConcierge = () => {
                                             onClick={handleVoiceToggle}
                                             className={`w-32 h-32 rounded-full flex items-center justify-center relative outline-none transition-all duration-300 active:scale-95 cursor-pointer select-none touch-none ${
                                                 isListening || isSpeaking
-                                                    ? themed('bg-blue-600 border-2 border-blue-600 shadow-2xl shadow-blue-500/25', 'bg-blue-500 border-2 border-blue-400 shadow-2xl shadow-blue-500/40', 'bg-blue-600 border-2 border-blue-400 shadow-2xl shadow-blue-500/20', 'bg-[#b58900] border-2 border-[#b58900] shadow-2xl shadow-[#b58900]/25')
-                                                    : themed('bg-white border-2 border-neutral-200 shadow-xl hover:border-blue-600 hover:shadow-blue-100', 'bg-[#1a1a1a] border-2 border-neutral-800 shadow-xl hover:border-blue-500 hover:shadow-blue-900/40', 'bg-[#0a0a0a] border-2 border-blue-500/30 shadow-xl', 'bg-[#eee8d5] border-2 border-[#433422]/10 shadow-xl hover:border-[#b58900] hover:shadow-[#b58900]/10')
+                                                    ? themed('bg-blue-600 border-2 border-blue-600 shadow-2xl shadow-blue-500/25', 'bg-blue-500 border-2 border-blue-400 shadow-2xl shadow-blue-500/40', 'bg-blue-600 border-2 border-blue-400 shadow-2xl shadow-blue-500/20', 'bg-[#856404] border-2 border-[#856404] shadow-2xl shadow-[#856404]/25')
+                                                    : themed('bg-white border-2 border-neutral-200 shadow-xl hover:border-blue-600 hover:shadow-blue-100', 'bg-[#1a1a1a] border-2 border-neutral-800 shadow-xl hover:border-blue-500 hover:shadow-blue-900/40', 'bg-[#0a0a0a] border-2 border-blue-500/30 shadow-xl', 'bg-[#eee8d5] border-2 border-[#433422]/10 shadow-xl hover:border-[#856404] hover:shadow-[#856404]/10')
                                             }`}
                                             style={{ WebkitTouchCallout: 'none' }}
                                         >
@@ -880,7 +882,7 @@ const SystemConcierge = () => {
                                                 <Bot size={48} className={
                                                     isListening || isSpeaking
                                                         ? 'text-white'
-                                                        : themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')
+                                                        : themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')
                                                 } />
                                             </motion.div>
                                         </button>
@@ -906,7 +908,7 @@ const SystemConcierge = () => {
                                                 }}
                                                  className={`w-1 rounded-full ${
                                                     isSpeaking || isListening
-                                                        ? themed('bg-blue-600', 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]', 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]', 'bg-[#b58900]')
+                                                        ? themed('bg-blue-600', 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]', 'bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]', 'bg-[#856404]')
                                                         : themed('bg-neutral-200', 'bg-neutral-800', 'bg-white/10', 'bg-[#433422]/20')
                                                 }`}
                                             />
@@ -919,7 +921,7 @@ const SystemConcierge = () => {
                                     {/* Processing bar */}
                                      {isTyping && !isSpeaking && !isListening && (
                                         <motion.div initial={{ width: 0, opacity: 0 }} animate={{ width: "60%", opacity: 1 }} className={`h-0.5 rounded-full overflow-hidden ${themed('bg-neutral-100', 'bg-neutral-800', 'bg-white/5', 'bg-[#433422]/10')}`}>
-                                            <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className={`h-full ${themed('bg-blue-600 w-1/2', 'bg-blue-500 w-1/2 shadow-[0_0_10px_rgba(59,130,246,0.5)]', 'bg-blue-500 w-1/2', 'bg-[#b58900] w-1/2')}`} />
+                                            <motion.div animate={{ x: ["-100%", "100%"] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className={`h-full ${themed('bg-blue-600 w-1/2', 'bg-blue-500 w-1/2 shadow-[0_0_10px_rgba(59,130,246,0.5)]', 'bg-blue-500 w-1/2', 'bg-[#856404] w-1/2')}`} />
                                         </motion.div>
                                     )}
 
@@ -981,7 +983,7 @@ const SystemConcierge = () => {
                                             exit={{ opacity: 0, scale: 0.9 }}
                                             onClick={() => handleSendMessage(reply)}
                                             className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border transition-all whitespace-nowrap ${
-                                                themed('bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 border-neutral-100 hover:border-blue-100', 'bg-[#1a1a1a] hover:bg-blue-500/10 text-neutral-400 hover:text-blue-400 border-neutral-800 hover:border-blue-500/40', 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30', 'bg-[#fdf6e3] hover:bg-[#b58900]/10 text-[#433422]/60 hover:text-[#b58900] border-[#433422]/10 hover:border-[#b58900]/30')
+                                                themed('bg-neutral-50 hover:bg-blue-50 text-neutral-600 hover:text-blue-600 border-neutral-100 hover:border-blue-100', 'bg-[#1a1a1a] hover:bg-blue-500/10 text-neutral-400 hover:text-blue-400 border-neutral-800 hover:border-blue-500/40', 'bg-blue-900/10 text-blue-400 border-blue-500/30 hover:bg-blue-900/30', 'bg-[#fdf6e3] hover:bg-[#856404]/10 text-[#433422]/60 hover:text-[#856404] border-[#433422]/10 hover:border-[#856404]/30')
                                             }`}
                                         >
                                             {reply}
@@ -1039,19 +1041,20 @@ const SystemConcierge = () => {
                                             'bg-neutral-50 border border-neutral-100 focus:border-blue-600',
                                             'bg-[#1a1a1a] border border-neutral-800 text-neutral-200 focus:border-blue-500 placeholder-neutral-700',
                                             'bg-[#0a0a0a] border border-blue-500/20 text-blue-400 focus:border-blue-500 placeholder-blue-700/30',
-                                            'bg-[#fdf6e3] border border-[#433422]/10 text-[#433422] focus:border-[#b58900] placeholder-[#433422]/30'
+                                            'bg-[#fdf6e3] border border-[#433422]/10 text-[#433422] focus:border-[#856404] placeholder-[#433422]/30'
                                         )
                                     }`}
                                 />
                                 <button
                                     type="submit"
                                     disabled={!inputValue.trim() || isTyping || isLimitReached}
+                                    aria-label="Send message"
                                     className={`absolute right-2 top-2 bottom-2 px-3 rounded-xl transition-all disabled:opacity-50 ${
                                         themed(
                                             'bg-neutral-900 text-white hover:bg-blue-600 disabled:hover:bg-neutral-900',
                                             'bg-blue-600 text-white hover:bg-blue-500',
                                             'bg-blue-900/20 text-blue-400 hover:bg-blue-900/40 border border-blue-500/30',
-                                            'bg-[#b58900] text-[#fdf6e3] hover:bg-[#433422]'
+                                            'bg-[#856404] text-[#fdf6e3] hover:bg-[#433422]'
                                         )
                                     }`}
                                 >
@@ -1084,7 +1087,7 @@ const SystemConcierge = () => {
                                     'bg-neutral-900 border-white/10 text-white',
                                     'bg-[#1a1a1a] border-neutral-800 text-neutral-100',
                                     'bg-[#0a0a0a]/90 border-blue-500/20 text-blue-100',
-                                    'bg-[#433422] border-[#b58900]/20 text-[#fdf6e3]'
+                                    'bg-[#433422] border-[#856404]/20 text-[#fdf6e3]'
                                 )
                             }`}>
                                 {/* Icon container */}
@@ -1094,7 +1097,7 @@ const SystemConcierge = () => {
                                 
                                 {/* Content */}
                                   <div className="flex flex-col pr-6">
-                                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 ${themed('text-blue-400', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>AI Concierge</span>
+                                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 ${themed('text-blue-400', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>AI Concierge</span>
                                     <p className="text-xs font-bold leading-relaxed opacity-90">
                                         Have questions? <br/>Ask my AI assistant!
                                     </p>
@@ -1115,7 +1118,7 @@ const SystemConcierge = () => {
                                         'bg-neutral-900 border-white/10',
                                         'bg-[#1a1a1a] border-neutral-800',
                                         'bg-[#0a0a0a]/90 border-blue-500/20',
-                                        'bg-[#433422] border-[#b58900]/20'
+                                        'bg-[#433422] border-[#856404]/20'
                                     )
                                 }`} />
                             </div>
@@ -1134,6 +1137,7 @@ const SystemConcierge = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 whileDrag={{ scale: 1.1, cursor: 'grabbing' }}
+                aria-label={isOpen ? "Close AI Assistant" : "Open AI Assistant"}
                 className={`w-16 h-16 rounded-full shadow-2xl items-center justify-center touch-none z-[160] transition-colors duration-500 ${
                     isOpen 
                         ? 'hidden sm:flex ' + themed(
@@ -1160,7 +1164,7 @@ const SystemConcierge = () => {
                         <motion.div 
                             animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
                             transition={{ duration: 2, repeat: Infinity }}
-                            className={`absolute -top-1 -right-1 w-4 h-4 rounded-full ${themed('bg-blue-400', 'bg-blue-600', 'bg-white', 'bg-[#b58900]')}`}
+                            className={`absolute -top-1 -right-1 w-4 h-4 rounded-full ${themed('bg-blue-400', 'bg-blue-600', 'bg-white', 'bg-[#856404]')}`}
                         />
                     </div>
                 )}

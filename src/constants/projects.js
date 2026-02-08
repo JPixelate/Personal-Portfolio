@@ -1,14 +1,14 @@
-import otaImg from "../assets/images/OTA_website.jpg";
-import tourImg from "../assets/images/TourOperator_website.jpg";
-import blsImg from "../assets/images/BLS_website.jpg";
-import golfImg from "../assets/images/Golf_website.jpg";
-import bpdImg from "../assets/images/BPDPortal_website.jpg";
-import aiImg from "../assets/images/AI_website.png";
-import aiThumbnail from "../assets/images/delai_website.jpg";
-import analyticsImg from "../assets/images/analytics(4).jpg";
-import analyticsThumbnail from "../assets/images/analytics (1).jpg";
-import analyticsScreenshot2 from "../assets/images/analytics (2).jpg";
-import analyticsScreenshot3 from "../assets/images/analytics (3).jpg";
+import otaImg from "../assets/images/OTA_website.webp";
+import tourImg from "../assets/images/TourOperator_website.webp";
+import blsImg from "../assets/images/BLS_website.webp";
+import golfImg from "../assets/images/Golf_website.webp";
+import bpdImg from "../assets/images/BPDPortal_website.webp";
+import aiImg from "../assets/images/AI_website.webp";
+import aiThumbnail from "../assets/images/delai_website.webp";
+import analyticsImg from "../assets/images/analytics_4.webp";
+import analyticsThumbnail from "../assets/images/analytics_1.webp";
+import analyticsScreenshot2 from "../assets/images/analytics_2.webp";
+import analyticsScreenshot3 from "../assets/images/analytics_3.webp";
 
 export const PROJECTS = [
   {

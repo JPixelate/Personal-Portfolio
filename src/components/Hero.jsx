@@ -40,7 +40,7 @@ const Hero = () => {
             'bg-[linear-gradient(to_right,#3b82f61a_1px,transparent_1px),linear-gradient(to_bottom,#3b82f61a_1px,transparent_1px)]',
             'bg-[linear-gradient(to_right,#3b82f633_1px,transparent_1px),linear-gradient(to_bottom,#3b82f633_1px,transparent_1px)]',
             'bg-[linear-gradient(to_right,#3b82f64d_1px,transparent_1px),linear-gradient(to_bottom,#3b82f64d_1px,transparent_1px)]',
-            'bg-[linear-gradient(to_right,#b589001a_1px,transparent_1px),linear-gradient(to_bottom,#b589001a_1px,transparent_1px)]'
+            'bg-[linear-gradient(to_right,#8564041a_1px,transparent_1px),linear-gradient(to_bottom,#8564041a_1px,transparent_1px)]'
           )}`} />
         </div>
 
@@ -49,7 +49,7 @@ const Hero = () => {
         )}
 
         {themeMode === 'reading' && (
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#b589000a_1px,transparent_1px),linear-gradient(to_bottom,#b589000a_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_20%,#000,transparent)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#8564040a_1px,transparent_1px),linear-gradient(to_bottom,#8564040a_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_20%,#000,transparent)]" />
         )}
 
         {themeMode === 'light' && (
@@ -86,8 +86,8 @@ const Hero = () => {
 
         {themeMode === 'reading' && (
            <>
-           <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-[#b58900]/05 rounded-full blur-[140px]" />
-           <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-[#b58900]/05 rounded-full blur-[140px]" />
+           <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-[#856404]/05 rounded-full blur-[140px]" />
+           <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] bg-[#856404]/05 rounded-full blur-[140px]" />
            </>
         )}
 
@@ -119,16 +119,16 @@ const Hero = () => {
               data-blueprint-label="HERO_COPY"
             >
               <div className="mb-12">
-                <span className={`text-xs font-bold uppercase tracking-widest block mb-6 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Introduction</span>
+                <span className={`text-xs font-bold uppercase tracking-widest block mb-6 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Introduction</span>
                 <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-[75px] font-bold tracking-tight leading-[0.9] mb-12 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
                   Production Focused <br />
-                  Development and Automation<span className={themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#b58900]')}>.</span>
+                  Development and Automation<span className={themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}>.</span>
                 </h1>
               </div>
 
               <div className={`flex flex-col md:flex-row gap-12 items-start lg:items-center justify-between border-t pt-12 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
                 <p className={`text-xl font-medium max-w-xl leading-relaxed transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/80', 'text-[#433422]/70')}`}>
-                 <span className={`inline-block px-5 py-1.5 border-2 rounded-full mx-3 text-md lg:text-md align-middle font-bold tracking-tight transition-all duration-700 ${themed('border-blue-600 text-blue-600', 'border-blue-500 text-blue-500', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-[#b58900] text-[#b58900] bg-[#b58900]/05')}`}>Jonald Penpillo</span> — Full-Stack Web Developer specializing in automated workflows, scalable digital architecture, and high-performance system engineering.
+                 <span className={`inline-block px-5 py-1.5 border-2 rounded-full mx-3 text-md lg:text-md align-middle font-bold tracking-tight transition-all duration-700 ${themed('border-blue-600 text-blue-600', 'border-blue-500 text-blue-500', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-[#856404] text-[#856404] bg-[#856404]/05')}`}>Jonald Penpillo</span> — Full-Stack Web Developer specializing in automated workflows, scalable digital architecture, and high-performance system engineering.
                 </p>
                 <div className="flex flex-col gap-2">
                    <div className="flex items-center gap-2">
@@ -156,10 +156,10 @@ const Hero = () => {
                   'bg-[#050505] border-blue-500/50 text-blue-400',
                   'bg-[#fdf6e3] border-[#433422]/10 text-[#433422]'
                 )}`}>
-                   <Layers className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#b58900]')}`} />
+                   <Layers className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}`} />
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">Full-Stack Dev</span>
-                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/50')}`}>React & Modern UI</span>
+                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/80')}`}>React & Modern UI</span>
                    </div>
                 </div>
 
@@ -170,10 +170,10 @@ const Hero = () => {
                   'bg-[#050505] border-blue-500/50 text-blue-400',
                   'bg-[#fdf6e3] border-[#433422]/10 text-[#433422]'
                 )}`}>
-                   <Sparkles className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#b58900]')}`} />
+                   <Sparkles className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}`} />
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">AI Automation</span>
-                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/50')}`}>n8n & Chatbots</span>
+                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/80')}`}>n8n & Chatbots</span>
                    </div>
                 </div>
 
@@ -184,10 +184,10 @@ const Hero = () => {
                   'bg-[#050505] border-blue-500/50 text-blue-400',
                   'bg-[#fdf6e3] border-[#433422]/10 text-[#433422]'
                 )}`}>
-                   <Database className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#b58900]')}`} />
+                   <Database className={`w-3 h-3 sm:w-4 sm:h-4 ${themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}`} />
                    <div>
                       <span className="text-[10px] sm:text-xs font-bold block leading-tight">Backend Arch.</span>
-                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/50')}`}>PHP & Secure Data</span>
+                      <span className={`text-[8px] sm:text-[10px] font-bold transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/80')}`}>PHP & Secure Data</span>
                    </div>
                 </div>
 
@@ -200,6 +200,7 @@ const Hero = () => {
                    <img
                     src={meHero}
                     alt="Creative Direction"
+                    fetchPriority="high"
                     className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-40 grayscale brightness-50' : themeMode === 'reading' ? 'sepia-[0.3] brightness-[0.9]' : 'opacity-100'}`}
                    />
                    {blueprintMode && (
@@ -224,7 +225,7 @@ const Hero = () => {
                     'bg-blue-600 text-white hover:bg-neutral-900',
                     'bg-blue-500 text-white hover:bg-white hover:text-neutral-900',
                     'bg-blue-600 text-white hover:bg-blue-400',
-                    'bg-[#b58900] text-[#fdf6e3] hover:bg-[#433422]'
+                    'bg-[#856404] text-[#fdf6e3] hover:bg-[#433422]'
                   )}`}
                 >
                   <div className="flex items-center gap-3">

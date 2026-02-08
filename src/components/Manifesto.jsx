@@ -20,7 +20,7 @@ const Manifesto = () => {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className={`text-xs font-bold uppercase tracking-[0.2em] mb-10 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}
+              className={`text-xs font-bold uppercase tracking-[0.2em] mb-10 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}
             >
               Philosophy
             </motion.div>
@@ -31,8 +31,8 @@ const Manifesto = () => {
               viewport={{ once: true }}
               className={`text-2xl md:text-3xl lg:text-4xl font-light leading-[1.3] transition-colors duration-700 ${themed('text-neutral-800', 'text-neutral-300', 'text-blue-400/80', 'text-[#433422]/90')}`}
             >
-              "Jonald builds scalable, business-critical systems that <span className={`font-bold italic transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>perform</span>. Every workflow is a bridge between
-              <span className={`inline-block px-5 py-1.5 border-2 rounded-full mx-3 text-lg lg:text-2xl align-middle font-bold tracking-tight transition-all ${themed('border-blue-600 text-blue-600', 'border-blue-500 text-blue-500', 'border-blue-500 text-blue-500 bg-blue-500/5', 'border-[#b58900] text-[#b58900] bg-[#b58900]/5')}`}>automation</span>
+              "Jonald builds scalable, business-critical systems that <span className={`font-bold italic transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>perform</span>. Every workflow is a bridge between
+              <span className={`inline-block px-5 py-1.5 border-2 rounded-full mx-3 text-lg lg:text-2xl align-middle font-bold tracking-tight transition-all ${themed('border-blue-600 text-blue-600', 'border-blue-500 text-blue-500', 'border-blue-500 text-blue-500 bg-blue-500/5', 'border-[#856404] text-[#856404] bg-[#856404]/5')}`}>automation</span>
               and human impact."
             </motion.p>
 
@@ -44,13 +44,13 @@ const Manifesto = () => {
                className={`mt-16 grid grid-cols-2 gap-12 border-t pt-16 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}
             >
                <div className={blueprintMode ? 'blueprint-active-outline' : ''} data-blueprint-label="VAL_01">
-                  <h4 className={`text-sm font-bold mb-2 uppercase tracking-widest transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Innovation</h4>
+                  <h4 className={`text-sm font-bold mb-2 uppercase tracking-widest transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Innovation</h4>
                   <p className={`leading-relaxed font-normal transition-colors ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-500/60', 'text-[#433422]/60')}`}>
                      Integrating AI-powered solutions to streamline processes and drive award-winning business growth.
                   </p>
                </div>
                <div className={blueprintMode ? 'blueprint-active-outline' : ''} data-blueprint-label="VAL_02">
-                  <h4 className={`text-sm font-bold mb-2 uppercase tracking-widest transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Reliability</h4>
+                  <h4 className={`text-sm font-bold mb-2 uppercase tracking-widest transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Reliability</h4>
                   <p className={`leading-relaxed font-normal transition-colors ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-500/60', 'text-[#433422]/60')}`}>
                      Architecting robust, maintainable, and secure platforms aligned with strategic business goals.
                   </p>
@@ -71,7 +71,7 @@ const Manifesto = () => {
                 alt="Architect"
                 className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : (themeMode === 'reading' ? 'sepia-[0.3]' : '')}`}
                />
-               <div className={`absolute inset-0 mix-blend-overlay transition-colors ${themed('', 'bg-blue-500/10', 'bg-blue-600/20', 'bg-[#b58900]/10')}`}></div>
+               <div className={`absolute inset-0 mix-blend-overlay transition-colors ${themed('', 'bg-blue-500/10', 'bg-blue-600/20', 'bg-[#856404]/10')}`}></div>
                {blueprintMode && (
                    <div className="absolute top-6 left-6 font-mono text-[8px] text-blue-500/40 pointer-events-none">
                        <div>ID: MANIFESTO_CARD_01</div>

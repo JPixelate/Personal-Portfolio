@@ -42,6 +42,9 @@ const Capabilities = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
               src={expertise[hoveredIndex].img}
+              loading="lazy"
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
               className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : (themeMode === 'reading' ? 'sepia-[0.3]' : '')}`}
               alt="Expertise preview"
             />
@@ -59,7 +62,7 @@ const Capabilities = () => {
         {/* Interactive List */}
         <div className="lg:col-span-7">
           <div className="mb-12 lg:mb-16">
-            <h2 className={`text-xs font-bold uppercase tracking-[0.2em] mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Core Expertise</h2>
+            <h2 className={`text-xs font-bold uppercase tracking-[0.2em] mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Core Expertise</h2>
             <h3 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Technical Mastery.</h3>
           </div>
 
@@ -85,6 +88,8 @@ const Capabilities = () => {
                 <div className={`lg:hidden h-40 mb-4 overflow-hidden rounded-2xl border transition-all duration-700 ${themed('border-neutral-100', 'border-neutral-700', 'border-blue-500/30', 'border-[#433422]/10')}`}>
                   <img
                     src={skill.img}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
                     className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : (themeMode === 'reading' ? 'sepia-[0.3]' : '')}`}
                     alt={skill.title}
                   />
@@ -94,11 +99,11 @@ const Capabilities = () => {
                   <div className="flex items-center gap-4 lg:gap-8">
                     {/* Numbering hidden on mobile */}
                     <span className={`hidden lg:block text-sm font-bold transition-colors ${themed('text-neutral-300', 'text-neutral-600', 'text-blue-900', 'text-[#433422]/40')}`}>{skill.id}</span>
-                    <h4 className={`text-2xl lg:text-4xl font-bold transition-colors duration-500 ${hoveredIndex === idx ? themed("text-blue-600", "text-neutral-200", "text-blue-400", "text-[#b58900]") : themed("text-neutral-900 lg:group-hover:text-blue-600", "text-neutral-300 lg:group-hover:text-neutral-200", "text-blue-900", "text-[#433422] lg:group-hover:text-[#b58900]")}`}>
+                    <h4 className={`text-2xl lg:text-4xl font-bold transition-colors duration-500 ${hoveredIndex === idx ? themed("text-blue-600", "text-neutral-200", "text-blue-400", "text-[#856404]") : themed("text-neutral-900 lg:group-hover:text-blue-600", "text-neutral-300 lg:group-hover:text-neutral-200", "text-blue-900", "text-[#433422] lg:group-hover:text-[#856404]")}`}>
                       {skill.title}
                     </h4>
                   </div>
-                  <ArrowRight className={`hidden lg:block transition-all ${hoveredIndex === idx ? themed("text-blue-600 translate-x-2", "text-blue-500 translate-x-2", "text-blue-400 translate-x-2", "text-[#b58900] translate-x-2") : themed("text-neutral-200 group-hover:text-blue-600 group-hover:translate-x-2", "text-neutral-600 group-hover:text-blue-500 group-hover:translate-x-2", "text-blue-900", "text-[#433422]/20 group-hover:text-[#b58900] group-hover:translate-x-2")}`} />
+                  <ArrowRight className={`hidden lg:block transition-all ${hoveredIndex === idx ? themed("text-blue-600 translate-x-2", "text-blue-500 translate-x-2", "text-blue-400 translate-x-2", "text-[#856404] translate-x-2") : themed("text-neutral-200 group-hover:text-blue-600 group-hover:translate-x-2", "text-neutral-600 group-hover:text-blue-500 group-hover:translate-x-2", "text-blue-900", "text-[#433422]/20 group-hover:text-[#856404] group-hover:translate-x-2")}`} />
                 </div>
 
                 {/* Mobile: Always visible | Desktop: Expandable on hover */}

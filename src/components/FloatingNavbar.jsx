@@ -3,7 +3,7 @@ import { Menu, X, ArrowUpRight, Cpu, Moon, BookOpen, Sun, Layers } from "lucide-
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import resumePdf from "../assets/documents/Resume-of-Jonald_Penpillo.pdf";
-import quillLogo from "../assets/images/quill_logo.png";
+import quillLogo from "../assets/images/quill_logo.webp";
 import { useUI } from "../context/UIContext";
 
 const navLinks = [
@@ -113,7 +113,7 @@ const FloatingNavbar = () => {
                 )}`}>
                   {link.name}
                 </span>
-                <span className={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-500 group-hover:w-full ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
+                <span className={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-500 group-hover:w-full ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-400', 'bg-[#856404]')}`}></span>
               </button>
             ))}
 
@@ -129,7 +129,7 @@ const FloatingNavbar = () => {
                 'text-neutral-900',
                 'text-neutral-200 group-hover:text-white',
                 'text-blue-400 group-hover:text-blue-100',
-                'text-[#433422] group-hover:text-[#b58900]'
+                'text-[#433422] group-hover:text-[#856404]'
               )}`}
             >
                Resume
@@ -155,6 +155,7 @@ const FloatingNavbar = () => {
                  'bg-blue-900/20 text-blue-500',
                  'bg-[#433422]/10 text-[#433422]'
                )}`}
+               aria-label={`Switch theme (current: ${themeMode})`}
                title="Switch Theme"
             >
                {themeMode === 'light' && <Sun size={20} />}
@@ -169,6 +170,7 @@ const FloatingNavbar = () => {
                   playSound('click');
                   setIsOpen(!isOpen);
               }}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
               className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${themed(
                 'text-neutral-900 hover:bg-neutral-100',
                 'text-neutral-200 hover:bg-neutral-800',
@@ -199,6 +201,7 @@ const FloatingNavbar = () => {
                         playSound('click');
                         setIsOpen(false);
                     }}
+                    aria-label="Close menu"
                     className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${themed(
                       'bg-neutral-50 text-neutral-900',
                       'bg-neutral-800 text-neutral-200',
@@ -220,14 +223,14 @@ const FloatingNavbar = () => {
                       'text-neutral-900 hover:text-blue-600',
                       'text-neutral-200 hover:text-white',
                       'text-blue-500 hover:text-blue-100',
-                      'text-[#433422] hover:text-[#b58900]'
+                      'text-[#433422] hover:text-[#856404]'
                     )}`}
                   >
                     <span className={`text-[8px] sm:text-[10px] font-bold mb-1.5 sm:mb-2 transition-colors ${themed(
                       'text-neutral-300 group-hover:text-blue-600',
                       'text-neutral-700 group-hover:text-neutral-300',
                       'text-blue-900/40 group-hover:text-blue-400',
-                      'text-[#433422]/20 group-hover:text-[#b58900]'
+                      'text-[#433422]/20 group-hover:text-[#856404]'
                     )}`}>0{idx + 1}</span>
                     {link.name}
                   </button>
@@ -244,7 +247,7 @@ const FloatingNavbar = () => {
                       'bg-neutral-900 text-white shadow-neutral-200 hover:bg-blue-600',
                       'bg-white text-neutral-900 shadow-neutral-950/40 hover:bg-neutral-200',
                       'bg-blue-600 text-white shadow-blue-500/20 hover:bg-blue-400',
-                      'bg-[#b58900] text-[#fdf6e3] shadow-[#b58900]/20 hover:bg-[#433422]'
+                      'bg-[#856404] text-[#fdf6e3] shadow-[#856404]/20 hover:bg-[#433422]'
                     )}`}
                   >
                     Download Resume

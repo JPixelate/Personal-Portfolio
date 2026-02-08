@@ -29,6 +29,7 @@ export const ArchitectureViewer = () => {
                         <button 
                           onClick={() => navigate('/services/web-architecture')}
                           className="hover:text-blue-400 transition-colors"
+                          aria-label="View Web Architecture Details"
                         >
                            <ArrowUpRight size={14} />
                         </button>
@@ -111,6 +112,7 @@ export const BlueprintStats = ({ componentName = "MainApp", bundleSize = '24.8kb
                 <button 
                   onClick={() => setShowCode(false)}
                   className="p-2 hover:bg-white/5 rounded-full transition-colors text-white/40 hover:text-white"
+                  aria-label="Close source code viewer"
                 >
                   <X size={20} />
                 </button>

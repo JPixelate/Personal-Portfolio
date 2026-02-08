@@ -170,6 +170,9 @@ const ArchitectCard = ({ member, variants, index }) => {
                     <motion.img
                         src={member.image}
                         alt={member.name}
+                        loading="lazy"
+                        crossOrigin="anonymous"
+                        referrerPolicy="no-referrer"
                         animate={isHovered ? { scale: 1.1 } : { scale: 1.05 }}
                         transition={{ duration: 0.7, ease: "easeOut" }}
                         className="w-full h-full object-cover"
@@ -216,6 +219,8 @@ const DeveloperCard = ({ dev }) => (
             <motion.img
                 src={dev.image}
                 alt={dev.name}
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
                 whileHover={{ scale: 1.1 }}
                 className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
             />

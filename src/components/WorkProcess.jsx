@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, CheckCircle2, Activity } from "lucide-react";
 import { useUI } from "../context/UIContext";
-import automationHero from "../assets/images/automation_hero.png";
+import automationHero from "../assets/images/automation_hero.webp";
 
 const steps = [
   {
@@ -62,7 +62,7 @@ const WorkProcess = () => {
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
               <motion.path
                 d="M 20 10 Q 50 20 80 10 T 20 30"
-                stroke={themed("#2563eb", "#525252", "#3b82f6", "#b58900")}
+                stroke={themed("#2563eb", "#525252", "#3b82f6", "#856404")}
                 strokeWidth="0.05"
                 fill="none"
                 style={{ pathLength, opacity: 0.1 }}
@@ -75,7 +75,7 @@ const WorkProcess = () => {
         {/* Standardized Header - Fixed at Top */}
         <div className={`mb-24 flex items-end justify-between border-b transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
           <div>
-            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>The Methodology</span>
+            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>The Methodology</span>
             <h2 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Systematic Growth.</h2>
           </div>
           {blueprintMode && (
@@ -137,9 +137,11 @@ const ProcessStep = ({ step, index, onOpen }) => {
               style={{ y: yImage }}
               src={step.img}
               alt={step.title}
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
               className={`w-full h-[calc(100%+50px)] object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale' : (themeMode === 'reading' ? 'sepia-[0.3] group-hover:sepia-0' : 'grayscale group-hover:grayscale-0')}`}
             />
-            <div className={`absolute inset-0 transition-colors ${themed('bg-blue-600/5 mix-blend-overlay', 'bg-blue-500/10', 'bg-blue-600/20 mix-blend-overlay', 'bg-[#b58900]/5 mix-blend-multiply')}`}></div>
+            <div className={`absolute inset-0 transition-colors ${themed('bg-blue-600/5 mix-blend-overlay', 'bg-blue-500/10', 'bg-blue-600/20 mix-blend-overlay', 'bg-[#856404]/5 mix-blend-multiply')}`}></div>
 
             {blueprintMode && (
                 <div className="absolute top-4 left-4 p-4 font-mono text-[8px] text-blue-500/60 pointer-events-none bg-black/40 backdrop-blur-sm rounded-lg border border-blue-500/20">
@@ -153,8 +155,8 @@ const ProcessStep = ({ step, index, onOpen }) => {
       {/* Text Component */}
       <div className={`lg:col-span-6 space-y-8 ${index % 2 === 0 ? 'order-1' : 'order-1 lg:order-2'} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label={`STEP_${index+1}`}>
         <div className="flex items-center gap-4">
-           <span className={`w-12 h-px transition-colors ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-500', 'bg-[#b58900]')}`}></span>
-           <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]/60')}`}>{step.label}</span>
+           <span className={`w-12 h-px transition-colors ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-500', 'bg-[#856404]')}`}></span>
+           <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]/60')}`}>{step.label}</span>
         </div>
 
         <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
@@ -171,7 +173,7 @@ const ProcessStep = ({ step, index, onOpen }) => {
               onClick={onOpen}
               className="flex items-center gap-4 group"
             >
-               <span className={`text-xs font-bold uppercase tracking-widest border-b-2 pb-1 transition-colors pointer-events-auto ${themed('text-neutral-900 border-neutral-900 group-hover:text-blue-600 group-hover:border-blue-600', 'text-blue-500 border-blue-500 group-hover:text-blue-400 group-hover:border-blue-400', 'text-blue-400 border-blue-400 group-hover:text-blue-200 group-hover:border-blue-200', 'text-[#433422] border-[#433422] group-hover:text-[#b58900] group-hover:border-[#b58900]')}`}>Documentation</span>
+               <span className={`text-xs font-bold uppercase tracking-widest border-b-2 pb-1 transition-colors pointer-events-auto ${themed('text-neutral-900 border-neutral-900 group-hover:text-blue-600 group-hover:border-blue-600', 'text-blue-500 border-blue-500 group-hover:text-blue-400 group-hover:border-blue-400', 'text-blue-400 border-blue-400 group-hover:text-blue-200 group-hover:border-blue-200', 'text-[#433422] border-[#433422] group-hover:text-[#856404] group-hover:border-[#856404]')}`}>Documentation</span>
                <div className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${themed('border-neutral-200 group-hover:bg-neutral-900 group-hover:text-white', 'border-neutral-800 text-neutral-400 group-hover:bg-neutral-400 group-hover:text-black', 'border-blue-900 text-blue-400 group-hover:bg-blue-600 group-hover:text-white', 'border-[#433422]/20 text-[#433422] group-hover:bg-[#433422] group-hover:text-[#fdf6e3]')}`}>
                   <ArrowRight size={16} />
                </div>
@@ -207,6 +209,8 @@ const ProcessModal = ({ step, onClose }) => {
            <img
               src={step.img}
               alt={step.title}
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
               className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-30 grayscale' : (themeMode === 'reading' ? 'sepia-[0.3]' : '')}`}
            />
            <div className={`absolute inset-0 flex items-end p-4 sm:p-8 bg-gradient-to-t ${themed('from-black/60 to-transparent', 'from-neutral-900/80 to-transparent', 'from-blue-950/80 to-transparent', 'from-[#433422]/60 to-transparent')}`}>
@@ -221,6 +225,7 @@ const ProcessModal = ({ step, onClose }) => {
                 playSound('click');
                 onClose();
               }}
+              aria-label="Close process details"
               className="absolute top-3 right-3 sm:top-6 sm:right-6 w-8 h-8 sm:w-10 sm:h-10 bg-black/20 backdrop-blur-md rounded-full text-white flex items-center justify-center hover:bg-black/40 transition-colors"
            >
               <X size={18} />
@@ -236,7 +241,7 @@ const ProcessModal = ({ step, onClose }) => {
            <div className="space-y-1.5 sm:space-y-3">
               {step.modalContent.points.map((point, i) => (
                   <div key={i} className="flex items-center gap-2 sm:gap-3">
-                      <CheckCircle2 size={14} className={`flex-shrink-0 sm:w-4 sm:h-4 ${themed("text-blue-600", "text-neutral-400", "text-blue-400", "text-[#b58900]")}`} />
+                      <CheckCircle2 size={14} className={`flex-shrink-0 sm:w-4 sm:h-4 ${themed("text-blue-600", "text-neutral-400", "text-blue-400", "text-[#856404]")}`} />
                       <span className={`text-xs sm:text-sm font-bold ${themed('text-neutral-700', 'text-neutral-400', 'text-blue-500/80', 'text-[#433422]/80')}`}>{point}</span>
                   </div>
               ))}
@@ -249,7 +254,7 @@ const ProcessModal = ({ step, onClose }) => {
                     playSound('click');
                     onClose();
                 }}
-                className={`px-4 sm:px-6 py-2.5 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all ${themed('bg-neutral-900 text-white hover:bg-blue-600', 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700', 'bg-blue-600 text-white hover:bg-blue-400', 'bg-[#b58900] text-[#fdf6e3] hover:bg-[#433422]')}`}
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full transition-all ${themed('bg-neutral-900 text-white hover:bg-blue-600', 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700', 'bg-blue-600 text-white hover:bg-blue-400', 'bg-[#856404] text-[#fdf6e3] hover:bg-[#433422]')}`}
               >
                 Close
               </button>

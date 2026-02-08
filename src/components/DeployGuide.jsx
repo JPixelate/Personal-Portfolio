@@ -174,8 +174,8 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
 
     if (!isOpen) return null;
 
-    const accentText = themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]');
-    const accentBg = themed('bg-blue-600', 'bg-blue-500', 'bg-blue-500', 'bg-[#b58900]');
+    const accentText = themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]');
+    const accentBg = themed('bg-blue-600', 'bg-blue-500', 'bg-blue-500', 'bg-[#856404]');
     const cardBg = themed('bg-white', 'bg-neutral-900', 'bg-[#0a0a0a]', 'bg-[#eee8d5]');
     const overlayBg = themed('bg-black/5', 'bg-black/10', 'bg-black/15', 'bg-black/5');
 

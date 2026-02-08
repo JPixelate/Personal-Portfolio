@@ -13,11 +13,12 @@ import RouteProgressBar from './components/RouteProgressBar.jsx';
 import SkipToContent from './components/SkipToContent.jsx';
 import FocusIndicator from './components/FocusIndicator.jsx';
 import ScreenReaderAnnouncer from './components/ScreenReaderAnnouncer.jsx';
-import SystemConcierge from './components/SystemConcierge.jsx';
-import ExplorerControls from './components/ExplorerControls.jsx';
-import { BlueprintStats, ArchitectureViewer } from './components/BlueprintStats.jsx';
+const SystemConcierge = React.lazy(() => import('./components/SystemConcierge.jsx'));
+const ExplorerControls = React.lazy(() => import('./components/ExplorerControls.jsx'));
+const BlueprintStats = React.lazy(() => import('./components/BlueprintStats.jsx').then(m => ({ default: m.BlueprintStats })));
+const ArchitectureViewer = React.lazy(() => import('./components/BlueprintStats.jsx').then(m => ({ default: m.ArchitectureViewer })));
 import ScrollProgress from './components/ScrollProgress.jsx';
-import { preloadEmbeddings } from './utils/aiKnowledge.js';
+// import { preloadEmbeddings } from './utils/aiKnowledge.js'; // Deferred for performance
 const ProcessPage = React.lazy(() => import('./pages/ProcessPage.jsx'));
 const DeployPage = React.lazy(() => import('./pages/DeployPage.jsx'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage.jsx'));
@@ -93,9 +94,19 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
-  // Pre-load RAG embeddings for faster AI responses
+  // Defer RAG embeddings preloading to save initial main-thread time
   useEffect(() => {
-    preloadEmbeddings();
+    const deferLoad = () => {
+        import('./utils/aiKnowledge.js').then(m => {
+          m.preloadEmbeddings();
+        });
+    };
+    
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(deferLoad, { timeout: 2000 });
+    } else {
+      setTimeout(deferLoad, 3000);
+    }
   }, []);
 
   return (
@@ -117,12 +128,16 @@ function App() {
         <ScrollbarDetectionZone />
         <CustomCursor />
         <FloatingNavbar />
-        <SystemConcierge />
-        <ExplorerControls />
+        <React.Suspense fallback={null}>
+          <SystemConcierge />
+          <ExplorerControls />
+        </React.Suspense>
         <ScrollProgress />
 
-        <BlueprintStats global componentName="App" bundleSize="124kb" />
-        <ArchitectureViewer />
+        <React.Suspense fallback={null}>
+          <BlueprintStats global componentName="App" bundleSize="124kb" />
+          <ArchitectureViewer />
+        </React.Suspense>
 
 
         {/* 4. ANIMATED ROUTES */}

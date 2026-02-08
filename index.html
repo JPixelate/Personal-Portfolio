@@ -35,14 +35,9 @@
     <link
       rel="preload"
       as="image"
-      href="/src/assets/images/hero_dark.webp"
+      href="/src/assets/images/uss52.webp"
       type="image/webp"
-    />
-    <link
-      rel="preload"
-      as="image"
-      href="/src/assets/images/hero_light.webp"
-      type="image/webp"
+      fetchpriority="high"
     />
 
     <script>
@@ -55,13 +50,22 @@
     <!-- PRECONNECT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Aguafina+Script&family=Pinyon+Script&display=swap" 
+      rel="stylesheet" 
+      media="print" 
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Aguafina+Script&family=Pinyon+Script&display=swap" rel="stylesheet" />
+    </noscript>
     <link rel="preconnect" href="https://images.unsplash.com" />
 
     <!-- SECURITY HEADERS (Meta Tag Equivalents) -->
     <!-- Content Security Policy: Restricts where resources can be loaded from -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://raw.githack.com https://cdn.jsdelivr.net https://raw.githubusercontent.com; connect-src 'self' http://localhost:3001 https://api.emailjs.com https://raw.githack.com https://cdn.jsdelivr.net https://raw.githubusercontent.com https://generativelanguage.googleapis.com https://api.deepseek.com wss://streaming.assemblyai.com; upgrade-insecure-requests;"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://raw.githack.com https://cdn.jsdelivr.net https://raw.githubusercontent.com; connect-src 'self' http://localhost:3001 https://api.emailjs.com https://raw.githack.com https://cdn.jsdelivr.net https://raw.githubusercontent.com https://generativelanguage.googleapis.com https://api.deepseek.com wss://streaming.assemblyai.com; upgrade-insecure-requests;"
     />
 
     <!-- Referrer Policy: Controls how much referrer information is passed -->

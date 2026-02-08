@@ -18,7 +18,7 @@ const TechStack = () => {
         {/* Consistent Header Style */}
         <div className={`mb-24 flex items-end justify-between border-b pb-10 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
           <div>
-            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Tech Stack</span>
+            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Tech Stack</span>
             <h2 className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Core Infrastructure.</h2>
           </div>
           <p className={`hidden md:block font-medium text-sm transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900/30', 'text-[#433422]/30')}`}>MODERN CAPABILITIES</p>
@@ -38,7 +38,7 @@ const TechStack = () => {
               data-blueprint-label={`TECH_GRID_0${idx+1}`}
             >
               <div className="flex items-center gap-4">
-                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold border transition-colors duration-700 ${themed('bg-neutral-50 border-neutral-100 text-blue-600', 'bg-neutral-900 border-neutral-700 text-neutral-300', 'bg-[#0a0a0a] border-blue-500/30 text-blue-500', 'bg-[#eee8d5] border-[#433422]/10 text-[#b58900]')}`}>
+                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-bold border transition-colors duration-700 ${themed('bg-neutral-50 border-neutral-100 text-blue-600', 'bg-neutral-900 border-neutral-700 text-neutral-300', 'bg-[#0a0a0a] border-blue-500/30 text-blue-500', 'bg-[#eee8d5] border-[#433422]/10 text-[#856404]')}`}>
                    0{idx + 1}
                  </div>
                   <h3 className={`text-xl font-bold transition-colors duration-700 ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#433422]')}`}>{skill.name}</h3>
@@ -47,7 +47,7 @@ const TechStack = () => {
               <ul className="space-y-4">
                 {skill.tools.map((tool, i) => (
                   <li key={i} className={`flex items-center gap-3 font-medium group cursor-default transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/60', 'text-[#433422]/70')}`}>
-                    <div className={`w-1 h-1 rounded-full transition-colors ${themed('bg-neutral-200 group-hover:bg-blue-600', 'bg-neutral-600 group-hover:bg-neutral-300', 'bg-blue-500/40 group-hover:bg-blue-400', 'bg-[#433422]/20 group-hover:bg-[#b58900]')}`}></div>
+                    <div className={`w-1 h-1 rounded-full transition-colors ${themed('bg-neutral-200 group-hover:bg-blue-600', 'bg-neutral-600 group-hover:bg-neutral-300', 'bg-blue-500/40 group-hover:bg-blue-400', 'bg-[#433422]/20 group-hover:bg-[#856404]')}`}></div>
                     {tool}
                   </li>
                 ))}

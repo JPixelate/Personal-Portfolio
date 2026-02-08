@@ -34,7 +34,7 @@ const ProjectGrid = () => {
         {/* Standardized Header - Consistent with Section3 */}
         <div className={`mb-24 flex items-end justify-between border-b pb-10 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
           <div>
-            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-600', 'text-blue-400', 'text-[#b58900]')}`}>Portfolio</span>
+            <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-600', 'text-blue-400', 'text-[#856404]')}`}>Portfolio</span>
             <h2 className={`text-5xl md:text-6xl font-bold tracking-tight transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Selected Works.</h2>
           </div>
           <p className={`hidden md:block font-medium text-sm transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900/40', 'text-[#433422]/30')}`}>(07) CASE STUDIES</p>
@@ -91,6 +91,8 @@ const ProjectItem = ({ project, index, onOpen }) => {
           transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
           src={project.thumbnail || project.img}
           alt={project.title}
+          loading="lazy"
+          fetchPriority="low"
           className={`w-full h-full object-cover object-top transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : (themeMode === 'reading' ? 'sepia-[0.3]' : 'opacity-100')}`}
         />
 
@@ -98,7 +100,7 @@ const ProjectItem = ({ project, index, onOpen }) => {
         <div className={`absolute inset-0 transition-all duration-300 ${themed('bg-transparent', 'bg-transparent', 'bg-transparent', 'bg-[#433422]/5')}`} />
 
         {/* Floating Action Button - Always visible on mobile, hover reveal on desktop */}
-        <div className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-10 ${themed('bg-white text-neutral-900 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0', 'bg-neutral-800 text-neutral-200 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0', 'bg-blue-600 text-white', 'bg-[#b58900] text-[#fdf6e3] md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0')}`}>
+        <div className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-10 ${themed('bg-white text-neutral-900 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0', 'bg-neutral-800 text-neutral-200 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0', 'bg-blue-600 text-white', 'bg-[#856404] text-[#fdf6e3] md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0')}`}>
             <ArrowUpRight size={18} className="md:w-5 md:h-5" />
         </div>
 
@@ -114,10 +116,10 @@ const ProjectItem = ({ project, index, onOpen }) => {
       <div className={`flex justify-between items-start border-t pt-6 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
         <div className="space-y-2">
            <div className="flex items-center gap-3">
-              <span className={`w-2 h-2 rounded-full transition-colors ${themed('bg-blue-600', 'bg-blue-600', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
+              <span className={`w-2 h-2 rounded-full transition-colors ${themed('bg-blue-600', 'bg-blue-600', 'bg-blue-400', 'bg-[#856404]')}`}></span>
               <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-500', 'text-neutral-500', 'text-blue-500', 'text-[#433422]/60')}`}>{project.category}</span>
            </div>
-           <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900 group-hover:text-blue-600', 'text-neutral-100 group-hover:text-blue-400', 'text-blue-500 group-hover:text-blue-300', 'text-[#433422] group-hover:text-[#b58900]')}`}>
+           <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900 group-hover:text-blue-600', 'text-neutral-100 group-hover:text-blue-400', 'text-blue-500 group-hover:text-blue-300', 'text-[#433422] group-hover:text-[#856404]')}`}>
              {project.title}
            </h3>
         </div>
@@ -150,7 +152,7 @@ const ProjectModal = ({ project, onClose }) => {
            <div className="flex-1">
               <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>{project.category}</span>
               <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-400', 'text-[#433422]')}`}>{project.title}</h3>
-              <p className={`inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-md mt-2 ${themed('text-amber-600 bg-amber-50', 'text-amber-500 bg-amber-950/20', 'text-amber-400 bg-amber-900/10', 'text-[#b58900] bg-[#b58900]/10')}`}>
+              <p className={`inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-md mt-2 ${themed('text-amber-600 bg-amber-50', 'text-amber-500 bg-amber-950/20', 'text-amber-400 bg-amber-900/10', 'text-[#856404] bg-[#856404]/10')}`}>
                 <AlertTriangle size={14} />
                 Portfolio Website is on Staging Environment — Live Demo is unavailable
               </p>
@@ -158,12 +160,13 @@ const ProjectModal = ({ project, onClose }) => {
 
            <div className="flex items-center gap-4">
               <span
-                className={`hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest cursor-not-allowed transition-colors ${themed('bg-neutral-100 text-neutral-400', 'bg-neutral-900 text-neutral-700', 'bg-blue-950/30 text-blue-900', 'bg-[#eee8d5] text-[#b58900]/30')}`}
+                className={`hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest cursor-not-allowed transition-colors ${themed('bg-neutral-100 text-neutral-400', 'bg-neutral-900 text-neutral-700', 'bg-blue-950/30 text-blue-900', 'bg-[#eee8d5] text-[#856404]/30')}`}
               >
                 Visit Live Project <ArrowUpRight size={14} />
               </span>
               <button
                 onClick={onClose}
+                aria-label="Close project details"
                 className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all transform hover:rotate-90 ${themed('bg-neutral-100 text-neutral-900 hover:bg-neutral-900 hover:text-white', 'bg-neutral-800 text-neutral-200 hover:bg-white hover:text-black', 'bg-blue-900/20 text-blue-400 hover:bg-blue-600 hover:text-white', 'bg-[#433422]/10 text-[#433422] hover:bg-[#433422] hover:text-[#fdf6e3]')}`}
               >
                 <X size={20} />
@@ -179,7 +182,7 @@ const ProjectModal = ({ project, onClose }) => {
               <div className="flex flex-col gap-10 mb-16">
                   {/* Row 1: Description */}
                   <div className="space-y-4">
-                      <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Description</span>
+                      <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Description</span>
                       <p className={`text-xl leading-relaxed font-medium max-w-4xl ${themed('text-neutral-800', 'text-neutral-200', 'text-blue-100', 'text-[#433422]')}`}>
                          {project.description}
                       </p>
@@ -198,7 +201,7 @@ const ProjectModal = ({ project, onClose }) => {
                       <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>Tech Stack</span>
                       <div className="flex flex-wrap gap-3">
                           {project.stack?.map((tech, idx) => (
-                              <span key={idx} className={`px-4 py-2 border rounded-2xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all ${themed('bg-white border-neutral-200 text-neutral-700 hover:border-blue-300', 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-white', 'bg-blue-950/20 border-blue-900/30 text-blue-400 hover:border-blue-500', 'bg-[#fdf6e3] border-[#433422]/20 text-[#433422] hover:border-[#b58900]')}`}>
+                              <span key={idx} className={`px-4 py-2 border rounded-2xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all ${themed('bg-white border-neutral-200 text-neutral-700 hover:border-blue-300', 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-white', 'bg-blue-950/20 border-blue-900/30 text-blue-400 hover:border-blue-500', 'bg-[#fdf6e3] border-[#433422]/20 text-[#433422] hover:border-[#856404]')}`}>
                                   {tech}
                               </span>
                           ))}

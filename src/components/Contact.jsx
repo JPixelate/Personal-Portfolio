@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Globe, Mail, Instagram, Linkedin, MessageCircle, Phone } from "lucide-react";
-import quillLogo from "../assets/images/quill_logo.png";
+import quillLogo from "../assets/images/quill_logo.webp";
 import { useUI } from "../context/UIContext";
 
 const Contact = () => {
@@ -58,18 +58,18 @@ const Contact = () => {
                     }}
                     whileHover={{ scale: 1.05 }}
                   />
-                  <span className={`-ml-2 font-logo text-4xl tracking-wide transition-colors duration-300 ${themed('text-neutral-600 group-hover/logo:text-blue-600', 'text-neutral-200 group-hover/logo:text-white', 'text-blue-400 group-hover/logo:text-blue-300', 'text-[#433422] group-hover/logo:text-[#b58900]')}`}>
+                  <span className={`-ml-2 font-logo text-4xl tracking-wide transition-colors duration-300 ${themed('text-neutral-600 group-hover/logo:text-blue-600', 'text-neutral-200 group-hover/logo:text-white', 'text-blue-400 group-hover/logo:text-blue-300', 'text-[#433422] group-hover/logo:text-[#856404]')}`}>
                     penpillo.j
                   </span>
                 </Link>
 
 
                 <div className="flex items-center gap-4">
-                   <div className={`w-10 h-10 rounded-2xl transition-colors duration-700 flex items-center justify-center ${themed('bg-blue-100 text-blue-600', 'bg-neutral-800 text-neutral-300 border border-neutral-700', 'bg-blue-600/10 text-blue-500 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')}`}>
+                   <div className={`w-10 h-10 rounded-2xl transition-colors duration-700 flex items-center justify-center ${themed('bg-blue-100 text-blue-600', 'bg-neutral-800 text-neutral-300 border border-neutral-700', 'bg-blue-600/10 text-blue-500 border border-blue-500/20', 'bg-[#856404]/10 text-[#856404] border border-[#856404]/20')}`}>
                       <Globe size={18} />
                    </div>
                    <div className="flex flex-col">
-                      <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>General Santos City</span>
+                      <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>General Santos City</span>
                       <span className={`text-sm font-bold tabular-nums transition-colors ${themed('text-neutral-900', 'text-neutral-200', 'text-blue-500', 'text-[#433422]')}`}>{time} GMT+8</span>
                    </div>
                 </div>
@@ -80,7 +80,7 @@ const Contact = () => {
           </div>
 
           <div className="md:col-span-3 lg:col-span-2 space-y-8">
-             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#b58900]')}`}>Sitemap</h4>
+             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#856404]')}`}>Sitemap</h4>
              <ul className="space-y-4">
                 <FooterLink to="/#section-hero" label="Overview" />
                 <FooterLink to="/#section-process" label="Process" />
@@ -92,7 +92,7 @@ const Contact = () => {
           </div>
 
           <div className="md:col-span-3 lg:col-span-2 space-y-8">
-             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#b58900]')}`}>Connect</h4>
+             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#856404]')}`}>Connect</h4>
              <ul className="space-y-4">
                 <SocialLink icon={<Instagram size={16}/>} label="Instagram" href="https://www.instagram.com/h4kuna_11/" />
                 <SocialLink icon={<Linkedin size={16}/>} label="LinkedIn" href="https://www.linkedin.com/in/jonald-penpillo" />
@@ -103,10 +103,10 @@ const Contact = () => {
           </div>
 
           <div className="md:col-span-2 lg:col-span-3 md:text-right flex flex-col justify-between items-start md:items-end">
-             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#b58900]')}`}>Availability</h4>
+             <h4 className={`text-[10px] font-black uppercase tracking-[0.3em] transition-colors ${themed('text-neutral-400', 'text-blue-500', 'text-blue-900', 'text-[#856404]')}`}>Availability</h4>
              <div className="flex flex-col md:items-end gap-2">
                 <div className="flex items-center gap-3">
-                   <span className={`w-2 h-2 rounded-full animate-pulse ${themed('bg-green-500', 'bg-green-500', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
+                   <span className={`w-2 h-2 rounded-full animate-pulse ${themed('bg-green-500', 'bg-green-500', 'bg-blue-400', 'bg-[#856404]')}`}></span>
                    <span className={`text-xs font-bold uppercase tracking-widest transition-colors ${themed('text-neutral-900', 'text-neutral-200', 'text-blue-500', 'text-[#433422]')}`}>Open For Q2 2026</span>
                 </div>
                 <span className={`text-[10px] font-medium transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/30')}`}>Ref: Architecture_V2</span>
@@ -145,9 +145,9 @@ const FooterLink = ({ to, label }) => {
         onMouseEnter={() => playSound('hover')}
         onClick={() => playSound('click')}
         to={to}
-        className={`group flex items-center gap-2 text-sm font-bold transition-all ${themed('text-neutral-500 hover:text-neutral-900', 'text-neutral-400 hover:text-neutral-100', 'text-blue-500/60 hover:text-blue-300', 'text-[#433422]/60 hover:text-[#b58900]')}`}
+        className={`group flex items-center gap-2 text-sm font-bold transition-all ${themed('text-neutral-500 hover:text-neutral-900', 'text-neutral-400 hover:text-neutral-100', 'text-blue-500/60 hover:text-blue-300', 'text-[#433422]/60 hover:text-[#856404]')}`}
       >
-         <span className={`w-0 h-px transition-all duration-300 group-hover:w-4 ${themed('bg-blue-600', 'bg-blue-500', 'bg-blue-400', 'bg-[#b58900]')}`}></span>
+         <span className={`w-0 h-px transition-all duration-300 group-hover:w-4 ${themed('bg-blue-600', 'bg-blue-500', 'bg-blue-400', 'bg-[#856404]')}`}></span>
          {label}
       </Link>
     </li>
@@ -164,9 +164,9 @@ const SocialLink = ({ icon, label, href }) => {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group flex items-center gap-3 text-sm font-bold transition-all font-inter ${themed('text-neutral-500 hover:text-neutral-900', 'text-neutral-400 hover:text-neutral-100', 'text-blue-500/60 hover:text-blue-300', 'text-[#433422]/60 hover:text-[#b58900]')}`}
+        className={`group flex items-center gap-3 text-sm font-bold transition-all font-inter ${themed('text-neutral-500 hover:text-neutral-900', 'text-neutral-400 hover:text-neutral-100', 'text-blue-500/60 hover:text-blue-300', 'text-[#433422]/60 hover:text-[#856404]')}`}
       >
-         <span className={`transition-colors ${themed('text-neutral-300 group-hover:text-blue-600', 'text-neutral-600 group-hover:text-neutral-300', 'text-blue-900 group-hover:text-blue-400', 'text-[#433422]/20 group-hover:text-[#b58900]')}`}>{icon}</span>
+         <span className={`transition-colors ${themed('text-neutral-300 group-hover:text-blue-600', 'text-neutral-600 group-hover:text-neutral-300', 'text-blue-900 group-hover:text-blue-400', 'text-[#433422]/20 group-hover:text-[#856404]')}`}>{icon}</span>
          {label}
       </a>
     </li>

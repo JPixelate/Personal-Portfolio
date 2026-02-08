@@ -38,7 +38,7 @@ const Experience = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
 
           <div className="lg:col-span-4">
-             <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>The Journey</span>
+             <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>The Journey</span>
              <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-8 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Professional History.</h2>
              <p className={`max-w-xs leading-relaxed transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/60', 'text-[#433422]/60')}`}>
                 A timeline of Jonald's professional growth and the companies he's helped succeed.
@@ -66,8 +66,8 @@ const Experience = () => {
                 >
                   <span className={`text-sm font-bold w-32 shrink-0 transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-900', 'text-[#433422]/40')}`}>{exp.year}</span>
                   <div>
-                    <h3 className={`text-3xl font-bold mb-2 transition-colors duration-500 ${themed('text-neutral-900 group-hover:text-blue-600', 'text-neutral-200 group-hover:text-blue-500', 'text-blue-400 group-hover:text-blue-200', 'text-[#433422] group-hover:text-[#b58900]')}`}>{exp.role}</h3>
-                    <p className={`text-sm font-bold uppercase tracking-widest mb-6 transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/50', 'text-[#b58900]/50')}`}>{exp.company}</p>
+                    <h3 className={`text-3xl font-bold mb-2 transition-colors duration-500 ${themed('text-neutral-900 group-hover:text-blue-600', 'text-neutral-200 group-hover:text-blue-500', 'text-blue-400 group-hover:text-blue-200', 'text-[#433422] group-hover:text-[#856404]')}`}>{exp.role}</h3>
+                    <p className={`text-sm font-bold uppercase tracking-widest mb-6 transition-colors ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/50', 'text-[#856404]/50')}`}>{exp.company}</p>
                     <p className={`text-lg leading-relaxed font-normal transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/70', 'text-[#433422]/80')}`}>{exp.description}</p>
                   </div>
                 </motion.div>
