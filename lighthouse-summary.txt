@@ -1,0 +1,5 @@
+Performance Score: 78
+
+--- Top Opportunities ---
+Reduce unused JavaScript: Est savings of 58 KiB (Score: 0)
+Reduce unused CSS: Est savings of 13 KiB (Score: 50)
