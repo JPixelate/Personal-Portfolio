@@ -74,8 +74,8 @@ window.$RefreshSig$ = () => (type) => type;</script>
     <meta property="og:description" content="Engineering high-performance web platforms and digital architecture." />
     <meta property="og:image" content="https://penpillo-portfolio.vercel.app/og-image.png?v=2" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
     <meta property="og:image:alt" content="Jonald Penpillo Portfolio - Full Stack Web Developer" />
 
     <!-- Twitter -->
