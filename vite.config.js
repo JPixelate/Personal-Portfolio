@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+// Trigger reload
 
 // https://vite.dev/config/
 export default defineConfig({
