@@ -69,18 +69,16 @@ const FloatingNavbar = () => {
               <motion.img
                 src={quillLogo}
                 alt="Quill"
-                className={`h-8 object-contain transition-all duration-500 ${
-                  blueprintMode
-                    ? '' 
-                    : darkMode 
-                      ? 'invert brightness-100' 
-                      : themeMode === 'reading' 
-                        ? 'sepia-[0.5] brightness-[0.9]' 
-                        : ''
-                }`}
+                className="h-8 object-contain transition-all duration-500"
                 style={{ 
                   transformOrigin: '50% 100%',
-                  filter: blueprintMode ? 'invert(71%) sepia(87%) saturate(1475%) hue-rotate(185deg) brightness(101%) contrast(101%)' : 'none'
+                  filter: blueprintMode 
+                    ? 'invert(71%) sepia(87%) saturate(1475%) hue-rotate(185deg) brightness(101%) contrast(101%)' 
+                    : darkMode 
+                      ? 'invert(1) brightness(2)' 
+                      : themeMode === 'reading' 
+                        ? 'sepia(0.5) brightness(0.9)' 
+                        : 'none'
                 }}
                 animate={{
                   rotate: [0, -0.8, 0, 0.6, 0, -0.3, 0],
