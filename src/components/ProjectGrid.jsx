@@ -152,7 +152,7 @@ const ProjectModal = ({ project, onClose }) => {
               <h3 className={`text-2xl md:text-3xl font-bold ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-400', 'text-[#433422]')}`}>{project.title}</h3>
               <p className={`inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-md mt-2 ${themed('text-amber-600 bg-amber-50', 'text-amber-500 bg-amber-950/20', 'text-amber-400 bg-amber-900/10', 'text-[#b58900] bg-[#b58900]/10')}`}>
                 <AlertTriangle size={14} />
-                Portfolio Website is on Staging Environment — Live Demo is unavailable for security reasons
+                Portfolio Website is on Staging Environment — Live Demo is unavailable
               </p>
            </div>
 
