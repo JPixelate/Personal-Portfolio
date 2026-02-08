@@ -78,8 +78,8 @@ const AIAutomationPage = () => {
     return (
         <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-purple-500/30 transition-colors duration-500">
             <SEO 
-                title="AI Workflow Automation | JPixelate"
-                description="Intelligent business automation using n8n, Python, and custom API integrations to optimize your workflows."
+                title="AI Workflow Automation | Jonald Penpillo"
+                description="Jonald Penpillo specializes in intelligent business automation. He develops custom n8n workflows and Python scripts to optimize complex data processes and enterprise operations."
             />
             
             {/* Background Effects */}

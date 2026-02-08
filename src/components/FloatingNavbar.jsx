@@ -69,7 +69,7 @@ const FloatingNavbar = () => {
               <motion.img
                 src={quillLogo}
                 alt="Quill"
-                className={`h-12 object-contain transition-all duration-500 ${
+                className={`h-8 object-contain transition-all duration-500 ${
                   darkMode || blueprintMode 
                     ? 'invert brightness-100' 
                     : themeMode === 'reading' 
@@ -95,24 +95,6 @@ const FloatingNavbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-12">
-            {blueprintMode && (
-                <div className="flex items-center gap-2 px-3 py-1 bg-blue-600/10 border border-blue-500/20 rounded-full">
-                    <Cpu size={12} className="text-blue-400 animate-pulse" />
-                    <span className="text-[9px] font-mono text-blue-400 uppercase tracking-widest">Blueprint: ON</span>
-                </div>
-            )}
-            {darkMode && (
-                <div className={`flex items-center gap-2 px-3 py-1 bg-neutral-800/50 border border-neutral-600/20 rounded-full`}>
-                    <Moon size={12} className="text-neutral-400" />
-                    <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-widest">Dark Mode</span>
-                </div>
-            )}
-            {themeMode === 'reading' && (
-                <div className="flex items-center gap-2 px-3 py-1 bg-[#b58900]/10 border border-[#b58900]/20 rounded-full">
-                    <BookOpen size={12} className="text-[#b58900]" />
-                    <span className="text-[9px] font-mono text-[#b58900] uppercase tracking-widest">Reading Mode</span>
-                </div>
-            )}
             {navLinks.map((link) => (
               <button
                 key={link.id}

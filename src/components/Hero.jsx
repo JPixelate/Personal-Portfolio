@@ -120,9 +120,9 @@ const Hero = () => {
             >
               <div className="mb-12">
                 <span className={`text-xs font-bold uppercase tracking-widest block mb-6 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>Introduction</span>
-                <h1 className={`text-5xl sm:text-7xl md:text-8xl lg:text-[110px] font-bold tracking-tight leading-[0.9] mb-12 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
-                  Engineering <br className="hidden sm:block" />
-                  Digital Highs<span className={themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#b58900]')}>.</span>
+                <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-[75px] font-bold tracking-tight leading-[0.9] mb-12 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
+                  Production Focused <br />
+                  Development and Automation<span className={themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#b58900]')}>.</span>
                 </h1>
               </div>
 
@@ -150,7 +150,7 @@ const Hero = () => {
                className="relative group"
              >
                 {/* 1. Full Stack - Top Right Offset */}
-                <div className={`absolute -top-8 right-0 sm:-top-12 sm:right-12 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-3 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${themed(
+                <div className={`absolute -top-8 right-0 sm:-top-12 sm:right-12 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-2xl shadow-xl border flex items-center gap-3 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${themed(
                   'bg-white border-neutral-100 text-neutral-900',
                   'bg-neutral-900 border-neutral-700 text-neutral-200',
                   'bg-[#050505] border-blue-500/50 text-blue-400',
@@ -164,7 +164,7 @@ const Hero = () => {
                 </div>
 
                 {/* 2. AI - Left Side */}
-                <div className={`absolute top-1/2 -left-2 sm:-top-4 sm:-left-20 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-3 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${themed(
+                <div className={`absolute top-1/2 -left-2 sm:-top-4 sm:-left-20 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-2xl shadow-xl border flex items-center gap-3 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${themed(
                   'bg-white border-neutral-100 text-neutral-900',
                   'bg-neutral-900 border-neutral-700 text-neutral-200',
                   'bg-[#050505] border-blue-500/50 text-blue-400',
@@ -178,7 +178,7 @@ const Hero = () => {
                 </div>
 
                 {/* 3. Backend - Right Side Offset */}
-                <div className={`absolute top-1/3 -right-2 sm:top-20 sm:-right-8 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl border flex items-center gap-3 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${themed(
+                <div className={`absolute top-1/3 -right-2 sm:top-20 sm:-right-8 z-[30] px-3 sm:px-5 py-2 sm:py-3 rounded-2xl shadow-xl border flex items-center gap-3 sm:gap-3 scale-90 sm:scale-100 whitespace-nowrap transition-all duration-700 ${themed(
                   'bg-white border-neutral-100 text-neutral-900',
                   'bg-neutral-900 border-neutral-700 text-neutral-200',
                   'bg-[#050505] border-blue-500/50 text-blue-400',
@@ -191,7 +191,7 @@ const Hero = () => {
                    </div>
                 </div>
 
-                <div className={`aspect-[3/5] rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-700 border relative ${themed(
+                <div className={`aspect-[3/5] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border relative ${themed(
                   'bg-neutral-100 border-neutral-100 shadow-blue-500/10',
                   'bg-neutral-900 border-neutral-700 shadow-neutral-900/30',
                   'bg-[#0a0a0a] border-blue-500/30',

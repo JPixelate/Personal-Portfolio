@@ -82,7 +82,7 @@ const Capabilities = () => {
                 viewport={{ once: true }}
               >
                 {/* Mobile: Image for each item */}
-                <div className={`lg:hidden h-40 mb-4 overflow-hidden rounded-xl border transition-all duration-700 ${themed('border-neutral-100', 'border-neutral-700', 'border-blue-500/30', 'border-[#433422]/10')}`}>
+                <div className={`lg:hidden h-40 mb-4 overflow-hidden rounded-2xl border transition-all duration-700 ${themed('border-neutral-100', 'border-neutral-700', 'border-blue-500/30', 'border-[#433422]/10')}`}>
                   <img
                     src={skill.img}
                     className={`w-full h-full object-cover transition-all duration-700 ${blueprintMode ? 'opacity-20 grayscale brightness-50' : (themeMode === 'reading' ? 'sepia-[0.3]' : '')}`}

@@ -95,7 +95,7 @@ const ProjectItem = ({ project, index, onOpen }) => {
         />
 
         {/* Dark Overlay - Always visible on mobile, hover on desktop (Light mode only) */}
-        <div className={`absolute inset-0 transition-all duration-300 ${themed('bg-neutral-900/20 md:bg-neutral-900/0 md:group-hover:bg-neutral-900/10', 'bg-transparent', 'bg-transparent', 'bg-[#433422]/5')}`} />
+        <div className={`absolute inset-0 transition-all duration-300 ${themed('bg-transparent', 'bg-transparent', 'bg-transparent', 'bg-[#433422]/5')}`} />
 
         {/* Floating Action Button - Always visible on mobile, hover reveal on desktop */}
         <div className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-10 ${themed('bg-white text-neutral-900 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0', 'bg-neutral-800 text-neutral-200 md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0', 'bg-blue-600 text-white', 'bg-[#b58900] text-[#fdf6e3] md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0')}`}>
@@ -139,14 +139,14 @@ const ProjectModal = ({ project, onClose }) => {
       onClick={onClose}
     >
       <motion.div
-        initial={{ scale: 0.95, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.95, y: 20 }}
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 50, scale: 0.95 }}
+        className={`w-full max-w-7xl h-[90vh] rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.3)] flex flex-col transition-all duration-700 ${themed('bg-white', 'bg-neutral-900 border border-neutral-800', 'bg-[#050505] border border-blue-500/20', 'bg-[#fdf6e3] border border-[#433422]/10')}`}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full h-full max-w-7xl rounded-3xl overflow-hidden flex flex-col relative transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')}`}
       >
         {/* Header Bar */}
-        <div className={`flex items-center justify-between p-6 md:p-8 border-b transition-colors duration-700 z-10 ${themed('border-neutral-100 bg-white', 'border-neutral-800 bg-[#0a0a0a]', 'border-blue-900/30 bg-[#050505]', 'border-[#433422]/10 bg-[#fdf6e3]')}`}>
+        <div className={`flex items-center justify-between p-6 md:p-8 border-b transition-colors duration-700 z-10 ${themed('border-neutral-100 bg-white', 'border-neutral-800 bg-[#0a0a0a]', 'border-blue-900/30 bg-[#050505]', 'border-[#fdf6e3] bg-[#fdf6e3]')}`}>
            <div className="flex-1">
               <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>{project.category}</span>
               <h3 className={`text-2xl md:text-3xl font-bold ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-400', 'text-[#433422]')}`}>{project.title}</h3>
@@ -198,7 +198,7 @@ const ProjectModal = ({ project, onClose }) => {
                       <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>Tech Stack</span>
                       <div className="flex flex-wrap gap-3">
                           {project.stack?.map((tech, idx) => (
-                              <span key={idx} className={`px-4 py-2 border rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm transition-all ${themed('bg-white border-neutral-200 text-neutral-700 hover:border-blue-300', 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-white', 'bg-blue-950/20 border-blue-900/30 text-blue-400 hover:border-blue-500', 'bg-[#fdf6e3] border-[#433422]/20 text-[#433422] hover:border-[#b58900]')}`}>
+                              <span key={idx} className={`px-4 py-2 border rounded-2xl text-xs font-bold uppercase tracking-wider shadow-sm transition-all ${themed('bg-white border-neutral-200 text-neutral-700 hover:border-blue-300', 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-white', 'bg-blue-950/20 border-blue-900/30 text-blue-400 hover:border-blue-500', 'bg-[#fdf6e3] border-[#433422]/20 text-[#433422] hover:border-[#b58900]')}`}>
                                   {tech}
                               </span>
                           ))}
@@ -207,7 +207,7 @@ const ProjectModal = ({ project, onClose }) => {
               </div>
 
               {/* Main Visualization */}
-              <div className={`rounded-xl overflow-hidden shadow-2xl border transition-colors duration-700 ${themed('border-neutral-200 bg-white', 'border-neutral-800 bg-neutral-900', 'border-blue-900/30 bg-[#0a0a0a]', 'border-[#433422]/10 bg-[#fdf6e3]')}`}>
+              <div className={`rounded-2xl overflow-hidden shadow-2xl border transition-colors duration-700 ${themed('border-neutral-200 bg-white', 'border-neutral-800 bg-neutral-900', 'border-blue-900/30 bg-[#0a0a0a]', 'border-[#433422]/10 bg-[#fdf6e3]')}`}>
                  <img
                     src={project.img}
                     alt={project.title}
@@ -221,7 +221,7 @@ const ProjectModal = ({ project, onClose }) => {
                   <h4 className={`text-xs font-bold uppercase tracking-widest mb-6 ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>Additional Screenshots</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {project.screenshots.map((screenshot, idx) => (
-                      <div key={idx} className={`rounded-xl overflow-hidden shadow-lg border transition-all duration-300 hover:shadow-2xl ${themed('border-neutral-200 bg-white', 'border-neutral-800 bg-neutral-900', 'border-blue-900/30 bg-[#0a0a0a]', 'border-[#433422]/10 bg-[#fdf6e3]')}`}>
+                      <div key={idx} className={`rounded-2xl overflow-hidden shadow-lg border transition-all duration-300 hover:shadow-2xl ${themed('border-neutral-200 bg-white', 'border-neutral-800 bg-neutral-900', 'border-blue-900/30 bg-[#0a0a0a]', 'border-[#433422]/10 bg-[#fdf6e3]')}`}>
                         <img
                           src={screenshot}
                           alt={`${project.title} screenshot ${idx + 1}`}

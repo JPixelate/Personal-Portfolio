@@ -46,8 +46,8 @@ const WebArchitecturePage = () => {
     return (
         <main ref={containerRef} className={`min-h-screen transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')}`}>
             <SEO 
-                title="Web Architecture | JPixelate"
-                description="Custom high-performance web architecture solutions including React, Next.js, and advanced animations."
+                title="Custom Web Architecture | Jonald Penpillo"
+                description="High-performance web architecture solutions by Jonald Penpillo. Specializing in React, Next.js, and scalable frontend systems with premium animations and technical excellence."
             />
             
             {/* Background SVG Grid similar to homepage sections */}
@@ -96,7 +96,7 @@ const WebArchitecturePage = () => {
                                     {serviceData.features.map((feature, idx) => (
                                         <div 
                                             key={idx} 
-                                            className={`p-8 rounded-[2rem] border transition-all duration-500 ${cardBg} ${cardBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`}
+                                            className={`p-8 rounded-2xl border transition-all duration-500 ${cardBg} ${cardBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`}
                                             data-blueprint-label={`FEATURE_0${idx+1}`}
                                         >
                                             <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 ${themed('bg-blue-50', 'bg-neutral-800', 'bg-blue-900/40', 'bg-[#b58900]/10')}`}>
@@ -113,11 +113,11 @@ const WebArchitecturePage = () => {
                         {/* Right Column: Sidebar Specs */}
                         <div className="lg:col-span-4 space-y-12">
                             {/* Tech Stack Module */}
-                            <div className={`p-10 rounded-[2rem] border ${cardBg} ${cardBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="SPECS_JSON">
+                            <div className={`p-10 rounded-2xl border ${cardBg} ${cardBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="SPECS_JSON">
                                 <h3 className={`text-xs font-bold uppercase tracking-[0.2em] mb-10 opacity-30 ${themed('text-neutral-900', 'text-white', 'text-blue-500', 'text-[#433422]')}`}>Engineering_Stack</h3>
                                 <div className="flex flex-wrap gap-3">
                                     {serviceData.technologies.map((tech, idx) => (
-                                        <span key={idx} className={`px-4 py-2 rounded-xl text-[11px] font-bold border transition-colors ${themed('bg-neutral-50 border-neutral-200 text-neutral-600', 'bg-neutral-800 border-neutral-700 text-neutral-400', 'bg-blue-900/40 border-blue-500/30 text-blue-400', 'bg-[#fdf6e3] border-[#433422]/20 text-[#433422]/60')}`}>
+                                        <span key={idx} className={`px-4 py-2 rounded-2xl text-[11px] font-bold border transition-colors ${themed('bg-neutral-50 border-neutral-200 text-neutral-600', 'bg-neutral-800 border-neutral-700 text-neutral-400', 'bg-blue-900/40 border-blue-500/30 text-blue-400', 'bg-[#fdf6e3] border-[#433422]/20 text-[#433422]/60')}`}>
                                             {tech}
                                         </span>
                                     ))}
@@ -125,7 +125,7 @@ const WebArchitecturePage = () => {
                             </div>
 
                             {/* Deliverables Module */}
-                            <div className={`p-10 rounded-[2rem] border ${themed('bg-neutral-900 text-white', 'bg-white text-neutral-900', 'bg-blue-600 text-white', 'bg-[#433422] text-[#fdf6e3]')} ${cardBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="MANIFESTO">
+                            <div className={`p-10 rounded-2xl border ${themed('bg-neutral-900 text-white', 'bg-white text-neutral-900', 'bg-blue-600 text-white', 'bg-[#433422] text-[#fdf6e3]')} ${cardBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="MANIFESTO">
                                 <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 opacity-40">Output_Log</h3>
                                 <ul className="space-y-6">
                                     {serviceData.deliverables.map((item, idx) => (

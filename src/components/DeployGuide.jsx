@@ -198,20 +198,21 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed z-[10000] bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md"
+                        className="fixed z-[10000] bottom-8 left-0 right-0 mx-4"
                         style={{
                             maxHeight: 'calc(100vh - 6rem)',
                             overflowY: 'auto',
                             scrollBehavior: 'smooth'
                         }}
                     >
-                        <div
-                            className={`${cardBg} rounded-3xl shadow-2xl border ${themed('border-neutral-200', 'border-neutral-800', 'border-blue-500/30', 'border-[#433422]/20')} overflow-hidden ${
-                                blueprintMode ? 'blueprint-active-outline' : ''
-                            }`}
-                        >
+                        <div className="max-w-md mx-auto">
+                            <div
+                                className={`${cardBg} rounded-3xl shadow-2xl border ${themed('border-neutral-200', 'border-neutral-800', 'border-blue-500/30', 'border-[#433422]/20')} overflow-hidden ${
+                                    blueprintMode ? 'blueprint-active-outline' : ''
+                                }`}
+                            >
                             {/* Header */}
-                            <div className={`relative p-6 md:p-8 pb-4 md:pb-6 ${themed('bg-gradient-to-br from-blue-50 to-white', 'bg-gradient-to-br from-neutral-800 to-neutral-900', 'bg-gradient-to-br from-blue-950/50 to-[#0a0a0a]', 'bg-gradient-to-br from-[#fdf6e3] to-[#eee8d5]')}`}>
+                            <div className={`relative p-5 md:p-8 pb-4 md:pb-6 ${themed('bg-gradient-to-br from-blue-50 to-white', 'bg-gradient-to-br from-neutral-800 to-neutral-900', 'bg-gradient-to-br from-blue-950/50 to-[#0a0a0a]', 'bg-gradient-to-br from-[#fdf6e3] to-[#eee8d5]')}`}>
                                 {/* Close Button */}
                                 <button
                                     onClick={handleClose}
@@ -222,8 +223,8 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                                 </button>
 
                                 {/* Icon */}
-                                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl ${accentBg} flex items-center justify-center mb-4 md:mb-6 shadow-lg`}>
-                                    <currentGuideStep.icon size={24} className="text-white md:w-7 md:h-7" />
+                                <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl ${accentBg} flex items-center justify-center mb-4 md:mb-6 shadow-lg`}>
+                                    <currentGuideStep.icon size={20} className="text-white md:w-7 md:h-7" />
                                 </div>
 
                                 {/* Title */}
@@ -236,8 +237,8 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                             </div>
 
                             {/* Content */}
-                            <div className="p-6 md:p-8 pt-4 md:pt-6">
-                                <p className="text-sm leading-relaxed opacity-80 mb-6 md:mb-8">
+                            <div className="p-5 md:p-8 pt-4 md:pt-6">
+                                <p className="text-xs md:text-sm leading-relaxed opacity-80 mb-6 md:mb-8">
                                     {currentGuideStep.content}
                                 </p>
 
@@ -302,6 +303,7 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                                         Step {guideStep + 1} of {guideSteps.length}
                                     </span>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </motion.div>

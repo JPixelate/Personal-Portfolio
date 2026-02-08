@@ -2,17 +2,18 @@ import React, { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, CheckCircle2, Activity } from "lucide-react";
 import { useUI } from "../context/UIContext";
+import automationHero from "../assets/images/automation_hero.png";
 
 const steps = [
   {
     id: "step-1",
     title: "Strategic Architecture",
     label: "01 / Architecture",
-    desc: "I define high-performance roadmaps and digital frameworks tailored to enterprise goals, with a focus on security and scalability.",
+    desc: "Jonald defines high-performance roadmaps and digital frameworks tailored to enterprise goals, with a focus on security and scalability.",
     img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop",
     modalContent: {
       headline: "Blueprinting Digital Success",
-      details: "My architectural phase focuses on translating business requirements into a robust technical roadmap. I prioritize modularity and security from day one, ensuring that every line of code serves a long-term purpose.",
+      details: "His architectural phase focuses on translating business requirements into a robust technical roadmap. He prioritizes modularity and security from day one, ensuring that every line of code serves a long-term purpose.",
       points: ["High-Level System Design", "Database Normalization", "API Contract Definition", "Tech Stack Selection"]
     }
   },
@@ -20,11 +21,11 @@ const steps = [
     id: "step-2",
     title: "Precision Engineering",
     label: "02 / Development",
-    desc: "Rigorous full-stack implementation using PHP (CodeIgniter) and React. I build robust management systems and secure industrial platforms.",
+    desc: "Rigorous full-stack implementation using PHP (CodeIgniter) and React. He builds robust management systems and secure industrial platforms.",
     img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
     modalContent: {
       headline: "Code That Scales",
-      details: "Execution matters. I utilize modern frameworks and strict coding standards to ensure the codebase is maintainable, testable, and performant under load.",
+      details: "Execution matters. He utilizes modern frameworks and strict coding standards to ensure the codebase is maintainable, testable, and performant under load.",
       points: ["React & TypeScript Frontend", "Secure PHP/Node.js Backend", "CI/CD Pipeline Integration", "Automated Testing"]
     }
   },
@@ -32,11 +33,11 @@ const steps = [
     id: "step-3",
     title: "Intelligent Automation",
     label: "03 / Evolution",
-    desc: "I scale operations through AI-powered n8n workflows and smart companion applications that drive measurable business innovation.",
-    img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
+    desc: "Jonald scales operations through AI-powered n8n workflows and smart companion applications that drive measurable business innovation.",
+    img: automationHero,
     modalContent: {
       headline: "The AI Advantage",
-      details: "Beyond code, I integrate intelligence. By embedding AI agents and automated workflows, I transform static applications into dynamic operational assets that learn and adapt.",
+      details: "Beyond code, he integrates intelligence. By embedding AI agents and automated workflows, he transforms static applications into dynamic operational assets that learn and adapt.",
       points: ["n8n Workflow Automation", "Custom LLM Integration", "Process Auto-Scaling", "Real-time Analytics"]
     }
   }
@@ -131,7 +132,7 @@ const ProcessStep = ({ step, index, onOpen }) => {
     >
       {/* Visual Component */}
       <div className={`lg:col-span-6 ${index % 2 === 0 ? 'order-2' : 'order-2 lg:order-1'}`}>
-         <div className={`aspect-[16/10] rounded-[2rem] overflow-hidden shadow-2xl transition-all duration-700 border relative group ${themed('bg-neutral-50 shadow-blue-500/5 border-neutral-100', 'bg-neutral-900 border-neutral-800', 'bg-[#0a0a0a] border-blue-500/30', 'bg-[#eee8d5] border-[#433422]/10')}`}>
+         <div className={`aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border relative group ${themed('bg-neutral-50 shadow-blue-500/5 border-neutral-100', 'bg-neutral-900 border-neutral-800', 'bg-[#0a0a0a] border-blue-500/30', 'bg-[#eee8d5] border-[#433422]/10')}`}>
             <motion.img
               style={{ y: yImage }}
               src={step.img}

@@ -41,10 +41,10 @@ const Experience = () => {
              <span className={`text-xs font-bold uppercase tracking-widest block mb-4 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>The Journey</span>
              <h2 className={`text-4xl md:text-5xl font-bold tracking-tight mb-8 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Professional History.</h2>
              <p className={`max-w-xs leading-relaxed transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/60', 'text-[#433422]/60')}`}>
-                A timeline of my professional growth and the companies I've helped succeed.
+                A timeline of Jonald's professional growth and the companies he's helped succeed.
              </p>
              {blueprintMode && (
-                 <div className="mt-8 font-mono text-[8px] text-blue-500/40 p-4 border border-blue-500/20 rounded-lg">
+                 <div className="mt-8 font-mono text-[8px] text-blue-500/40 p-4 border border-blue-500/20 rounded-2xl">
                     <div>DB_ID: XP_RELATIONAL_01</div>
                     <div>FETCH_DELAY: 12ms</div>
                  </div>

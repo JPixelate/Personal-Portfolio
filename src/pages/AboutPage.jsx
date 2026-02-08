@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import meDetail from "../assets/images/ds0lq.webp";
+import SEO from '../components/SEO.jsx';
 
 const AboutPage = () => {
     const navigate = useNavigate();
@@ -22,6 +23,10 @@ const AboutPage = () => {
 
     return (
         <div ref={containerRef} className="bg-white text-neutral-900 selection:bg-blue-600 selection:text-white overflow-x-hidden min-h-screen">
+            <SEO 
+                title="About Jonald Penpillo | Studio & Philosophy"
+                description="Learn about Jonald Penpillo's perspective on digital architecture, his technical rigor, and his commitment to building empathetic, high-performance systems."
+            />
             {/* Professional Navigation removed as FloatingNavbar is global */}
 
 
@@ -46,7 +51,7 @@ const AboutPage = () => {
                        </div>
                        <div className="lg:col-span-4 pb-12">
                           <p className="text-xl text-neutral-500 font-medium leading-relaxed italic border-l-4 border-blue-600 pl-8">
-                             "We believe that the most powerful digital experiences are built on a foundation of empathy and precision."
+                             "Jonald believes that the most powerful digital experiences are built on a foundation of empathy and precision."
                           </p>
                        </div>
                     </div>
@@ -70,14 +75,14 @@ const AboutPage = () => {
                             <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Phase 01</span>
                             <h4 className="text-3xl font-bold text-neutral-900">Research.</h4>
                             <p className="text-lg text-neutral-500 font-medium leading-relaxed">
-                                We start by understanding the "why". Design without purpose is just decoration.
+                                He starts by understanding the "why". Design without purpose is just decoration.
                             </p>
                         </div>
                         <div className="space-y-6">
                             <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Phase 02</span>
                             <h4 className="text-3xl font-bold text-neutral-900">Execution.</h4>
                             <p className="text-lg text-neutral-500 font-medium leading-relaxed">
-                                We build with the latest tech stack to ensure performance, security, and scalability.
+                                He builds with the latest tech stack to ensure performance, security, and scalability.
                             </p>
                         </div>
                     </div>
@@ -86,7 +91,7 @@ const AboutPage = () => {
                 <div className="hidden lg:block lg:col-span-5 sticky top-48">
                     <motion.div 
                         style={{ y }}
-                        className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl shadow-blue-500/10 border border-neutral-100"
+                        className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/10 border border-neutral-100"
                     >
                         <img 
                             src={meDetail} 

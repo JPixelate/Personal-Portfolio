@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, PenTool, Bot, Rocket, ArrowRight, ArrowLeft, CheckCircle2, Cpu, Shield, Zap, Code2, Database, Network, Activity, Terminal, Layers, Box, Share2, Globe, Command } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO.jsx';
 
 const ProcessPage = () => {
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ const ProcessPage = () => {
                 "Technical blueprinting of the solution stack.",
                 "Security and compliance risk assessment."
             ],
-            description: "We dissect your current workflows through a technical excavation, identifying exactly where manual effort can be replaced by autonomous code.",
+            description: "Jonald dissects current workflows through a technical excavation, identifying exactly where manual effort can be replaced by autonomous code.",
             bgPattern: "bg-[radial-gradient(#06b6d415_1px,transparent_1px)] [background-size:30px_30px]"
         },
         {
@@ -61,7 +62,7 @@ const ProcessPage = () => {
                 "API-first design for seamless integrations.",
                 "Performance optimization for <100ms latency."
             ],
-            description: "We build rock-solid foundations using scalable code and high-performance interfaces that ensure your digital presence is future-proof.",
+            description: "He builds rock-solid foundations using scalable code and high-performance interfaces that ensure your digital presence is future-proof.",
             bgPattern: "bg-[linear-gradient(to_right,#3b82f608_1px,transparent_1px),linear-gradient(to_bottom,#3b82f608_1px,transparent_1px)] [background-size:60px_60px]"
         },
         {
@@ -76,7 +77,7 @@ const ProcessPage = () => {
                 "n8n and Python workflow automation.",
                 "Context-aware AI training on proprietary data."
             ],
-            description: "We inject autonomous intelligence into your systems, creating context-aware workers that never sleep and always remember.",
+            description: "He injects autonomous intelligence into your systems, creating context-aware workers that never sleep and always remember.",
             bgPattern: "bg-[repeating-linear-gradient(45deg,#6366f105_0,#6366f105_1px,transparent_0,transparent_50%)] [background-size:15px_15px]"
         },
         {
@@ -91,13 +92,18 @@ const ProcessPage = () => {
                 "Iterative AI model refinement based on usage.",
                 "Full system handover and autonomy training."
             ],
-            description: "We ensure your systems are self-sustaining, monitoring every signal to optimize for maximum growth and operational efficiency.",
+            description: "Jonald ensures your systems are self-sustaining, monitoring every signal to optimize for maximum growth and operational efficiency.",
             bgPattern: "bg-[linear-gradient(to_bottom,#a855f705_1px,transparent_1px)] [background-size:100%_30px]"
         }
     ];
 
     return (
         <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/30 relative overflow-hidden">
+            <SEO 
+                title="Our Methodology | Engineering Process"
+                description="Explore Jonald Penpillo's four-phase digital engineering methodology: Discovery, Web Architecture, Intelligence Injection, and Autonomous Deployment."
+                keywords="Development Process, AI Implementation, Software Lifecycle, Jonald Penpillo, Methodology"
+            />
             {/* --- GLOBAL ARCHITECTURAL GRID --- */}
             <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.03] dark:opacity-[0.05]">
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
@@ -132,8 +138,8 @@ const ProcessPage = () => {
                         </span>
                     </motion.h1>
                     <motion.p variants={itemVariants} className="text-lg md:text-xl text-neutral-600 dark:text-gray-400 max-w-3xl font-light leading-relaxed">
-                        Our process is a fusion of rigorous software engineering and cutting-edge AI orchestration.
-                        We architect ecosystems that evolve with your business.
+                        Jonald's process is a fusion of rigorous software engineering and cutting-edge AI orchestration.
+                        He architects ecosystems that evolve with your business.
                     </motion.p>
                 </motion.div>
             </section>
@@ -206,7 +212,7 @@ const ProcessPage = () => {
 
                                         {/* Visual Column */}
                                         <div className={`lg:col-span-7 flex flex-col ${!isEven ? 'lg:order-1' : ''}`}>
-                                            <div className="flex-grow relative rounded-[2rem] border border-black/10 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-md overflow-hidden group mb-6">
+                                            <div className="flex-grow relative rounded-2xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-md overflow-hidden group mb-6">
                                                 {/* Subtle Color Glow */}
                                                 <div className="absolute inset-0 opacity-5 bg-current" style={{ color: colorHex }}></div>
 

@@ -91,6 +91,8 @@ const DeployPage = () => {
     const mainSolidBg = themed('bg-blue-600', 'bg-blue-500', 'bg-blue-500', 'bg-[#b58900]');
     const cardBg = themed('bg-white', 'bg-neutral-900', 'bg-[#0a0a0a]', 'bg-[#eee8d5]');
     const inputBorder = themed('border-neutral-100', 'border-neutral-800', 'border-blue-500/20', 'border-[#433422]/10');
+    const inputBg = themed('bg-neutral-50', 'bg-white/[0.03]', 'bg-white/[0.05]', 'bg-black/[0.03]');
+    const borderSubtle = themed('border-neutral-100', 'border-white/5', 'border-white/10', 'border-[#433422]/5');
     
     const containerVariants = {
         hidden: { opacity: 0, y: 10 },
@@ -131,7 +133,10 @@ const DeployPage = () => {
 
     return (
         <main className={`min-h-screen transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')}`}>
-            <SEO title="Deploy Protocol" description="Initialize your technical build with a high-performance architectural quote." />
+            <SEO 
+                title="Initialize Build Protocol | Jonald Penpillo" 
+                description="Start your next technical build with Jonald Penpillo. Request a professional quote for high-performance web architecture, AI automation, or custom agent systems." 
+            />
             
             {/* Background SVG Grid */}
             <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -141,10 +146,10 @@ const DeployPage = () => {
                 </svg>
             </div>
 
-            <div className="relative pt-40 pb-32 px-4 md:px-8 z-10">
+            <div className="relative pt-24 md:pt-40 pb-20 md:pb-32 px-4 md:px-8 z-10">
                 <div className="max-w-7xl mx-auto">
                     {/* Standardized Homepage Header */}
-                    <div className={`mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between border-b pb-8 gap-6 ${accentBorder}`}>
+                    <div className={`mb-8 md:mb-24 flex flex-col md:flex-row md:items-end justify-between border-b pb-6 gap-4 ${accentBorder}`}>
                         <div>
                             <span className={`text-xs font-bold uppercase tracking-widest block mb-4 ${accentText}`}>Request a Quote</span>
                             <h1 className={`text-4xl md:text-5xl font-bold tracking-tight ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>Start Your Project.</h1>
@@ -165,16 +170,16 @@ const DeployPage = () => {
                                 aria-label="Show guided tour"
                             >
                                 <HelpCircle size={16} className={`${accentText} group-hover:scale-110 transition-transform`} />
-                                <span className={`text-xs font-bold uppercase tracking-wider hidden md:inline ${accentText}`}>Guide</span>
+                                <span className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ${accentText}`}>Guide</span>
                             </button>
                             <p className="hidden lg:block text-neutral-400 font-medium text-sm">STRATEGY_SYNC</p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-24 items-start">
                         {/* Left Column: Progress & Logic */}
-                        <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32" data-guide-target="progress-sidebar">
-                            <div className={`p-8 rounded-[2rem] border backdrop-blur-md transition-all duration-700 ${themed('bg-white/80 border-neutral-100', 'bg-neutral-900/80 border-neutral-800', 'bg-[#0a0a0a]/80 border-blue-500/20', 'bg-[#eee8d5]/80 border-[#433422]/10')} ${blueprintMode ? 'blueprint-active-outline shadow-[0_0_30px_rgba(59,130,246,0.1)]' : 'shadow-xl'}`} data-blueprint-label="PHASE_LOG">
+                        <div className="lg:col-span-4 space-y-6 lg:space-y-8 lg:sticky lg:top-32" data-guide-target="progress-sidebar">
+                            <div className={`p-6 md:p-8 rounded-2xl border backdrop-blur-md transition-all duration-700 ${themed('bg-white/80 border-neutral-100', 'bg-neutral-900/80 border-neutral-800', 'bg-[#0a0a0a]/80 border-blue-500/20', 'bg-[#eee8d5]/80 border-[#433422]/10')} ${blueprintMode ? 'blueprint-active-outline shadow-[0_0_30px_rgba(59,130,246,0.1)]' : 'shadow-xl'}`} data-blueprint-label="PHASE_LOG">
                                 <div className="flex items-center justify-between mb-10 pb-4 border-b border-current opacity-10">
                                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em]">Project Roadmap</h3>
                                     <span className="text-[8px] font-mono">PHASE 0{step}/04</span>
@@ -225,7 +230,7 @@ const DeployPage = () => {
 
                         {/* Right Column: Execution Interface */}
                         <div className="lg:col-span-8">
-                            <div className={`min-h-[600px] p-8 rounded-[2rem] border transition-all duration-700 ${cardBg} ${accentBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="TERMINAL_UI">
+                            <div className={`min-h-[500px] md:min-h-[600px] p-5 md:p-8 rounded-2xl border transition-all duration-700 ${cardBg} ${accentBorder} ${blueprintMode ? 'blueprint-active-outline' : ''}`} data-blueprint-label="TERMINAL_UI">
                                 <AnimatePresence mode="wait">
                                     {isSubmitted ? (
                                         <motion.div key="success" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 md:py-20 px-4">
@@ -244,12 +249,12 @@ const DeployPage = () => {
                                                         <h3 className="text-2xl font-black uppercase tracking-tight mb-4">Select Your Foundation</h3>
                                                         <p className="opacity-50 text-sm font-medium">Identify the core technical approach for your next project.</p>
                                                     </div>
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-guide-target="solution-cards">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6" data-guide-target="solution-cards">
                                                         {solutionTypes.map((type) => (
                                                             <button 
                                                                 key={type.id} 
                                                                 onClick={() => { playSound('click'); setFormData({...formData, solutionType: type.id}); setStep(2); }}
-                                                                className={`p-6 md:p-10 rounded-[2rem] border text-left transition-all duration-500 group relative overflow-hidden transform hover:scale-[1.02] hover:-translate-y-1 ${formData.solutionType === type.id ? `${themed('bg-neutral-100 border-neutral-900', 'bg-neutral-800 border-white', 'bg-blue-900/40 border-blue-400', 'bg-[#fdf6e3] border-[#433422]')}` : `${inputBorder} hover:border-neutral-400 dark:hover:border-white/40`}`}
+                                                                 className={`p-6 md:p-10 rounded-2xl border text-left transition-all duration-500 group relative overflow-hidden transform hover:scale-[1.02] hover:-translate-y-1 ${formData.solutionType === type.id ? `${themed('bg-neutral-100 border-neutral-900', 'bg-neutral-800 border-white', 'bg-blue-900/40 border-blue-400', 'bg-[#fdf6e3] border-[#433422]')}` : `${inputBorder} hover:border-neutral-400 ${themed('hover:border-neutral-400', 'hover:border-white/40', 'hover:border-blue-400/40', 'hover:border-[#433422]/40')}`}`}
                                                             >
                                                                 {/* Bottom Corner Accent */}
                                                                 <type.icon size={32} className={`mb-8 transition-all duration-500 ${formData.solutionType === type.id ? type.color : 'opacity-40 group-hover:opacity-100 group-hover:scale-110 group-hover:rotate-3'}`} />
@@ -274,7 +279,7 @@ const DeployPage = () => {
                                             {step === 2 && (
                                                 <motion.div key="s2" variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-12">
                                                     {/* Selected Breadcrumb Style */}
-                                                    <div className="flex items-center gap-6 p-8 rounded-3xl bg-neutral-100/50 dark:bg-white/5 border border-white/10 backdrop-blur-sm">
+                                                    <div className={`flex items-center gap-6 p-8 rounded-2xl ${inputBg} border ${borderSubtle} backdrop-blur-sm`}>
                                                         <div className={`w-14 h-14 rounded-2xl ${selectedSolution?.solidBg} flex items-center justify-center text-white shadow-lg overflow-hidden relative`}>
                                                             <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
                                                             {selectedSolution?.icon && <selectedSolution.icon size={28} className="relative z-10" />}
@@ -285,7 +290,7 @@ const DeployPage = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10" data-guide-target="scope-section">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-10" data-guide-target="scope-section">
                                                         <div className="space-y-6">
                                                             <div className="flex items-center gap-3 ml-2">
                                                                 <DollarSign size={14} className={accentText} />
@@ -296,7 +301,7 @@ const DeployPage = () => {
                                                                     <button 
                                                                         key={b} 
                                                                         onClick={() => { playSound('click'); setFormData({...formData, budget: b})}} 
-                                                                        className={`py-4 md:py-5 px-6 md:px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.budget === b ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : 'bg-transparent border-neutral-200/50 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-neutral-400 dark:hover:border-white/30'}`}
+                                                                        className={`py-4 md:py-5 px-6 md:px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.budget === b ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : `bg-transparent ${borderSubtle} opacity-60 hover:opacity-100 ${themed('hover:border-neutral-400', 'hover:border-white/30', 'hover:border-blue-400/30', 'hover:border-[#433422]/30')}`}`}
                                                                     >
                                                                         {b}
                                                                         {formData.budget === b && <Check size={14} strokeWidth={4} />}
@@ -312,19 +317,19 @@ const DeployPage = () => {
                                                             <div className="grid grid-cols-1 gap-3">
                                                                 {['< 1 Month', '1-3 Months', '3-6 Months', 'Ongoing'].map(t => (
                                                                     <button 
-                                                                        key={t} 
-                                                                        onClick={() => { playSound('click'); setFormData({...formData, timeline: t})}} 
-                                                                        className={`py-4 md:py-5 px-6 md:px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.timeline === t ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : 'bg-transparent border-neutral-200/50 dark:border-white/10 opacity-60 hover:opacity-100 hover:border-neutral-400 dark:hover:border-white/30'}`}
-                                                                    >
-                                                                        {t}
-                                                                        {formData.timeline === t && <Check size={14} strokeWidth={4} />}
-                                                                    </button>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex justify-between items-center pt-10 border-t border-neutral-100 dark:border-white/5">
+                                                                         key={t} 
+                                                                         onClick={() => { playSound('click'); setFormData({...formData, timeline: t})}} 
+                                                                         className={`py-4 md:py-5 px-6 md:px-8 rounded-2xl border text-sm font-black transition-all text-left flex items-center justify-between group ${formData.timeline === t ? `${themed('bg-neutral-900 text-white border-neutral-900', 'bg-blue-500 text-black border-blue-500', 'bg-blue-500 text-black border-blue-500', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')}` : `bg-transparent ${borderSubtle} opacity-60 hover:opacity-100 ${themed('hover:border-neutral-400', 'hover:border-white/30', 'hover:border-blue-400/30', 'hover:border-[#433422]/30')}`}`}
+                                                                     >
+                                                                         {t}
+                                                                         {formData.timeline === t && <Check size={14} strokeWidth={4} />}
+                                                                     </button>
+                                                                 ))}
+                                                             </div>
+                                                         </div>
+                                                     </div>
+ 
+                                                     <div className={`flex justify-between items-center pt-10 border-t ${borderSubtle}`}>
                                                         <button onClick={() => setStep(1)} className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest opacity-30 hover:opacity-100 transition-all">
                                                             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
                                                             Previous
@@ -342,7 +347,7 @@ const DeployPage = () => {
 
                                             {step === 3 && (
                                                 <motion.div key="s3" variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-10" data-guide-target="contact-section">
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                                         {[
                                                             { id: 'name', label: 'Full Name', icon: User, placeholder: 'e.g. John Doe' },
                                                             { id: 'email', label: 'Work Email', icon: Mail, placeholder: 'john@company.com' },
@@ -354,13 +359,13 @@ const DeployPage = () => {
                                                                     <field.icon size={12} className={accentText} />
                                                                     <label className="text-[10px] font-black uppercase tracking-widest opacity-40">{field.label}</label>
                                                                 </div>
-                                                                <input 
-                                                                    type={field.id === 'email' ? 'email' : 'text'}
-                                                                    value={formData[field.id]}
-                                                                    onChange={e => setFormData({...formData, [field.id]: e.target.value})}
-                                                                    className={`w-full p-6 bg-neutral-50 dark:bg-white/[0.03] border ${themed('border-neutral-200 focus:border-neutral-900', 'border-neutral-800 focus:border-white', 'border-blue-900/30 focus:border-blue-400', 'border-[#433422]/20 focus:border-[#433422]')} rounded-2xl font-bold transition-all outline-none focus:ring-0 backdrop-blur-sm`}
-                                                                    placeholder={field.placeholder}
-                                                                />
+                                                                 <input 
+                                                                     type={field.id === 'email' ? 'email' : 'text'}
+                                                                     value={formData[field.id]}
+                                                                     onChange={e => setFormData({...formData, [field.id]: e.target.value})}
+                                                                     className={`w-full p-5 md:p-6 ${inputBg} border ${themed('border-neutral-200 focus:border-neutral-900', 'border-neutral-800 focus:border-white', 'border-blue-900/30 focus:border-blue-400', 'border-[#433422]/20 focus:border-[#433422]')} rounded-2xl font-bold transition-all outline-none focus:ring-0 backdrop-blur-sm`}
+                                                                     placeholder={field.placeholder}
+                                                                 />
                                                             </div>
                                                         ))}
                                                     </div>
@@ -369,14 +374,14 @@ const DeployPage = () => {
                                                             <Database size={12} className={accentText} />
                                                             <label className="text-[10px] font-black uppercase tracking-widest opacity-40">Project Requirements</label>
                                                         </div>
-                                                        <textarea 
-                                                            value={formData.details}
-                                                            onChange={e => setFormData({...formData, details: e.target.value})}
-                                                            className={`w-full h-40 p-8 bg-neutral-50 dark:bg-white/[0.03] border ${themed('border-neutral-200 focus:border-neutral-900', 'border-neutral-800 focus:border-white', 'border-blue-900/30 focus:border-blue-400', 'border-[#433422]/20 focus:border-[#433422]')} rounded-3xl font-bold transition-all outline-none resize-none backdrop-blur-sm`}
-                                                            placeholder="Tell us about your objectives and any specific constraints..."
-                                                        />
-                                                    </div>
-                                                    <div className="flex justify-between items-center pt-8 border-t border-neutral-100 dark:border-white/5">
+                                                         <textarea 
+                                                             value={formData.details}
+                                                             onChange={e => setFormData({...formData, details: e.target.value})}
+                                                             className={`w-full h-32 md:h-40 p-6 md:p-8 ${inputBg} border ${themed('border-neutral-200 focus:border-neutral-900', 'border-neutral-800 focus:border-white', 'border-blue-900/30 focus:border-blue-400', 'border-[#433422]/20 focus:border-[#433422]')} rounded-2xl font-bold transition-all outline-none resize-none backdrop-blur-sm`}
+                                                             placeholder="Tell us about your objectives and any specific constraints..."
+                                                         />
+                                                     </div>
+                                                     <div className={`flex justify-between items-center pt-8 border-t ${borderSubtle}`}>
                                                         <button onClick={() => setStep(2)} className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest opacity-30 hover:opacity-100 transition-all">
                                                             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
                                                             Previous
@@ -398,7 +403,7 @@ const DeployPage = () => {
                                                         <div className="hidden" aria-hidden="true"><input type="text" name="system_id" /></div>
                                                         
                                                         {/* High-Performance Manifest Card */}
-                                                        <div className={`p-6 md:p-10 rounded-[2rem] border ${themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-neutral-100', 'bg-[#0a0a0a] text-blue-400 border-blue-500/30', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')} relative overflow-hidden group`}>
+                                                        <div className={`p-6 md:p-10 rounded-2xl border ${themed('bg-neutral-900 text-white border-neutral-800', 'bg-white text-neutral-900 border-neutral-100', 'bg-[#0a0a0a] text-blue-400 border-blue-500/30', 'bg-[#433422] text-[#fdf6e3] border-[#433422]')} relative overflow-hidden group`}>
                                                              {/* Animated Grid Overlay */}
                                                              <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                                                                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent"></div>
@@ -415,9 +420,9 @@ const DeployPage = () => {
                                                              <div className="relative z-10">
                                                                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12">
                                                                      <div className="flex items-center gap-6">
-                                                                         <div className={`w-20 h-20 rounded-2xl ${themed('bg-white/10', 'bg-neutral-900/5', 'bg-blue-500/10', 'bg-white/10')} backdrop-blur-xl flex items-center justify-center border border-white/10 shadow-inner`}>
-                                                                             {selectedSolution?.icon && <selectedSolution.icon size={36} className={themed('text-white', 'text-neutral-900', 'text-blue-400', 'text-[#fdf6e3]')} />}
-                                                                         </div>
+                                                                          <div className={`w-20 h-20 rounded-2xl ${themed('bg-neutral-900/10', 'bg-white/10', 'bg-blue-500/10', 'bg-[#433422]/10')} backdrop-blur-xl flex items-center justify-center border ${borderSubtle} shadow-inner`}>
+                                                                              {selectedSolution?.icon && <selectedSolution.icon size={36} className={themed('text-neutral-900', 'text-white', 'text-blue-400', 'text-[#433422]')} />}
+                                                                          </div>
                                                                          <div>
                                                                              <div className="flex items-center gap-2 mb-1">
                                                                                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -432,7 +437,7 @@ const DeployPage = () => {
                                                                      </div>
                                                                  </div>
 
-                                                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-10 border-t border-white/10">
+                                                                  <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 border-t ${borderSubtle}`}>
                                                                      <div className="space-y-4">
                                                                          <div className="flex items-center gap-2 opacity-40">
                                                                              <User size={12} />
@@ -467,7 +472,7 @@ const DeployPage = () => {
                                                                      </div>
                                                                  </div>
                                                                  
-                                                                 <div className="mt-10 pt-8 border-t border-white/5 space-y-4">
+                                                                  <div className={`mt-10 pt-8 border-t ${borderSubtle} space-y-4`}>
                                                                      <div className="flex items-center gap-2 opacity-40">
                                                                          <Database size={12} />
                                                                          <p className="text-[9px] font-bold uppercase tracking-widest leading-none">Project Details</p>
@@ -486,12 +491,12 @@ const DeployPage = () => {
                                                         {/* Actions & Verification */}
                                                         <div className="flex flex-col gap-8">
                                                             <div className="flex items-center gap-4 px-4">
-                                                                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-neutral-200 dark:via-neutral-800 to-transparent"></div>
-                                                                <div className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-30 flex items-center gap-2">
-                                                                    <Shield size={12} className="text-emerald-500" />
-                                                                    Privacy Protected
-                                                                </div>
-                                                                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-neutral-200 dark:via-neutral-800 to-transparent"></div>
+                                                                 <div className={`flex-1 h-[1px] bg-gradient-to-r from-transparent via-current opacity-10 to-transparent`}></div>
+                                                                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-30 flex items-center gap-2">
+                                                                     <Shield size={12} className="text-emerald-500" />
+                                                                     Privacy Protected
+                                                                 </div>
+                                                                 <div className={`flex-1 h-[1px] bg-gradient-to-r from-transparent via-current opacity-10 to-transparent`}></div>
                                                             </div>
 
                                                             <div className="flex flex-col md:flex-row gap-6">

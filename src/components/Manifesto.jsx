@@ -31,7 +31,7 @@ const Manifesto = () => {
               viewport={{ once: true }}
               className={`text-2xl md:text-3xl lg:text-4xl font-light leading-[1.3] transition-colors duration-700 ${themed('text-neutral-800', 'text-neutral-300', 'text-blue-400/80', 'text-[#433422]/90')}`}
             >
-              "I build scalable, business-critical systems that <span className={`font-bold italic transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>perform</span>. Every workflow is a bridge between
+              "Jonald builds scalable, business-critical systems that <span className={`font-bold italic transition-colors ${themed('text-neutral-900', 'text-blue-500', 'text-blue-400', 'text-[#b58900]')}`}>perform</span>. Every workflow is a bridge between
               <span className={`inline-block px-5 py-1.5 border-2 rounded-full mx-3 text-lg lg:text-2xl align-middle font-bold tracking-tight transition-all ${themed('border-blue-600 text-blue-600', 'border-blue-500 text-blue-500', 'border-blue-500 text-blue-500 bg-blue-500/5', 'border-[#b58900] text-[#b58900] bg-[#b58900]/5')}`}>automation</span>
               and human impact."
             </motion.p>
@@ -64,7 +64,7 @@ const Manifesto = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className={`aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl relative border transition-all duration-700 ${themed('bg-neutral-50 border-neutral-100 shadow-blue-500/5', 'bg-neutral-900 border-neutral-700 shadow-blue-500/5', 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/5', 'bg-[#eee8d5] border-[#433422]/10 shadow-[#433422]/5')}`}
+              className={`aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl relative border transition-all duration-700 ${themed('bg-neutral-50 border-neutral-100 shadow-blue-500/5', 'bg-neutral-900 border-neutral-700 shadow-blue-500/5', 'bg-[#0a0a0a] border-blue-500/30 shadow-blue-500/5', 'bg-[#eee8d5] border-[#433422]/10 shadow-[#433422]/5')}`}
             >
                <img
                 src={meAbout}

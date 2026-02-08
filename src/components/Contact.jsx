@@ -46,7 +46,7 @@ const Contact = () => {
                   <motion.img
                     src={quillLogo}
                     alt="Quill"
-                    className={`h-24 object-contain transition-all duration-500 ${
+                    className={`h-12 object-contain transition-all duration-500 ${
                       darkMode || blueprintMode 
                         ? 'invert brightness-100' 
                         : themeMode === 'reading' 
@@ -62,7 +62,7 @@ const Contact = () => {
 
 
                 <div className="flex items-center gap-4">
-                   <div className={`w-10 h-10 rounded-xl transition-colors duration-700 flex items-center justify-center ${themed('bg-blue-100 text-blue-600', 'bg-neutral-800 text-neutral-300 border border-neutral-700', 'bg-blue-600/10 text-blue-500 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')}`}>
+                   <div className={`w-10 h-10 rounded-2xl transition-colors duration-700 flex items-center justify-center ${themed('bg-blue-100 text-blue-600', 'bg-neutral-800 text-neutral-300 border border-neutral-700', 'bg-blue-600/10 text-blue-500 border border-blue-500/20', 'bg-[#b58900]/10 text-[#b58900] border border-[#b58900]/20')}`}>
                       <Globe size={18} />
                    </div>
                    <div className="flex flex-col">

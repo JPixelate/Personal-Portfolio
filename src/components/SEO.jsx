@@ -1,12 +1,15 @@
- import React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 const SEO = ({ title, description, keywords, image, url }) => {
-    const siteName = 'Portfolio';
-    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Intelligent Digital Architecture & AI Automation`;
-    const defaultDescription = 'I specialize in high-performance digital architecture, autonomous AI workflows, and enterprise-grade MCP chatbot systems. I build the engines that drive modern business growth.';
+    const name = 'Jonald Penpillo';
+    const siteName = 'Jonald Penpillo Portfolio';
+    const fullTitle = title ? `${title} | ${siteName}` : `${siteName} | Full-Stack Developer & AI Solutions Architect`;
+    
+    // 3rd Person Perspective for AI/GEO
+    const defaultDescription = 'Jonald Penpillo is a high-performance Full-Stack Developer specializing in digital architecture, autonomous AI workflows, and enterprise-grade systems. He builds the scalable engines that drive modern business innovation.';
     const finalDescription = description || defaultDescription;
-    const finalKeywords = keywords || 'AI automation, web architecture, MCP chatbots, digital transformation, n8n automation, Next.js development, enterprise AI';
-    const finalImage = image || '/og-image.jpg'; // Placeholder for OG image
+    const finalKeywords = keywords || 'Jonald Penpillo, Full-Stack Developer, AI Automation, Web Architecture, n8n workflows, React Developer, PHP CodeIgniter, Digital Transformation, Philippines Developer';
+    const finalImage = image || 'https://penpillo.j/og-image.jpg'; 
     const finalUrl = url || window.location.href;
 
     useEffect(() => {
@@ -28,6 +31,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
 
         updateMeta('description', finalDescription);
         updateMeta('keywords', finalKeywords);
+        updateMeta('author', name);
 
         // Open Graph
         updateMeta('og:title', fullTitle, 'property');
@@ -45,24 +49,57 @@ const SEO = ({ title, description, keywords, image, url }) => {
 
     }, [fullTitle, finalDescription, finalKeywords, finalImage, finalUrl]);
 
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                "@id": "https://penpillo.j/#person",
+                "name": name,
+                "jobTitle": "Full-Stack Software Developer & AI Solutions Architect",
+                "description": finalDescription,
+                "url": "https://penpillo.j",
+                "sameAs": [
+                    "https://www.linkedin.com/in/jonald-penpillo",
+                    "https://www.instagram.com/h4kuna_11/",
+                    "https://github.com/JPixelate"
+                ],
+                "image": "https://penpillo.j/uss52.webp",
+                "knowsAbout": [
+                    "Full-Stack Development",
+                    "AI Automation",
+                    "Workflow Engineering",
+                    "React.js",
+                    "PHP CodeIgniter",
+                    "n8n",
+                    "Digital Architecture"
+                ]
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://penpillo.j/#website",
+                "url": "https://penpillo.j",
+                "name": siteName,
+                "publisher": { "@id": "https://penpillo.j/#person" }
+            },
+            {
+                "@type": "WebPage",
+                "@id": `${finalUrl}/#webpage`,
+                "url": finalUrl,
+                "name": fullTitle,
+                "description": finalDescription,
+                "isPartOf": { "@id": "https://penpillo.j/#website" },
+                "about": { "@id": "https://penpillo.j/#person" }
+            }
+        ]
+    };
+
     return (
         <script type="application/ld+json">
-            {JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Person",
-                "name": "Your Name",
-                "url": "https://yourportfolio.com",
-                "image": "https://yourportfolio.com/profile.jpg",
-                "description": finalDescription,
-                "jobTitle": "Principal Systems Architect",
-                "sameAs": [
-                    "https://twitter.com/yourhandle",
-                    "https://linkedin.com/in/yourprofile",
-                    "https://github.com/yourusername"
-                ]
-            })}
+            {JSON.stringify(structuredData)}
         </script>
     );
 };
 
 export default SEO;
+

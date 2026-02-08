@@ -574,7 +574,7 @@ const SystemConcierge = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className={`fixed inset-x-4 top-4 bottom-24 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-auto sm:w-[400px] sm:h-[600px] rounded-[2rem] shadow-[0_30px_100px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col transition-all duration-500 backdrop-blur-2xl ${
+                        className={`fixed inset-0 sm:absolute sm:inset-auto sm:top-auto sm:bottom-20 sm:right-0 w-full h-full sm:w-[400px] sm:h-[600px] rounded-none sm:rounded-2xl shadow-[0_30px_100px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col transition-all duration-500 backdrop-blur-2xl ${
                             themed('bg-white/95', 'bg-[#0a0a0a]/95 border border-neutral-800', 'bg-[#050505]/95 shadow-blue-900/10 border border-blue-500/20', 'bg-[#fdf6e3]/95 border border-[#433422]/10')
                         }`}
                     >
@@ -583,7 +583,7 @@ const SystemConcierge = () => {
                             themed('bg-white border-neutral-100 text-neutral-900', 'bg-[#0f0f0f] text-neutral-100 border-neutral-800', 'bg-[#0a0a0a]/50 text-blue-400 border-blue-500/20', 'bg-[#eee8d5] border-[#433422]/10 text-[#433422]')
                         }`}>
                             <div className="flex items-center gap-3">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-500 ${
+                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-colors duration-500 ${
                                     themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-900/20 text-blue-400 border border-blue-500/30', 'bg-[#b58900] text-[#fdf6e3]')
                                 }`}>
                                     <Bot size={20} />
@@ -1071,7 +1071,7 @@ const SystemConcierge = () => {
                                 )
                             }`}>
                                 {/* Icon container */}
-                                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
+                                <div className="w-10 h-10 rounded-2xl bg-blue-600 flex items-center justify-center shrink-0">
                                     <Bot size={20} className="text-white" />
                                 </div>
                                 
@@ -1112,10 +1112,10 @@ const SystemConcierge = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-500 ${
+                className={`w-16 h-16 rounded-full shadow-2xl items-center justify-center transition-all duration-500 ${
                     isOpen 
-                        ? themed('bg-neutral-900 text-white rotate-90', 'bg-neutral-100 text-neutral-900 rotate-90', 'bg-[#050505] text-blue-400 border border-blue-500/50 rotate-90') 
-                        : themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600 text-white shadow-blue-500/40')
+                        ? 'hidden sm:flex ' + themed('bg-neutral-900 text-white rotate-90', 'bg-neutral-100 text-neutral-900 rotate-90', 'bg-[#050505] text-blue-400 border border-blue-500/50 rotate-90') 
+                        : 'flex ' + themed('bg-blue-600 text-white', 'bg-blue-500 text-white', 'bg-blue-600 text-white shadow-blue-500/40')
                 }`}
             >
                 {isOpen ? (
