@@ -15,8 +15,6 @@ import FocusIndicator from './components/FocusIndicator.jsx';
 import ScreenReaderAnnouncer from './components/ScreenReaderAnnouncer.jsx';
 const SystemConcierge = React.lazy(() => import('./components/SystemConcierge.jsx'));
 const ExplorerControls = React.lazy(() => import('./components/ExplorerControls.jsx'));
-const BlueprintStats = React.lazy(() => import('./components/BlueprintStats.jsx').then(m => ({ default: m.BlueprintStats })));
-const ArchitectureViewer = React.lazy(() => import('./components/BlueprintStats.jsx').then(m => ({ default: m.ArchitectureViewer })));
 import ScrollProgress from './components/ScrollProgress.jsx';
 // import { preloadEmbeddings } from './utils/aiKnowledge.js'; // Deferred for performance
 const ProcessPage = React.lazy(() => import('./pages/ProcessPage.jsx'));
@@ -134,10 +132,6 @@ function App() {
         </React.Suspense>
         <ScrollProgress />
 
-        <React.Suspense fallback={null}>
-          <BlueprintStats global componentName="App" bundleSize="124kb" />
-          <ArchitectureViewer />
-        </React.Suspense>
 
 
         {/* 4. ANIMATED ROUTES */}

@@ -29,7 +29,7 @@ const Hero = () => {
     <section
       ref={containerRef}
       id="section-hero"
-      className={`relative min-h-screen w-full pt-24 md:pt-0 pb-20 px-4 md:px-8 flex items-center overflow-hidden transition-colors duration-700 ${themed(
+      className={`relative min-h-screen w-full pt-24 md:pt-0 pb-20 px-4 md:px-8 flex items-center overflow-x-clip transition-colors duration-700 ${themed(
         'bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]'
       )}`}
     >
@@ -107,7 +107,7 @@ const Hero = () => {
       </div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-end">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 2xl:gap-20 items-end">
 
           {/* Main Copy */}
           <div className="lg:col-span-8 order-2 lg:order-1 relative z-10">
@@ -118,16 +118,16 @@ const Hero = () => {
               className={blueprintMode ? "blueprint-active-outline" : ""}
               data-blueprint-label="HERO_COPY"
             >
-              <div className="mb-12">
+              <div className="mb-8 2xl:mb-12">
                 <span className={`text-xs font-bold uppercase tracking-widest block mb-6 transition-colors ${themed('text-blue-600', 'text-blue-500', 'text-blue-400', 'text-[#856404]')}`}>Introduction</span>
-                <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-[75px] font-bold tracking-tight leading-[0.9] mb-12 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
+                <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-[clamp(42px,min(4vw,8vh),75px)] font-bold tracking-tight leading-[0.9] mb-8 2xl:mb-12 transition-colors duration-700 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-500', 'text-[#433422]')}`}>
                   Production Focused <br />
                   Development and Automation<span className={themed('text-blue-600', 'text-blue-500', 'text-blue-600', 'text-[#856404]')}>.</span>
                 </h1>
               </div>
 
-              <div className={`flex flex-col md:flex-row gap-12 items-start lg:items-center justify-between border-t pt-12 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
-                <p className={`text-xl font-medium max-w-xl leading-relaxed transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/80', 'text-[#433422]/70')}`}>
+              <div className={`flex flex-col md:flex-row gap-8 2xl:gap-12 items-start lg:items-center justify-between border-t pt-8 2xl:pt-12 transition-colors duration-700 ${themed('border-neutral-100', 'border-neutral-800', 'border-blue-900/50', 'border-[#433422]/10')}`}>
+                <p className={`text-lg 2xl:text-xl font-medium max-w-xl leading-relaxed transition-colors duration-700 ${themed('text-neutral-500', 'text-neutral-400', 'text-blue-400/80', 'text-[#433422]/70')}`}>
                  <span className={`inline-block px-5 py-1.5 border-2 rounded-full mx-3 text-md lg:text-md align-middle font-bold tracking-tight transition-all duration-700 ${themed('border-blue-600 text-blue-600', 'border-blue-500 text-blue-500', 'border-blue-500 text-blue-500 bg-blue-500/10', 'border-[#856404] text-[#856404] bg-[#856404]/05')}`}>Jonald Penpillo</span> — Full-Stack Web Developer specializing in automated workflows, scalable digital architecture, and high-performance system engineering.
                 </p>
                 <div className="flex flex-col gap-2">
@@ -191,7 +191,7 @@ const Hero = () => {
                    </div>
                 </div>
 
-                <div className={`aspect-[4/5] lg:aspect-[3/5] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border relative ${themed(
+                <div className={`aspect-[4/5] lg:aspect-[3/5] lg:max-h-[75vh] rounded-2xl overflow-hidden shadow-2xl transition-all duration-700 border relative ${themed(
                   'bg-neutral-100 border-neutral-100 shadow-blue-500/10',
                   'bg-neutral-900 border-neutral-700 shadow-neutral-900/30',
                   'bg-[#0a0a0a] border-blue-500/30',
@@ -221,7 +221,7 @@ const Hero = () => {
                     playSound('click');
                     goToPage('/services/web-architecture');
                   }}
-                  className={`absolute top-[calc(100%+1.5rem)] lg:top-auto lg:-bottom-10 left-0 lg:left-auto lg:right-10 w-full lg:w-20 h-14 lg:h-20 rounded-2xl lg:rounded-full flex items-center justify-center shadow-2xl cursor-pointer pointer-events-auto z-[40] transition-all duration-500 hover:scale-105 lg:hover:scale-110 active:scale-95 ${themed(
+                  className={`absolute top-[calc(100%+1.5rem)] lg:top-auto lg:-bottom-8 xl:-bottom-10 left-0 lg:left-auto lg:right-10 w-full lg:w-16 xl:w-20 h-14 lg:h-16 xl:h-20 rounded-2xl lg:rounded-full flex items-center justify-center shadow-2xl cursor-pointer pointer-events-auto z-[40] transition-all duration-500 hover:scale-105 lg:hover:scale-110 active:scale-95 ${themed(
                     'bg-blue-600 text-white hover:bg-neutral-900',
                     'bg-blue-500 text-white hover:bg-white hover:text-neutral-900',
                     'bg-blue-600 text-white hover:bg-blue-400',
