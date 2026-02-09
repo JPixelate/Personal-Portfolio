@@ -9,7 +9,7 @@ const SEO = ({ title, description, keywords, image, url }) => {
     const defaultDescription = 'Jonald Penpillo is a high-performance Full-Stack Developer specializing in digital architecture, autonomous AI workflows, and enterprise-grade systems. He builds the scalable engines that drive modern business innovation.';
     const finalDescription = description || defaultDescription;
     const finalKeywords = keywords || 'Jonald Penpillo, Full-Stack Developer, AI Automation, Web Architecture, n8n workflows, React Developer, PHP CodeIgniter, Digital Transformation, Philippines Developer';
-    const finalImage = image || 'https://penpillo.j/og-image.jpg';
+    const finalImage = image || 'https://penpillo-portfolio.vercel.app/og-image.jpg';
     const finalUrl = url || window.location.href;
 
     useEffect(() => {
@@ -54,17 +54,17 @@ const SEO = ({ title, description, keywords, image, url }) => {
         "@graph": [
             {
                 "@type": "Person",
-                "@id": "https://penpillo.j/#person",
+                "@id": "https://penpillo-portfolio.vercel.app/#person",
                 "name": name,
                 "jobTitle": "Full-Stack Software Developer & AI Solutions Architect",
                 "description": finalDescription,
-                "url": "https://penpillo.j",
+                "url": "https://penpillo-portfolio.vercel.app",
                 "sameAs": [
                     "https://www.linkedin.com/in/jonald-penpillo",
                     "https://www.instagram.com/h4kuna_11/",
                     "https://github.com/JPixelate"
                 ],
-                "image": "https://penpillo.j/uss52.webp",
+                "image": "https://penpillo-portfolio.vercel.app/uss52.webp",
                 "knowsAbout": [
                     "Full-Stack Development",
                     "AI Automation",
@@ -77,10 +77,10 @@ const SEO = ({ title, description, keywords, image, url }) => {
             },
             {
                 "@type": "WebSite",
-                "@id": "https://penpillo.j/#website",
-                "url": "https://penpillo.j",
+                "@id": "https://penpillo-portfolio.vercel.app/#website",
+                "url": "https://penpillo-portfolio.vercel.app",
                 "name": siteName,
-                "publisher": { "@id": "https://penpillo.j/#person" }
+                "publisher": { "@id": "https://penpillo-portfolio.vercel.app/#person" }
             },
             {
                 "@type": "WebPage",
@@ -88,8 +88,8 @@ const SEO = ({ title, description, keywords, image, url }) => {
                 "url": finalUrl,
                 "name": fullTitle,
                 "description": finalDescription,
-                "isPartOf": { "@id": "https://penpillo.j/#website" },
-                "about": { "@id": "https://penpillo.j/#person" }
+                "isPartOf": { "@id": "https://penpillo-portfolio.vercel.app/#website" },
+                "about": { "@id": "https://penpillo-portfolio.vercel.app/#person" }
             }
         ]
     };
