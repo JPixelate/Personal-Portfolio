@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, X, AlertTriangle } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 
 import { PROJECTS } from "../constants/projects";
 import { useUI } from "../context/UIContext";
@@ -137,14 +137,14 @@ const ProjectModal = ({ project, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 md:p-8"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-0 md:p-8"
       onClick={onClose}
     >
       <motion.div
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 50, scale: 0.95 }}
-        className={`w-full max-w-7xl h-[90vh] rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.3)] flex flex-col transition-all duration-700 ${themed('bg-white', 'bg-neutral-900 border border-neutral-800', 'bg-[#050505] border border-blue-500/20', 'bg-[#fdf6e3] border border-[#433422]/10')}`}
+        className={`w-full h-full md:max-w-7xl md:h-[90vh] rounded-none md:rounded-3xl overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.3)] flex flex-col transition-all duration-700 ${themed('bg-white', 'bg-neutral-900 border border-neutral-800', 'bg-[#050505] border border-blue-500/20', 'bg-[#fdf6e3] border border-[#433422]/10')}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
@@ -152,10 +152,6 @@ const ProjectModal = ({ project, onClose }) => {
            <div className="flex-1">
               <span className={`text-xs font-bold uppercase tracking-widest ${themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/60', 'text-[#433422]/40')}`}>{project.category}</span>
               <h3 className={`text-2xl md:text-3xl font-bold tracking-tight leading-tight transition-colors duration-300 ${themed('text-neutral-900', 'text-neutral-100', 'text-blue-400', 'text-[#433422]')}`}>{project.title}</h3>
-              <p className={`inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-md mt-2 ${themed('text-amber-600 bg-amber-50', 'text-amber-500 bg-amber-950/20', 'text-amber-400 bg-amber-900/10', 'text-[#856404] bg-[#856404]/10')}`}>
-                <AlertTriangle size={14} />
-                Portfolio Website is on Staging Environment — Live Demo is unavailable
-              </p>
            </div>
 
            <div className="flex items-center gap-4">

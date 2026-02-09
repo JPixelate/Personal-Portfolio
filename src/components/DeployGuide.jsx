@@ -198,16 +198,14 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed z-[10000] bottom-8 left-0 right-0 mx-4"
+                        className="fixed z-[10000] inset-0 md:inset-auto md:bottom-8 md:left-0 md:right-0 md:mx-4 overflow-y-auto"
                         style={{
-                            maxHeight: 'calc(100vh - 6rem)',
-                            overflowY: 'auto',
                             scrollBehavior: 'smooth'
                         }}
                     >
-                        <div className="max-w-md mx-auto">
+                        <div className="h-full md:h-auto md:max-w-md md:mx-auto">
                             <div
-                                className={`${cardBg} rounded-3xl shadow-2xl border ${themed('border-neutral-200', 'border-neutral-800', 'border-blue-500/30', 'border-[#433422]/20')} overflow-hidden ${
+                                className={`${cardBg} rounded-none md:rounded-3xl shadow-2xl border-0 md:border h-full md:h-auto flex flex-col ${themed('md:border-neutral-200', 'md:border-neutral-800', 'md:border-blue-500/30', 'md:border-[#433422]/20')} overflow-hidden ${
                                     blueprintMode ? 'blueprint-active-outline' : ''
                                 }`}
                             >
@@ -237,71 +235,73 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                             </div>
 
                             {/* Content */}
-                            <div className="p-5 md:p-8 pt-4 md:pt-6">
+                            <div className="p-5 md:p-8 pt-4 md:pt-6 flex-1 flex flex-col justify-between">
                                 <p className="text-xs md:text-sm leading-relaxed opacity-80 mb-6 md:mb-8">
                                     {currentGuideStep.content}
                                 </p>
 
-                                {/* Progress Dots */}
-                                <div className="flex items-center justify-center gap-2 mb-6 md:mb-8">
-                                    {guideSteps.map((_, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => handleStepClick(index)}
-                                            className={`h-2 rounded-full transition-all duration-300 ${
-                                                index === guideStep
-                                                    ? `${accentBg} w-8`
-                                                    : index < guideStep
-                                                    ? `${themed('bg-neutral-300', 'bg-neutral-700', 'bg-blue-900/50', 'bg-[#433422]/30')} w-2`
-                                                    : `${themed('bg-neutral-200', 'bg-neutral-800', 'bg-neutral-900', 'bg-[#433422]/10')} w-2`
-                                            }`}
-                                            aria-label={`Go to step ${index + 1}`}
-                                        />
-                                    ))}
-                                </div>
+                                <div className="mt-auto">
+                                    {/* Progress Dots */}
+                                    <div className="flex items-center justify-center gap-2 mb-6 md:mb-8">
+                                        {guideSteps.map((_, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => handleStepClick(index)}
+                                                className={`h-2 rounded-full transition-all duration-300 ${
+                                                    index === guideStep
+                                                        ? `${accentBg} w-8`
+                                                        : index < guideStep
+                                                        ? `${themed('bg-neutral-300', 'bg-neutral-700', 'bg-blue-900/50', 'bg-[#433422]/30')} w-2`
+                                                        : `${themed('bg-neutral-200', 'bg-neutral-800', 'bg-neutral-900', 'bg-[#433422]/10')} w-2`
+                                                }`}
+                                                aria-label={`Go to step ${index + 1}`}
+                                            />
+                                        ))}
+                                    </div>
 
-                                {/* Navigation */}
-                                <div className="flex items-center justify-between gap-3 md:gap-4">
-                                    {guideStep > 0 ? (
-                                        <button
-                                            onClick={handlePrevious}
-                                            className={`flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl ${themed('bg-neutral-100 hover:bg-neutral-200', 'bg-neutral-800 hover:bg-neutral-700', 'bg-blue-900/30 hover:bg-blue-900/50', 'bg-[#433422]/10 hover:bg-[#433422]/20')} transition-colors font-bold text-xs md:text-sm`}
-                                        >
-                                            <ChevronLeft size={16} />
-                                            Previous
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={handleSkip}
-                                            className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-xs md:text-sm opacity-40 hover:opacity-100 transition-opacity"
-                                        >
-                                            Skip Tour
-                                        </button>
-                                    )}
-
-                                    <button
-                                        onClick={handleNext}
-                                        className={`flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl ${accentBg} text-white font-bold text-xs md:text-sm shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95`}
-                                    >
-                                        {guideStep === guideSteps.length - 1 ? (
-                                            <>
-                                                Get Started
-                                                <CheckCircle2 size={16} />
-                                            </>
+                                    {/* Navigation */}
+                                    <div className="flex items-center justify-between gap-3 md:gap-4">
+                                        {guideStep > 0 ? (
+                                            <button
+                                                onClick={handlePrevious}
+                                                className={`flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl ${themed('bg-neutral-100 hover:bg-neutral-200', 'bg-neutral-800 hover:bg-neutral-700', 'bg-blue-900/30 hover:bg-blue-900/50', 'bg-[#433422]/10 hover:bg-[#433422]/20')} transition-colors font-bold text-xs md:text-sm`}
+                                            >
+                                                <ChevronLeft size={16} />
+                                                Previous
+                                            </button>
                                         ) : (
-                                            <>
-                                                Next
-                                                <ChevronRight size={16} />
-                                            </>
+                                            <button
+                                                onClick={handleSkip}
+                                                className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl font-bold text-xs md:text-sm opacity-40 hover:opacity-100 transition-opacity"
+                                            >
+                                                Skip Tour
+                                            </button>
                                         )}
-                                    </button>
-                                </div>
 
-                                {/* Step Counter */}
-                                <div className="text-center mt-4 md:mt-6">
-                                    <span className={`text-xs font-bold uppercase tracking-widest opacity-30`}>
-                                        Step {guideStep + 1} of {guideSteps.length}
-                                    </span>
+                                        <button
+                                            onClick={handleNext}
+                                            className={`flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-xl ${accentBg} text-white font-bold text-xs md:text-sm shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95`}
+                                        >
+                                            {guideStep === guideSteps.length - 1 ? (
+                                                <>
+                                                    Get Started
+                                                    <CheckCircle2 size={16} />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Next
+                                                    <ChevronRight size={16} />
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+
+                                    {/* Step Counter */}
+                                    <div className="text-center mt-4 md:mt-6">
+                                        <span className={`text-xs font-bold uppercase tracking-widest opacity-30`}>
+                                            Step {guideStep + 1} of {guideSteps.length}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             </div>

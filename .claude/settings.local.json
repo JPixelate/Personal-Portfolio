@@ -23,7 +23,9 @@
       "Bash(npx vercel env:*)",
       "Bash(npx vite build:*)",
       "Bash(del \"d:\\\\React\\\\Personal Portfolio\\\\PLAN.md\")",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)"
     ]
   }
 }
