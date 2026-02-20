@@ -24,8 +24,9 @@ const AboutPage = () => {
     return (
         <div ref={containerRef} className="bg-white text-neutral-900 selection:bg-blue-600 selection:text-white overflow-x-hidden min-h-screen">
             <SEO 
-                title="About Jonald Penpillo | Studio & Philosophy"
-                description="Learn about Jonald Penpillo's perspective on digital architecture, his technical rigor, and his commitment to building empathetic, high-performance systems."
+                title="About Jonald Penpillo | Digital Architecture Philosophy"
+                description="Learn about the technical rigor, aesthetic excellence, and architectural philosophy of Jonald Penpillo, a full-stack engineer and digital strategist."
+                keywords="Jonald Penpillo, About Me, Digital Architect, Software Engineering Philosophy, Philippines"
             />
             {/* Professional Navigation removed as FloatingNavbar is global */}
 

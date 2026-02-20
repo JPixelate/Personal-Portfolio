@@ -100,9 +100,9 @@ const ProcessPage = () => {
     return (
         <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/30 relative overflow-hidden">
             <SEO 
-                title="Our Methodology | Engineering Process"
-                description="Explore Jonald Penpillo's four-phase digital engineering methodology: Discovery, Web Architecture, Intelligence Injection, and Autonomous Deployment."
-                keywords="Development Process, AI Implementation, Software Lifecycle, Jonald Penpillo, Methodology"
+                title="Methodology & Process | Jonald Penpillo"
+                description="The digital engineering methodology of Jonald Penpillo: A fusion of rigorous software engineering and cutting-edge AI orchestration for business scalability."
+                keywords="Methodology, Software Development Process, AI Implementation, Jonald Penpillo, Technical Blueprinting"
             />
             {/* --- GLOBAL ARCHITECTURAL GRID --- */}
             <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.03] dark:opacity-[0.05]">

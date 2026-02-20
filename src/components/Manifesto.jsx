@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import meAbout from "../assets/images/yubuf.webp";
+import meAbout from "../assets/images/uss52.webp";
 import { useUI } from "../context/UIContext";
 
 const Manifesto = () => {

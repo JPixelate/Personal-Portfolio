@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDownRight, Layers, Sparkles, Database } from "lucide-react";
-import meHero from "../assets/images/uss52.webp";
+import meHero from "../assets/images/yubuf.webp";
 import { useUI } from "../context/UIContext";
 
 const Hero = () => {

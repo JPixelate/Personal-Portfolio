@@ -17,9 +17,9 @@ const AlternatingScrollPortfolio = () => {
   return (
     <main id="main-content" className="bg-white dark:bg-[#0a0a0a] relative transition-colors duration-700">
       <SEO
-        title="Jonald Penpillo | Full-Stack Developer & AI Solutions Architect"
-        description="Jonald Penpillo is a Full-Stack Engineer specializing in high-performance digital architecture, autonomous AI automation, and scalable enterprise systems. Explore his portfolio of React, PHP, and n8n projects."
-        keywords="Jonald Penpillo, Full-Stack Developer, AI Architect, Philippines, React Developer, n8n Automation, Enterprise Software, Web Architecture"
+        title="Portfolio Overview | Jonald Penpillo"
+        description="Explore the professional work of Jonald Penpillo, a Senior Full-Stack Developer and AI Solutions Architect. Featuring projects in React, PHP, and autonomous AI workflows."
+        keywords="Jonald Penpillo, Full-Stack Developer, AI Architect, Philippines, React Developer, n8n Automation, Enterprise Software, Web Architecture, penpillo.j"
       />
       
       <Hero />

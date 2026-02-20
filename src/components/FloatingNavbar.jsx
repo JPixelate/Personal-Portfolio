@@ -3,7 +3,6 @@ import { Menu, X, ArrowUpRight, Cpu, Moon, BookOpen, Sun, Layers } from "lucide-
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import resumePdf from "../assets/documents/Resume-of-Jonald_Penpillo.pdf";
-import quillLogo from "../assets/images/quill_logo.webp";
 import { useUI } from "../context/UIContext";
 
 const navLinks = [
@@ -57,47 +56,10 @@ const FloatingNavbar = () => {
           "bg-[#fdf6e3]/90 backdrop-blur-md py-3 md:py-4 border-b border-[#433422]/10"
         )}`}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between pl-2 lg:pl-0">
-
-          <Link
-            onMouseEnter={() => playSound('hover')}
-            onClick={() => playSound('click')}
-            to="/"
-            className="flex-1 lg:flex-none transition-all duration-300 flex items-center group/logo"
-          >
-            <div className="flex items-center gap-0.5">
-              <motion.img
-                src={quillLogo}
-                alt="Quill"
-                className="h-8 object-contain transition-all duration-500"
-                style={{ 
-                  transformOrigin: '50% 100%',
-                  filter: blueprintMode 
-                    ? 'invert(71%) sepia(87%) saturate(1475%) hue-rotate(185deg) brightness(101%) contrast(101%)' 
-                    : darkMode 
-                      ? 'invert(1) brightness(2)' 
-                      : themeMode === 'reading' 
-                        ? 'sepia(0.5) brightness(0.9)' 
-                        : 'none'
-                }}
-                animate={{
-                  rotate: [0, -0.8, 0, 0.6, 0, -0.3, 0],
-                  y: [0, -0.5, 0, -0.3, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-              <span className={`relative z-10 font-logo text-2xl tracking-wide transition-colors duration-500 ${themed('text-neutral-800', 'text-neutral-200', 'text-blue-400', 'text-[#433422]')}`}>
-                penpillo.j
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-12">
+        <div className="max-w-7xl mx-auto flex items-center w-full">
+          
+          {/* Desktop Navigation - Left Aligned */}
+          <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
               <button
                 key={link.id}
@@ -116,16 +78,18 @@ const FloatingNavbar = () => {
                 <span className={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-500 group-hover:w-full ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-400', 'bg-[#856404]')}`}></span>
               </button>
             ))}
+          </div>
 
-            <div className={`w-px h-6 mx-2 transition-colors ${themed('bg-neutral-100', 'bg-neutral-700', 'bg-blue-900/50', 'bg-[#433422]/10')}`}></div>
-
+          {/* Right Aligned Items (Resume + Mobile UI) */}
+          <div className="flex items-center gap-6 ml-auto">
+            {/* Desktop Resume Button */}
             <a
               onMouseEnter={() => playSound('hover')}
               onClick={() => playSound('click')}
               href={resumePdf}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.2em] group transition-colors ${themed(
+              className={`hidden lg:flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.2em] group transition-colors ${themed(
                 'text-neutral-900',
                 'text-neutral-200 group-hover:text-white',
                 'text-blue-400 group-hover:text-blue-100',
@@ -142,44 +106,44 @@ const FloatingNavbar = () => {
                   <ArrowUpRight size={14} />
                </div>
             </a>
-          </div>
 
-          {/* Mobile UI */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <button
-               onMouseEnter={() => playSound('hover')}
-               onClick={() => cycleTheme()}
-               className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 ${themed(
-                 'bg-neutral-100 text-neutral-900',
-                 'bg-neutral-800 text-neutral-200',
-                 'bg-blue-900/20 text-blue-500',
-                 'bg-[#433422]/10 text-[#433422]'
-               )}`}
-               aria-label={`Switch theme (current: ${themeMode})`}
-               title="Switch Theme"
-            >
-               {themeMode === 'light' && <Sun size={20} />}
-               {themeMode === 'reading' && <BookOpen size={20} />}
-               {themeMode === 'dark' && <Moon size={20} />}
-               {themeMode === 'blueprint' && <Layers size={20} className="animate-pulse" />}
-            </button>
+            {/* Mobile UI (Theme Toggle + Menu) */}
+            <div className="flex lg:hidden items-center gap-2">
+              <button
+                 onMouseEnter={() => playSound('hover')}
+                 onClick={() => cycleTheme()}
+                 className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 ${themed(
+                   'bg-neutral-100 text-neutral-900',
+                   'bg-neutral-800 text-neutral-200',
+                   'bg-blue-900/20 text-blue-500',
+                   'bg-[#433422]/10 text-[#433422]'
+                 )}`}
+                 aria-label={`Switch theme (current: ${themeMode})`}
+                 title="Switch Theme"
+              >
+                 {themeMode === 'light' && <Sun size={20} />}
+                 {themeMode === 'reading' && <BookOpen size={20} />}
+                 {themeMode === 'dark' && <Moon size={20} />}
+                 {themeMode === 'blueprint' && <Layers size={20} className="animate-pulse" />}
+              </button>
 
-            <button
-              onMouseEnter={() => playSound('hover')}
-              onClick={() => {
-                  playSound('click');
-                  setIsOpen(!isOpen);
-              }}
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${themed(
-                'text-neutral-900 hover:bg-neutral-100',
-                'text-neutral-200 hover:bg-neutral-800',
-                'text-blue-500 hover:bg-blue-900/20',
-                'text-[#433422] hover:bg-[#433422]/10'
-              )}`}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              <button
+                onMouseEnter={() => playSound('hover')}
+                onClick={() => {
+                    playSound('click');
+                    setIsOpen(!isOpen);
+                }}
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${themed(
+                  'text-neutral-900 hover:bg-neutral-100',
+                  'text-neutral-200 hover:bg-neutral-800',
+                  'text-blue-500 hover:bg-blue-900/20',
+                  'text-[#433422] hover:bg-[#433422]/10'
+                )}`}
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>

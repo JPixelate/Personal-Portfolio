@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://penpillo-portfolio.vercel.app/sitemap.xml

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Globe, Mail, Instagram, Linkedin, MessageCircle, Phone } from "lucide-react";
-import quillLogo from "../assets/images/quill_logo.webp";
 import { useUI } from "../context/UIContext";
 
 const Contact = () => {
@@ -37,31 +36,7 @@ const Contact = () => {
 
           <div className="md:col-span-4 lg:col-span-5">
              <div className="flex flex-col gap-8">
-                <Link
-                  onMouseEnter={() => playSound('hover')}
-                  onClick={() => playSound('click')}
-                  to="/"
-                  className="inline-flex items-center gap-3 group/logo"
-                >
-                  <motion.img
-                    src={quillLogo}
-                    alt="Quill"
-                    className="h-12 object-contain transition-all duration-500"
-                    style={{ 
-                      filter: blueprintMode 
-                        ? 'invert(71%) sepia(87%) saturate(1475%) hue-rotate(185deg) brightness(101%) contrast(101%)' 
-                        : darkMode 
-                          ? 'invert(1) brightness(2)' 
-                          : themeMode === 'reading' 
-                            ? 'sepia(0.5) brightness(0.9)' 
-                            : 'none'
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                  />
-                  <span className={`-ml-2 font-logo text-4xl tracking-wide transition-colors duration-300 ${themed('text-neutral-600 group-hover/logo:text-blue-600', 'text-neutral-200 group-hover/logo:text-white', 'text-blue-400 group-hover/logo:text-blue-300', 'text-[#433422] group-hover/logo:text-[#856404]')}`}>
-                    penpillo.j
-                  </span>
-                </Link>
+
 
 
                 <div className="flex items-center gap-4">
