@@ -4,6 +4,7 @@ import { ArrowLeft, Clock, Calendar, Sparkles } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import SEO from '../components/SEO.jsx';
+import InsightShareButton from '../components/InsightShareButton.jsx';
 import { COLOR_MAP } from '../utils/insights.js';
 import { useInsightsPosts } from '../hooks/useInsightsPosts.js';
 
@@ -31,6 +32,12 @@ const InsightDetailPage = () => {
   const cardBorder   = themed('border-black/10', 'border-white/10', 'border-blue-500/20', 'border-amber-900/10');
   const orbColor     = themed('bg-blue-900/10', 'bg-blue-900/10', 'bg-blue-500/10', 'bg-amber-500/10');
   const divider      = themed('border-black/10', 'border-white/10', 'border-blue-500/15', 'border-amber-900/10');
+  const shareButtonClass = themed(
+    'border-black/10 bg-white/80 text-neutral-600 hover:bg-white hover:text-neutral-900 shadow-sm',
+    'border-white/10 bg-black/20 text-neutral-300 hover:bg-white/10 hover:text-white shadow-sm',
+    'border-blue-500/20 bg-blue-500/10 text-cyan-100 hover:bg-blue-500/20 hover:text-white shadow-sm',
+    'border-amber-900/10 bg-[#fdf6e3] text-[#7c5d2a] hover:bg-[#f6ecd0] hover:text-[#433422] shadow-sm'
+  );
 
   // 404 state
   if (loading) {
@@ -166,10 +173,20 @@ const InsightDetailPage = () => {
                       onClick={() => navigate(`/insights/${rel.slug}`)}
                       className={`${cardBg} border ${cardBorder} rounded-2xl p-5 cursor-pointer group transition-all duration-300`}
                     >
-                      <span className={`flex items-center gap-1.5 text-xs font-mono tracking-[0.2em] uppercase px-2.5 py-1 rounded-full ${rc.bg} border ${rc.border} ${rc.text} w-fit mb-3`}>
-                        <RelIcon size={10} />
-                        {rel.category}
-                      </span>
+                      <div className="flex items-center gap-2 mb-3 flex-wrap">
+                        <span className={`flex items-center gap-1.5 text-xs font-mono tracking-[0.2em] uppercase px-2.5 py-1 rounded-full ${rc.bg} border ${rc.border} ${rc.text} w-fit`}>
+                          <RelIcon size={10} />
+                          {rel.category}
+                        </span>
+                        <div className="ml-auto">
+                          <InsightShareButton
+                            slug={rel.slug}
+                            title={rel.title}
+                            excerpt={rel.excerpt}
+                            className={shareButtonClass}
+                          />
+                        </div>
+                      </div>
                       <h4 className="text-sm font-bold text-neutral-900 dark:text-white leading-tight group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2">
                         {rel.title}
                       </h4>

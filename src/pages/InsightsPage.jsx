@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Clock, Calendar, Sparkles, Brain } from 'lucide-
 import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import SEO from '../components/SEO.jsx';
+import InsightShareButton from '../components/InsightShareButton.jsx';
 import { COLOR_MAP } from '../utils/insights.js';
 import { useInsightsPosts } from '../hooks/useInsightsPosts.js';
 
@@ -36,6 +37,12 @@ const InsightsPage = () => {
   const pillBg      = themed('bg-black/5',    'bg-white/5',    'bg-blue-500/10', 'bg-amber-900/5');
   const pillHover   = themed('hover:bg-black/10','hover:bg-white/10','hover:bg-blue-500/20','hover:bg-amber-900/10');
   const orbColor    = themed('bg-blue-900/10','bg-blue-900/10','bg-blue-500/10', 'bg-amber-500/10');
+  const shareButtonClass = themed(
+    'border-black/10 bg-white/80 text-neutral-600 hover:bg-white hover:text-neutral-900 shadow-sm',
+    'border-white/10 bg-black/20 text-neutral-300 hover:bg-white/10 hover:text-white shadow-sm',
+    'border-blue-500/20 bg-blue-500/10 text-cyan-100 hover:bg-blue-500/20 hover:text-white shadow-sm',
+    'border-amber-900/10 bg-[#fdf6e3] text-[#7c5d2a] hover:bg-[#f6ecd0] hover:text-[#433422] shadow-sm'
+  );
 
   const featured      = posts.find(p => p.featured);
   const filteredPosts = posts
@@ -134,7 +141,7 @@ const InsightsPage = () => {
                   onClick={() => navigate(`/insights/${featured.slug}`)}
                   className={`${cardBg} border ${cardBorder} ${hoverBorder} rounded-2xl p-8 md:p-12 cursor-pointer group transition-all duration-300`}
                 >
-                  <div className="flex items-center gap-3 mb-6">
+                  <div className="flex items-center gap-3 mb-6 flex-wrap">
                     <span className={`flex items-center gap-1.5 text-xs font-mono tracking-[0.2em] uppercase px-3 py-1 rounded-full ${c.bg} border ${c.border} ${c.text}`}>
                       <Icon size={11} />
                       {featured.category}
@@ -143,9 +150,17 @@ const InsightsPage = () => {
                       <Sparkles size={10} />
                       AI Generated
                     </span>
-                    <span className="ml-auto text-xs font-mono text-neutral-400 dark:text-neutral-500 tracking-widest uppercase">
-                      Featured
-                    </span>
+                    <div className="ml-auto flex items-center gap-3">
+                      <span className="text-xs font-mono text-neutral-400 dark:text-neutral-500 tracking-widest uppercase">
+                        Featured
+                      </span>
+                      <InsightShareButton
+                        slug={featured.slug}
+                        title={featured.title}
+                        excerpt={featured.excerpt}
+                        className={shareButtonClass}
+                      />
+                    </div>
                   </div>
 
                   <h2 className="text-2xl md:text-4xl font-black text-neutral-900 dark:text-white tracking-tight leading-tight mb-4 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors">
@@ -183,7 +198,7 @@ const InsightsPage = () => {
                     onClick={() => navigate(`/insights/${post.slug}`)}
                     className={`${cardBg} border ${cardBorder} ${hoverBorder} rounded-2xl p-6 cursor-pointer group transition-all duration-300 flex flex-col`}
                   >
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 mb-4 flex-wrap">
                       <span className={`flex items-center gap-1.5 text-xs font-mono tracking-[0.2em] uppercase px-2.5 py-1 rounded-full ${c.bg} border ${c.border} ${c.text}`}>
                         <Icon size={10} />
                         {post.category}
@@ -192,6 +207,14 @@ const InsightsPage = () => {
                         <Sparkles size={9} />
                         AI
                       </span>
+                      <div className="ml-auto">
+                        <InsightShareButton
+                          slug={post.slug}
+                          title={post.title}
+                          excerpt={post.excerpt}
+                          className={shareButtonClass}
+                        />
+                      </div>
                     </div>
 
                     <h3 className="text-lg font-bold text-neutral-900 dark:text-white leading-tight mb-3 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors flex-1">
