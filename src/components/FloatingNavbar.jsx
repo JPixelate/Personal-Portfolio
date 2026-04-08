@@ -78,6 +78,22 @@ const FloatingNavbar = () => {
                 <span className={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-500 group-hover:w-full ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-400', 'bg-[#856404]')}`}></span>
               </button>
             ))}
+            {/* Insights page link */}
+            <button
+              onMouseEnter={() => playSound('hover')}
+              onClick={() => { playSound('click'); navigate('/insights'); }}
+              className="group relative"
+            >
+              <span className={`text-[11px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${themed(
+                'text-neutral-400 group-hover:text-neutral-900',
+                'text-neutral-400 group-hover:text-white',
+                'text-blue-400 group-hover:text-blue-100',
+                'text-[#433422]/60 group-hover:text-[#433422]'
+              )}`}>
+                Insights
+              </span>
+              <span className={`absolute -bottom-1 left-0 w-0 h-px transition-all duration-500 group-hover:w-full ${themed('bg-blue-600', 'bg-neutral-400', 'bg-blue-400', 'bg-[#856404]')}`}></span>
+            </button>
           </div>
 
           {/* Right Aligned Items (Resume + Mobile UI) */}

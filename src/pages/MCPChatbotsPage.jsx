@@ -76,7 +76,7 @@ const MCPChatbotsPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-emerald-500/30 transition-colors duration-500">
+        <div className="min-h-screen bg-white/75 dark:bg-neutral-950/75 text-neutral-900 dark:text-white selection:bg-emerald-500/30 transition-colors duration-500 backdrop-blur-[2px]">
             <SEO 
                 title="MCP Chatbots & AI Agents | Jonald Penpillo"
                 description="Jonald Penpillo develops next-generation conversational AI agents powered by Model Context Protocol (MCP) and RAG for intelligent, autonomous business assistance."

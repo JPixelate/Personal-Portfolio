@@ -98,7 +98,7 @@ const ProcessPage = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white selection:bg-cyan-500/30 relative overflow-hidden">
+        <div className="min-h-screen bg-white/75 dark:bg-neutral-950/75 text-neutral-900 dark:text-white selection:bg-cyan-500/30 relative overflow-hidden backdrop-blur-[2px]">
             <SEO 
                 title="Methodology & Process | Jonald Penpillo"
                 description="The digital engineering methodology of Jonald Penpillo: A fusion of rigorous software engineering and cutting-edge AI orchestration for business scalability."

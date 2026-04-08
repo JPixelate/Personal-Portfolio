@@ -1,0 +1,3 @@
+-- Historical migration placeholder.
+-- This file is retained because the remote Supabase project already has this migration version in its history.
+-- The quote-request feature has been removed from the app, but the migration version remains for consistency.

@@ -113,6 +113,25 @@ Generate embeddings for RAG (uses Google Gemini)
 }
 ```
 
+### Daily AI Insights
+
+Daily insight generation is handled by the standalone script:
+
+```bash
+npm run generate:daily-insight
+```
+
+It uses:
+
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL` for the model name, defaulting to `gemini-2.5-flash`
+- `INSIGHTS_TIMEZONE` for the daily cutoff, defaulting to `Asia/Singapore`
+- `DAILY_INSIGHT_RUN_TIME` for the scheduled time, defaulting to `08:00`
+- `ENABLE_DAILY_INSIGHT_SCHEDULER` to turn the automatic scheduler on or off
+
+The script writes a new row into `insights_posts` and records the run in `insight_generation_runs`.
+The backend also starts the scheduler automatically when `npm run server` is running.
+
 ## 🚀 Running the Server
 
 ### Development (Both Frontend + Backend)
@@ -147,8 +166,12 @@ All configuration is done via `.env.local`:
 VITE_API_URL="http://localhost:3001"
 
 # AI API Keys (Backend only - NEVER commit these!)
-VITE_DEEPSEEK_API_KEY="your-deepseek-key"
-VITE_GEMINI_API_KEY="your-gemini-key"
+DEEPSEEK_API_KEY="your-deepseek-key"
+GEMINI_API_KEY="your-gemini-key"
+GEMINI_MODEL="gemini-2.5-flash"
+INSIGHTS_TIMEZONE="Asia/Singapore"
+DAILY_INSIGHT_RUN_TIME="08:00"
+ENABLE_DAILY_INSIGHT_SCHEDULER="true"
 
 # CORS Configuration
 FRONTEND_URL="http://localhost:5173"
@@ -183,8 +206,14 @@ Convert the Express routes to Vercel serverless functions:
 
 Set these in your hosting platform:
 
-- `VITE_DEEPSEEK_API_KEY`
-- `VITE_GEMINI_API_KEY`
+- `DEEPSEEK_API_KEY`
+- `GEMINI_API_KEY`
+- `GEMINI_MODEL`
+- `INSIGHTS_TIMEZONE`
+- `DAILY_INSIGHT_RUN_TIME`
+- `ENABLE_DAILY_INSIGHT_SCHEDULER`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
 - `FRONTEND_URL` (your production domain)
 - `PORT` (if needed)
 
@@ -209,7 +238,7 @@ Example logs:
 
 ### "API Key not configured"
 
-- Check `.env.local` has `VITE_DEEPSEEK_API_KEY`
+- Check `.env.local` has `DEEPSEEK_API_KEY`
 - Restart the server after adding env variables
 
 ### CORS Errors

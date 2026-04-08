@@ -15,7 +15,7 @@ const AlternatingScrollPortfolio = () => {
   }, []);
 
   return (
-    <main id="main-content" className="bg-white dark:bg-[#0a0a0a] relative transition-colors duration-700">
+    <main id="main-content" className="bg-white/75 dark:bg-[#0a0a0a]/75 relative transition-colors duration-700 backdrop-blur-[2px]">
       <SEO
         title="Portfolio Overview | Jonald Penpillo"
         description="Explore the professional work of Jonald Penpillo, a Senior Full-Stack Developer and AI Solutions Architect. Featuring projects in React, PHP, and autonomous AI workflows."

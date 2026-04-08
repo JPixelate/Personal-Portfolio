@@ -44,7 +44,7 @@ const WebArchitecturePage = () => {
     const cardBorder = themed('border-neutral-100', 'border-neutral-800', 'border-blue-500/30', 'border-[#433422]/10');
 
     return (
-        <main ref={containerRef} className={`min-h-screen transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')}`}>
+        <main ref={containerRef} className={`min-h-screen transition-colors duration-700 ${themed('bg-white/75 backdrop-blur-[2px]', 'bg-[#0a0a0a]/75 backdrop-blur-[2px]', 'bg-[#050505]/75 backdrop-blur-[2px]', 'bg-[#fdf6e3]/85 backdrop-blur-[2px]')}`}>
             <SEO 
                 title="Custom Web Architecture | Jonald Penpillo"
                 description="High-performance web architecture solutions by Jonald Penpillo. Specializing in React, Next.js, and scalable frontend systems with premium animations and technical excellence."

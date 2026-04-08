@@ -132,7 +132,7 @@ const DeployPage = () => {
     const selectedSolution = solutionTypes.find(s => s.id === formData.solutionType);
 
     return (
-        <main className={`min-h-screen transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')}`}>
+        <main className={`min-h-screen transition-colors duration-700 ${themed('bg-white/75 backdrop-blur-[2px]', 'bg-[#0a0a0a]/75 backdrop-blur-[2px]', 'bg-[#050505]/75 backdrop-blur-[2px]', 'bg-[#fdf6e3]/85 backdrop-blur-[2px]')}`}>
             <SEO 
                 title="Initialize Build Protocol | Jonald Penpillo" 
                 description="Start your next technical build with Jonald Penpillo. Request a professional quote for high-performance web architecture, AI automation, or custom agent systems." 

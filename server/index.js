@@ -5,13 +5,16 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
+import { listPublishedInsights, getPublishedInsight } from '../lib/supabaseAdmin.js';
+import { startDailyInsightScheduler } from '../lib/dailyInsightGenerator.js';
 
 // ES Module fix for __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
+dotenv.config({ path: path.join(__dirname, '..', '.env.local'), override: true });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -181,6 +184,40 @@ app.get('/api/chat/limit', (req, res) => {
     resetTime: userLimit.resetTime,
     isLimitReached: userLimit.count >= CHATS_PER_WINDOW
   });
+});
+
+/**
+ * Insights content endpoints
+ */
+app.get('/api/insights', async (req, res) => {
+  try {
+    const { data, error } = await listPublishedInsights();
+    if (error) {
+      return res.status(500).json({ error: 'Failed to load insights', details: error.message });
+    }
+
+    res.json({ posts: data || [] });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to load insights', details: error.message });
+  }
+});
+
+app.get('/api/insights/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { data, error } = await getPublishedInsight(slug);
+    if (error) {
+      return res.status(500).json({ error: 'Failed to load insight', details: error.message });
+    }
+
+    if (!data) {
+      return res.status(404).json({ error: 'Insight not found' });
+    }
+
+    res.json({ post: data });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to load insight', details: error.message });
+  }
 });
 
 /**
@@ -587,6 +624,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Secure AI Backend running on http://localhost:${PORT}`);
   console.log(`📊 Rate Limit: ${CHATS_PER_WINDOW} messages per ${WINDOW_DURATION_MS / 1000 / 60 / 60} hours`);
   console.log(`🔒 API Key: ${process.env.DEEPSEEK_API_KEY ? '✓ Configured' : '✗ Missing'}`);
+  startDailyInsightScheduler({ logger: console });
 });
 
 // Cleanup old rate limit entries every hour
