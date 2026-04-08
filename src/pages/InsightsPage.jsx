@@ -37,6 +37,12 @@ const InsightsPage = () => {
   const pillBg      = themed('bg-black/5',    'bg-white/5',    'bg-blue-500/10', 'bg-amber-900/5');
   const pillHover   = themed('hover:bg-black/10','hover:bg-white/10','hover:bg-blue-500/20','hover:bg-amber-900/10');
   const orbColor    = themed('bg-blue-900/10','bg-blue-900/10','bg-blue-500/10', 'bg-amber-500/10');
+  const pageTitle   = themed('text-neutral-900', 'text-neutral-100', 'text-white', 'text-[#433422]');
+  const pageBody    = themed('text-neutral-600', 'text-neutral-400', 'text-blue-300/80', 'text-[#433422]/75');
+  const pageMeta    = themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/70', 'text-[#433422]/55');
+  const cardTitle   = themed('text-neutral-900', 'text-neutral-100', 'text-white', 'text-[#433422]');
+  const cardBody    = themed('text-neutral-600', 'text-neutral-400', 'text-blue-200/85', 'text-[#433422]/75');
+  const cardMeta    = themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/70', 'text-[#433422]/55');
   const shareButtonClass = themed(
     'border-black/10 bg-white/80 text-neutral-600 hover:bg-white hover:text-neutral-900 shadow-sm',
     'border-white/10 bg-black/20 text-neutral-300 hover:bg-white/10 hover:text-white shadow-sm',
@@ -95,10 +101,10 @@ const InsightsPage = () => {
           <motion.span variants={itemVariants} className={`font-mono text-xs tracking-[0.3em] uppercase mb-4 block ${accentColor}`}>
             Daily AI Digest
           </motion.span>
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 text-neutral-1000 dark:text-white mb-6">
+          <motion.h1 variants={itemVariants} className={`text-4xl md:text-5xl font-bold tracking-tight transition-colors duration-700 mb-6 ${pageTitle}`}>
             Neural Digest
           </motion.h1>
-          <motion.p variants={itemVariants} className="text-lg md:text-xl text-neutral-600 dark:text-gray-400 max-w-2xl font-light leading-relaxed mb-12">
+          <motion.p variants={itemVariants} className={`text-lg md:text-xl max-w-2xl font-light leading-relaxed mb-12 ${pageBody}`}>
             The most significant AI and technology developments, curated and synthesized daily. No noise. Just signal.
           </motion.p>
 
@@ -163,15 +169,15 @@ const InsightsPage = () => {
                     </div>
                   </div>
 
-                  <h2 className="text-2xl md:text-4xl font-black text-neutral-900 dark:text-white tracking-tight leading-tight mb-4 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors">
-                    {featured.title}
-                  </h2>
-                  <p className="text-neutral-600 dark:text-gray-400 text-lg font-light leading-relaxed max-w-3xl mb-8">
+                    <h2 className={`text-2xl md:text-4xl font-black tracking-tight leading-tight mb-4 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors ${cardTitle}`}>
+                      {featured.title}
+                    </h2>
+                  <p className={`text-lg font-light leading-relaxed max-w-3xl mb-8 ${cardBody}`}>
                     {featured.excerpt}
                   </p>
 
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-5 text-sm font-mono text-neutral-400 dark:text-neutral-500">
+                    <div className={`flex items-center gap-5 text-sm font-mono ${cardMeta}`}>
                       <span className="flex items-center gap-1.5"><Calendar size={13} /> {featured.date}</span>
                       <span className="flex items-center gap-1.5"><Clock size={13} /> {featured.readTime}</span>
                     </div>
@@ -217,11 +223,11 @@ const InsightsPage = () => {
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-bold text-neutral-900 dark:text-white leading-tight mb-3 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors flex-1">
+                    <h3 className={`text-lg font-bold leading-tight mb-3 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors flex-1 ${cardTitle}`}>
                       {post.title}
                     </h3>
 
-                    <p className="text-sm text-neutral-600 dark:text-gray-400 font-light leading-relaxed mb-5 line-clamp-3">
+                    <p className={`text-sm font-light leading-relaxed mb-5 line-clamp-3 ${cardBody}`}>
                       {post.excerpt}
                     </p>
 
@@ -233,7 +239,7 @@ const InsightsPage = () => {
                       ))}
                     </div>
 
-                    <div className="flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-neutral-500 pt-4 border-t border-black/5 dark:border-white/5">
+                    <div className={`flex items-center justify-between text-xs font-mono pt-4 border-t border-black/5 dark:border-white/5 ${cardMeta}`}>
                       <span className="flex items-center gap-1"><Calendar size={11} /> {post.date}</span>
                       <span className="flex items-center gap-1"><Clock size={11} /> {post.readTime}</span>
                     </div>
@@ -279,7 +285,7 @@ const InsightsPage = () => {
               )}
             </>
           ) : !loading ? (
-            <motion.div variants={itemVariants} className="text-center py-20 text-neutral-400 dark:text-neutral-500">
+            <motion.div variants={itemVariants} className={`text-center py-20 ${pageMeta}`}>
               <Brain size={36} className="mx-auto mb-4 opacity-30" />
               <p className="text-base font-mono">No articles in this category yet.</p>
             </motion.div>

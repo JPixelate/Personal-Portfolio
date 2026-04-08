@@ -32,6 +32,11 @@ const InsightDetailPage = () => {
   const cardBorder   = themed('border-black/10', 'border-white/10', 'border-blue-500/20', 'border-amber-900/10');
   const orbColor     = themed('bg-blue-900/10', 'bg-blue-900/10', 'bg-blue-500/10', 'bg-amber-500/10');
   const divider      = themed('border-black/10', 'border-white/10', 'border-blue-500/15', 'border-amber-900/10');
+  const pageTitle    = themed('text-neutral-900', 'text-neutral-100', 'text-white', 'text-[#433422]');
+  const pageBody     = themed('text-neutral-600', 'text-neutral-400', 'text-blue-300/80', 'text-[#433422]/75');
+  const pageMeta     = themed('text-neutral-400', 'text-neutral-500', 'text-blue-500/70', 'text-[#433422]/55');
+  const cardTitle    = themed('text-neutral-900', 'text-neutral-100', 'text-white', 'text-[#433422]');
+  const cardBody     = themed('text-neutral-600', 'text-neutral-400', 'text-blue-200/85', 'text-[#433422]/75');
   const shareButtonClass = themed(
     'border-black/10 bg-white/80 text-neutral-600 hover:bg-white hover:text-neutral-900 shadow-sm',
     'border-white/10 bg-black/20 text-neutral-300 hover:bg-white/10 hover:text-white shadow-sm',
@@ -44,7 +49,7 @@ const InsightDetailPage = () => {
     return (
       <div className={`min-h-screen ${themed('bg-white/75 text-neutral-900 backdrop-blur-[2px]', 'bg-neutral-950/75 text-white backdrop-blur-[2px]', 'bg-slate-950/75 text-white backdrop-blur-[2px]', 'bg-[#fdf6e3]/85 text-[#433422] backdrop-blur-[2px]')} flex items-center justify-center px-8 transition-colors duration-500`}>
         <div className="text-center">
-          <p className="font-mono text-xs tracking-[0.3em] uppercase mb-4 text-neutral-400">Loading...</p>
+          <p className={`font-mono text-xs tracking-[0.3em] uppercase mb-4 ${pageMeta}`}>Loading...</p>
           <h1 className="text-4xl font-black mb-4">Fetching article</h1>
         </div>
       </div>
@@ -120,23 +125,23 @@ const InsightDetailPage = () => {
           </motion.div>
 
           {/* Title */}
-          <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl font-black tracking-tight leading-[1.1] mb-6">
+          <motion.h1 variants={itemVariants} className={`text-3xl md:text-5xl font-black tracking-tight leading-[1.1] mb-6 ${pageTitle}`}>
             {post.title}
           </motion.h1>
 
           {/* Meta */}
-          <motion.div variants={itemVariants} className={`flex items-center gap-5 text-sm font-mono text-neutral-400 dark:text-neutral-500 pb-8 mb-8 border-b ${divider}`}>
+          <motion.div variants={itemVariants} className={`flex items-center gap-5 text-sm font-mono pb-8 mb-8 border-b ${divider} ${pageMeta}`}>
             <span className="flex items-center gap-1.5"><Calendar size={13} /> {post.date}</span>
             <span className="flex items-center gap-1.5"><Clock size={13} /> {post.readTime}</span>
           </motion.div>
 
           {/* Lead excerpt */}
-          <motion.p variants={itemVariants} className="text-lg md:text-xl text-neutral-700 dark:text-gray-300 font-medium leading-relaxed mb-8">
+          <motion.p variants={itemVariants} className={`text-lg md:text-xl font-medium leading-relaxed mb-8 ${pageBody}`}>
             {post.excerpt}
           </motion.p>
 
           {/* Body paragraphs */}
-          <motion.div variants={itemVariants} className="space-y-6 text-neutral-600 dark:text-gray-400 text-base font-light leading-relaxed">
+          <motion.div variants={itemVariants} className={`space-y-6 text-base font-light leading-relaxed ${pageBody}`}>
             {post.body.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -187,10 +192,10 @@ const InsightDetailPage = () => {
                           />
                         </div>
                       </div>
-                      <h4 className="text-sm font-bold text-neutral-900 dark:text-white leading-tight group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2">
+                      <h4 className={`text-sm font-bold leading-tight group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors mb-2 ${cardTitle}`}>
                         {rel.title}
                       </h4>
-                      <p className="text-xs font-mono text-neutral-400 dark:text-neutral-500">{rel.date}</p>
+                      <p className={`text-xs font-mono ${pageMeta}`}>{rel.date}</p>
                     </motion.div>
                   );
                 })}
