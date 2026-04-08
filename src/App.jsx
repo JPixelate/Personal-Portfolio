@@ -23,6 +23,9 @@ const AboutPage = React.lazy(() => import('./pages/AboutPage.jsx'));
 const WebArchitecturePage = React.lazy(() => import('./pages/WebArchitecturePage.jsx'));
 const AIAutomationPage = React.lazy(() => import('./pages/AIAutomationPage.jsx'));
 const MCPChatbotsPage = React.lazy(() => import('./pages/MCPChatbotsPage.jsx'));
+const InsightsPage = React.lazy(() => import('./pages/InsightsPage.jsx'));
+const InsightDetailPage = React.lazy(() => import('./pages/InsightDetailPage.jsx'));
+const SupabaseCheckPage = React.lazy(() => import('./pages/SupabaseCheckPage.jsx'));
 
 const ScrollToHash = () => {
   const { hash, pathname } = useLocation();
@@ -85,6 +88,9 @@ const AnimatedRoutes = () => {
           <Route path="/services/web-architecture" element={<PageTransition><WebArchitecturePage /></PageTransition>} />
           <Route path="/services/ai-automation" element={<PageTransition><AIAutomationPage /></PageTransition>} />
           <Route path="/services/mcp-chatbots" element={<PageTransition><MCPChatbotsPage /></PageTransition>} />
+          <Route path="/insights" element={<PageTransition><InsightsPage /></PageTransition>} />
+          <Route path="/insights/:slug" element={<PageTransition><InsightDetailPage /></PageTransition>} />
+          <Route path="/debug/supabase" element={<PageTransition><SupabaseCheckPage /></PageTransition>} />
         </Routes>
       </React.Suspense>
     </AnimatePresence>
@@ -109,36 +115,38 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-white dark:bg-neutral-950">
-        {/* ACCESSIBILITY: Skip to Content */}
-        <SkipToContent />
+      <div className="relative isolate min-h-screen bg-transparent">
+        <div className="relative z-10">
+          {/* ACCESSIBILITY: Skip to Content */}
+          <SkipToContent />
 
-        {/* ACCESSIBILITY: Keyboard Focus Indicator */}
-        <FocusIndicator />
+          {/* ACCESSIBILITY: Keyboard Focus Indicator */}
+          <FocusIndicator />
 
-        {/* ACCESSIBILITY: Screen Reader Announcements */}
-        <ScreenReaderAnnouncer />
-
-
-        {/* <PageLoader /> */}
-        <RouteProgressBar />
-        <ScrollToHash />
-        <ScrollbarDetectionZone />
-        <CustomCursor />
-        <FloatingNavbar />
-        <React.Suspense fallback={null}>
-          <SystemConcierge />
-          <ExplorerControls />
-        </React.Suspense>
-        <ScrollProgress />
+          {/* ACCESSIBILITY: Screen Reader Announcements */}
+          <ScreenReaderAnnouncer />
 
 
+          {/* <PageLoader /> */}
+          <RouteProgressBar />
+          <ScrollToHash />
+          <ScrollbarDetectionZone />
+          <CustomCursor />
+          <FloatingNavbar />
+          <React.Suspense fallback={null}>
+            <SystemConcierge />
+            <ExplorerControls />
+          </React.Suspense>
+          <ScrollProgress />
 
-        {/* 4. ANIMATED ROUTES */}
-        <AnimatedRoutes />
 
-        {/* Vercel Speed Insights */}
-        <SpeedInsights />
+
+          {/* 4. ANIMATED ROUTES */}
+          <AnimatedRoutes />
+
+          {/* Vercel Speed Insights */}
+          <SpeedInsights />
+        </div>
 
       </div>
     </Router>
