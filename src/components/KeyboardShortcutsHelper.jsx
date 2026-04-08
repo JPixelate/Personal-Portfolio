@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Keyboard, X } from 'lucide-react';
+import BodyPortal from './BodyPortal.jsx';
 
 const KeyboardShortcutsHelper = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +21,17 @@ const KeyboardShortcutsHelper = () => {
 
         document.addEventListener('keydown', handleKeyPress);
         return () => document.removeEventListener('keydown', handleKeyPress);
+    }, [isOpen]);
+
+    useEffect(() => {
+        if (!isOpen) return undefined;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
     }, [isOpen]);
 
     const shortcuts = [
@@ -46,31 +58,32 @@ const KeyboardShortcutsHelper = () => {
             </button>
 
             {/* Shortcuts Modal */}
-            <AnimatePresence>
-                {isOpen && (
-                    <>
-                        {/* Backdrop */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsOpen(false)}
-                            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
-                            aria-hidden="true"
-                        />
+            <BodyPortal>
+                <AnimatePresence>
+                    {isOpen && (
+                        <>
+                            {/* Backdrop */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setIsOpen(false)}
+                                className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9998]"
+                                aria-hidden="true"
+                            />
 
-                        {/* Modal */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            transition={{ duration: 0.2 }}
-                            className="fixed bottom-8 left-8 z-[9999] w-full max-w-md"
-                            role="dialog"
-                            aria-modal="true"
-                            aria-labelledby="shortcuts-title"
-                        >
-                            <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-black/10 dark:border-white/10 overflow-hidden">
+                            {/* Modal */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                transition={{ duration: 0.2 }}
+                                className="fixed bottom-8 left-8 z-[9999] w-full max-w-md"
+                                role="dialog"
+                                aria-modal="true"
+                                aria-labelledby="shortcuts-title"
+                            >
+                                <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-black/10 dark:border-white/10 overflow-hidden">
                                 {/* Header */}
                                 <div className="p-6 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
@@ -115,11 +128,12 @@ const KeyboardShortcutsHelper = () => {
                                         Press <kbd className="px-2 py-0.5 text-xs font-mono bg-white dark:bg-neutral-800 rounded border border-black/10 dark:border-white/10">Escape</kbd> to close
                                     </p>
                                 </div>
-                            </div>
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
+                                </div>
+                            </motion.div>
+                        </>
+                    )}
+                </AnimatePresence>
+            </BodyPortal>
         </>
     );
 };

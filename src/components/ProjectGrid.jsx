@@ -4,6 +4,7 @@ import { ArrowUpRight, X } from "lucide-react";
 
 import { PROJECTS } from "../constants/projects";
 import { useUI } from "../context/UIContext";
+import BodyPortal from "./BodyPortal.jsx";
 
 const ProjectGrid = () => {
   const { themeMode, blueprintMode, isDark, themed, trackProjectView } = useUI();
@@ -27,6 +28,17 @@ const ProjectGrid = () => {
     window.addEventListener('portfolio:open-project', handleRemoteOpen);
     return () => window.removeEventListener('portfolio:open-project', handleRemoteOpen);
   }, []);
+
+  useEffect(() => {
+    if (!selectedProject) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedProject]);
 
   return (
     <section id="section-projects" className={`py-24 md:py-32 px-4 md:px-8 transition-colors duration-700 ${themed('bg-white border-neutral-100', 'bg-[#0a0a0a] border-neutral-800', 'bg-[#050505] border-blue-900/40', 'bg-[#fdf6e3] border-[#433422]/10')}`}>
@@ -53,11 +65,13 @@ const ProjectGrid = () => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
-        )}
-      </AnimatePresence>
+      <BodyPortal>
+        <AnimatePresence>
+          {selectedProject && (
+            <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+          )}
+        </AnimatePresence>
+      </BodyPortal>
     </section>
   );
 };

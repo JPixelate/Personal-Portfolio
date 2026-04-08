@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, Sparkles, Target, CheckCircle2, Lightbulb, ArrowRight } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import BodyPortal from './BodyPortal.jsx';
 
 const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
     const { themed, blueprintMode, playSound } = useUI();
@@ -110,6 +111,17 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
         return () => window.removeEventListener('keydown', handleEscape);
     }, [isOpen]);
 
+    useEffect(() => {
+        if (!isOpen) return undefined;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isOpen]);
+
     const handleClose = () => {
         playSound?.('click');
         localStorage.setItem('deployGuideCompleted', 'true');
@@ -180,35 +192,36 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
     const overlayBg = themed('bg-black/5', 'bg-black/10', 'bg-black/15', 'bg-black/5');
 
     return (
-        <AnimatePresence>
-            {isOpen && (
-                <>
-                    {/* Overlay - Almost transparent to see background content clearly */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className={`fixed inset-0 ${overlayBg} z-[9998]`}
-                        onClick={handleClose}
-                    />
+        <BodyPortal>
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Overlay - Almost transparent to see background content clearly */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className={`fixed inset-0 ${overlayBg} z-[9998]`}
+                            onClick={handleClose}
+                        />
 
-                    {/* Guide Card */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="fixed z-[10000] inset-0 md:inset-auto md:bottom-8 md:left-0 md:right-0 md:mx-4 overflow-y-auto"
-                        style={{
-                            scrollBehavior: 'smooth'
-                        }}
-                    >
-                        <div className="h-full md:h-auto md:max-w-md md:mx-auto">
-                            <div
-                                className={`${cardBg} rounded-none md:rounded-3xl shadow-2xl border-0 md:border h-full md:h-auto flex flex-col ${themed('md:border-neutral-200', 'md:border-neutral-800', 'md:border-blue-500/30', 'md:border-[#433422]/20')} overflow-hidden ${
-                                    blueprintMode ? 'blueprint-active-outline' : ''
-                                }`}
-                            >
+                        {/* Guide Card */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                            className="fixed z-[10000] inset-0 md:inset-auto md:bottom-8 md:left-0 md:right-0 md:mx-4 overflow-y-auto"
+                            style={{
+                                scrollBehavior: 'smooth'
+                            }}
+                        >
+                            <div className="h-full md:h-auto md:max-w-md md:mx-auto">
+                                <div
+                                    className={`${cardBg} rounded-none md:rounded-3xl shadow-2xl border-0 md:border h-full md:h-auto flex flex-col ${themed('md:border-neutral-200', 'md:border-neutral-800', 'md:border-blue-500/30', 'md:border-[#433422]/20')} overflow-hidden ${
+                                        blueprintMode ? 'blueprint-active-outline' : ''
+                                    }`}
+                                >
                             {/* Header */}
                             <div className={`relative p-5 md:p-8 pb-4 md:pb-6 ${themed('bg-gradient-to-br from-blue-50 to-white', 'bg-gradient-to-br from-neutral-800 to-neutral-900', 'bg-gradient-to-br from-blue-950/50 to-[#0a0a0a]', 'bg-gradient-to-br from-[#fdf6e3] to-[#eee8d5]')}`}>
                                 {/* Close Button */}
@@ -304,12 +317,13 @@ const DeployGuide = ({ isOpen, onClose, currentStep, onStepChange }) => {
                                     </div>
                                 </div>
                             </div>
+                                </div>
                             </div>
-                        </div>
-                    </motion.div>
-                </>
-            )}
-        </AnimatePresence>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </BodyPortal>
     );
 };
 

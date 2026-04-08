@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, CheckCircle2, Activity } from "lucide-react";
 import { useUI } from "../context/UIContext";
+import BodyPortal from "./BodyPortal.jsx";
 import automationHero from "../assets/images/automation_hero.webp";
 
 const steps = [
@@ -54,6 +55,17 @@ const WorkProcess = () => {
 
   const pathLength = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
 
+  useEffect(() => {
+    if (!selectedStep) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedStep]);
+
   return (
     <section id="section-process" ref={containerRef} className={`relative transition-colors duration-700 ${themed('bg-white', 'bg-[#0a0a0a]', 'bg-[#050505]', 'bg-[#fdf6e3]')}`}>
 
@@ -103,11 +115,13 @@ const WorkProcess = () => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {selectedStep && (
-          <ProcessModal step={selectedStep} onClose={() => setSelectedStep(null)} />
-        )}
-      </AnimatePresence>
+      <BodyPortal>
+        <AnimatePresence>
+          {selectedStep && (
+            <ProcessModal step={selectedStep} onClose={() => setSelectedStep(null)} />
+          )}
+        </AnimatePresence>
+      </BodyPortal>
     </section>
   );
 };
